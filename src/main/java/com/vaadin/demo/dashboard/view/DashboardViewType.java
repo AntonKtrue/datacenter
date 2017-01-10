@@ -1,6 +1,7 @@
 package com.vaadin.demo.dashboard.view;
 
 import com.vaadin.demo.dashboard.view.dashboard.DashboardView;
+import com.vaadin.demo.dashboard.view.directories.DirectoriesView;
 import com.vaadin.demo.dashboard.view.reports.ReportsView;
 import com.vaadin.demo.dashboard.view.schedule.ScheduleView;
 import com.vaadin.demo.dashboard.view.transactions.TransactionsView;
@@ -10,10 +11,12 @@ import com.vaadin.server.Resource;
 
 public enum DashboardViewType {
     DASHBOARD("dashboard", DashboardView.class, FontAwesome.HOME, true),
-
     TRANSACTIONS("transactions", TransactionsView.class, FontAwesome.TABLE, false),
     REPORTS("reports", ReportsView.class, FontAwesome.FILE_TEXT_O, true),
-    SCHEDULE("schedule", ScheduleView.class, FontAwesome.CALENDAR_O, false);
+    SCHEDULE("schedule", ScheduleView.class, FontAwesome.CALENDAR_O, false),
+    DIRECTORIES("справочники", DirectoriesView.class, FontAwesome.BOOK, false)
+    ;
+
 
     private final String viewName;
     private final Class<? extends View> viewClass;
