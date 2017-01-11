@@ -21,7 +21,7 @@ public class StaffTab extends TabSheet {
         VerticalLayout ranks = new VerticalLayout();
         ranks.setCaption("Должности");
         VerticalLayout ranksContent = new VerticalLayout();
-        ranksContent.setSizeUndefined();
+        ranksContent.setSizeFull();
         ranksContent.setSpacing(true);
         ranksContent.addStyleName("drafts");
 

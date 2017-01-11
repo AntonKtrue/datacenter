@@ -11,7 +11,8 @@ public class RankTable extends Table {
 
     public RankTable(RankJPAContainer rankContainer) {
         setContainerDataSource(rankContainer);
-        setWidth("650px");
+        setWidth("100%");
+
         configColumns();
     }
 
