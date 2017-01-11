@@ -47,20 +47,20 @@ public class StaffTab extends TabSheet {
         depContent.setComponentAlignment(depContentTitle, Alignment.TOP_CENTER);
         addTab(departaments);
 
-        VerticalLayout personal = new VerticalLayout();
-        personal.setCaption("Персонал");
-        VerticalLayout persContent = new VerticalLayout();
-        persContent.setSizeUndefined();
-        persContent.setSpacing(true);
-        persContent.addStyleName("drafts");
-        personal.addComponent(persContent);
-        personal.setComponentAlignment(persContent, Alignment.MIDDLE_CENTER);
-        Label persContentTitle = new Label("Персонал");
-        persContentTitle.addStyleName(ValoTheme.LABEL_H1);
-        persContentTitle.setSizeUndefined();
-        persContent.addComponent(persContentTitle);
-        persContent.setComponentAlignment(persContentTitle, Alignment.TOP_CENTER);
-        addTab(personal);
+        VerticalLayout employee = new VerticalLayout();
+        employee.setCaption("Персонал");
+        VerticalLayout emloyeeContent = new VerticalLayout();
+        emloyeeContent.setSizeUndefined();
+        emloyeeContent.setSpacing(true);
+        emloyeeContent.addStyleName("drafts");
+        employee.addComponent(emloyeeContent);
+        employee.setComponentAlignment(emloyeeContent, Alignment.MIDDLE_CENTER);
+        Label employeeContentTitle = new Label("Персонал");
+        employeeContentTitle.addStyleName(ValoTheme.LABEL_H1);
+        employeeContentTitle.setSizeUndefined();
+        emloyeeContent.addComponent(employeeContentTitle);
+        emloyeeContent.setComponentAlignment(employeeContentTitle, Alignment.TOP_CENTER);
+        addTab(employee);
     }
 
 
