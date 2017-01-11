@@ -1,5 +1,6 @@
 package com.vaadin.demo.dashboard.view.directories.staff;
 
+import com.vaadin.demo.dashboard.view.directories.staff.ranks.RankTab;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TabSheet;
@@ -23,6 +24,7 @@ public class StaffTab extends TabSheet {
         ranksContent.setSizeUndefined();
         ranksContent.setSpacing(true);
         ranksContent.addStyleName("drafts");
+
         ranks.addComponent(ranksContent);
         ranks.setComponentAlignment(ranksContent, Alignment.MIDDLE_CENTER);
         Label ranksContentTitle = new Label("Должности");
@@ -30,6 +32,7 @@ public class StaffTab extends TabSheet {
         ranksContentTitle.setSizeUndefined();
         ranksContent.addComponent(ranksContentTitle);
         ranksContent.setComponentAlignment(ranksContentTitle, Alignment.TOP_CENTER);
+        ranksContent.addComponent(new RankTab());
         addTab(ranks);
 
         VerticalLayout departaments = new VerticalLayout();
