@@ -1,5 +1,8 @@
 package com.vaadin.demo.dashboard.view.directories.staff;
 
+import com.vaadin.data.util.HierarchicalContainer;
+import com.vaadin.demo.dashboard.data.HierarchicalDepartmentContainer;
+import com.vaadin.demo.dashboard.view.directories.staff.department.DepartmentTree;
 import com.vaadin.demo.dashboard.view.directories.staff.ranks.RankTab;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Label;
@@ -48,6 +51,7 @@ public class StaffTab extends TabSheet {
         depContentTitle.setSizeUndefined();
         depContent.addComponent(depContentTitle);
         depContent.setComponentAlignment(depContentTitle, Alignment.TOP_CENTER);
+        depContent.addComponent(new DepartmentTree(new HierarchicalDepartmentContainer()));
         addTab(departaments);
 
         VerticalLayout employee = new VerticalLayout();

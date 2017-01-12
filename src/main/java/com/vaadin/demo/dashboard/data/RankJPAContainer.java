@@ -13,9 +13,6 @@ import javax.persistence.EntityManager;
 public class RankJPAContainer extends JPAContainer<Rank> {
     private static final long serialVersionUID = 5832996438848438038L;
 
-    /**
-     * Nome da unidade persistencia. De acordo com o arquivo <code>persistence.xml</code>.
-     */
     private static final String PERSISTENCE_UNIT = "appVaadinUnit";
 
     public RankJPAContainer() {

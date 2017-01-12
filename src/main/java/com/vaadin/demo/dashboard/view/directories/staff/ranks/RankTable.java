@@ -6,8 +6,9 @@ import com.vaadin.ui.Table;
 /**
  * Created by user on 11.01.17.
  */
+@SuppressWarnings("serial")
 public class RankTable extends Table {
-    private static final long serialVersionUID = 7224804420418157408L;
+
 
     public RankTable(RankJPAContainer rankContainer) {
         setContainerDataSource(rankContainer);

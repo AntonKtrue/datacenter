@@ -1,9 +1,6 @@
 package com.vaadin.demo.dashboard.model;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -13,6 +10,7 @@ import javax.validation.constraints.Size;
 @MappedSuperclass
 public class TnObject {
     @Id
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected int id;
 

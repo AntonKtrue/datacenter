@@ -2,24 +2,66 @@ package com.vaadin.demo.dashboard.model.staff;
 
 import com.vaadin.demo.dashboard.model.TnObject;
 
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import java.util.Set;
+import javax.persistence.*;
+import java.util.*;
 
 /**
  * Created by Anton on 11.01.2017.
  */
-
+@SuppressWarnings("serial")
+@Entity
+@Table(name = "dict_department")
 public class Department extends TnObject {
 
-    @ManyToOne
-    private Department parent;
-    @OneToMany(mappedBy = "department")
-    private Set<Person> person;
-    @OneToOne(mappedBy = "id")
-    private Person head;
+    @Transient
+    private Boolean superDepartment;
 
+    @OneToMany
+    @JoinColumn(name = "parent_id")
+    private List<Department> children = new LinkedList<Department>();
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "parent_id",insertable=false,updatable=false)
+    private Department parent;
+
+//    @ManyToOne(optional = true)
+//    @JoinColumn(name = "parent_id", referencedColumnName = "id")
+//    private Department parent;
+//
+//    @OneToMany(
+//
+//            cascade = {CascadeType.ALL},
+//            orphanRemoval = true
+//    )
+//    @JoinColumn(name = "parent_id")
+//    private List<Department> children;
+//
+    public List<Department> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Department> children) {
+        this.children = children;
+    }
+
+    public boolean isSuperDepartment() {
+        if (superDepartment == null) {
+            superDepartment = getChildren().size() > 0;
+        }
+        return superDepartment;
+    }
+
+    @Transient
+    public String getHierarchicalName() {
+        if (parent != null) {
+            return parent.toString() + " : " + name;
+        }
+        return name;
+    }
+
+    @Override
+    public String toString() {
+        return getHierarchicalName();
+    }
 
 
     public Department getParent() {
@@ -30,19 +72,4 @@ public class Department extends TnObject {
         this.parent = parent;
     }
 
-    public Set<Person> getPerson() {
-        return person;
-    }
-
-    public void setPerson(Set<Person> person) {
-        this.person = person;
-    }
-
-    public Person getHead() {
-        return head;
-    }
-
-    public void setHead(Person head) {
-        this.head = head;
-    }
 }
