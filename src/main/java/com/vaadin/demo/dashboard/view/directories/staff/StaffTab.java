@@ -1,13 +1,13 @@
 package com.vaadin.demo.dashboard.view.directories.staff;
 
+import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.data.util.HierarchicalContainer;
 import com.vaadin.demo.dashboard.data.HierarchicalDepartmentContainer;
+import com.vaadin.demo.dashboard.model.staff.Department;
 import com.vaadin.demo.dashboard.view.directories.staff.department.DepartmentTree;
 import com.vaadin.demo.dashboard.view.directories.staff.ranks.RankTab;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
 /**
@@ -51,7 +51,18 @@ public class StaffTab extends TabSheet {
         depContentTitle.setSizeUndefined();
         depContent.addComponent(depContentTitle);
         depContent.setComponentAlignment(depContentTitle, Alignment.TOP_CENTER);
-        depContent.addComponent(new DepartmentTree(new HierarchicalDepartmentContainer()));
+        JPAContainer<Department> departments = new HierarchicalDepartmentContainer();
+//        JPAContainer<Department> departments = JPAContainerFactory.make(
+//                Department.class, "appVaadinUnit"
+//        );
+//        departaments.setP
+
+        Tree tree = new Tree(null, departments);
+        tree.setItemCaptionPropertyId("name");
+        tree.setImmediate(true);
+        tree.setSelectable(true);
+        depContent.addComponent(tree);
+        //depContent.addComponent(new DepartmentTree(new HierarchicalDepartmentContainer(), "name"));
         addTab(departaments);
 
         VerticalLayout employee = new VerticalLayout();

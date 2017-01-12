@@ -245,12 +245,17 @@
 		</dependency>
 
 		<!-- Vaadin add-on JPA -->
-		<dependency>
+		<!--<dependency>
 			<groupId>com.vaadin.addon</groupId>
 			<artifactId>jpacontainer-addon</artifactId>
 			<version>3.0.0-SNAPSHOT</version>
 		</dependency>
-
+-->
+		<dependency>
+			<groupId>com.vaadin.addon</groupId>
+			<artifactId>jpacontainer</artifactId>
+			<version>3.2.0</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-failsafe-plugin -->
 		<dependency>
 			<groupId>org.apache.maven.plugins</groupId>

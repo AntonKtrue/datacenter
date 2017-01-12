@@ -17,18 +17,14 @@ public class HierarchicalDepartmentContainer extends JPAContainer<Department> {
                new CachingLocalEntityProvider<Department>(
                        Department.class,
                        JPAContainerFactory
-                        .createEntityManagerForPersistenceUnit(PERSISTENCE_UNIT)
-               )
-       );
-
+                        .createEntityManagerForPersistenceUnit(PERSISTENCE_UNIT)));
        setParentProperty("parent");
-
-
     }
 
     @Override
     public boolean areChildrenAllowed(Object itemId) {
-        return super.areChildrenAllowed(itemId)
-                && getItem(itemId).getEntity().isSuperDepartment();
+       return super.areChildrenAllowed(itemId)
+               && getItem(itemId).getEntity().isSuperDepartment();
+
     }
 }

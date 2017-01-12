@@ -19,7 +19,7 @@ public class Department extends TnObject {
     @OneToMany
     @JoinColumn(name = "parent_id")
     private List<Department> children = new LinkedList<Department>();
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "parent_id",insertable=false,updatable=false)
     private Department parent;
 
