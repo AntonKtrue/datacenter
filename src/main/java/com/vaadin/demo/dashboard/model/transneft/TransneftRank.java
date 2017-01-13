@@ -14,8 +14,8 @@ import java.util.List;
 @Table(name = "dict_rank")
 public class TransneftRank extends StandartEntity {
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "employee_id", insertable = false, updatable = false)
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rank_id", insertable = false, updatable = false)
     private List<TransneftEmployee> employees;
 
     public TransneftRank(String name, String shortName) {
