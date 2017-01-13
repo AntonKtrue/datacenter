@@ -3,8 +3,8 @@ package com.vaadin.demo.dashboard.view.directories.staff;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.data.util.HierarchicalContainer;
-import com.vaadin.demo.dashboard.data.HierarchicalDepartmentContainer;
-import com.vaadin.demo.dashboard.model.staff.Department;
+//import com.vaadin.demo.dashboard.data.HierarchicalDepartmentContainer;
+//import com.vaadin.demo.dashboard.model.staff.Department;
 import com.vaadin.demo.dashboard.view.directories.staff.department.DepartmentTree;
 import com.vaadin.demo.dashboard.view.directories.staff.ranks.RankTab;
 import com.vaadin.ui.*;
@@ -17,7 +17,7 @@ public class StaffTab extends TabSheet {
 
     public StaffTab() {
         setSizeFull();
-        addStyleName("reports");
+        //addStyleName("reports");
         addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
         setCaption("Сотрудники");
 
@@ -38,32 +38,28 @@ public class StaffTab extends TabSheet {
         ranksContent.addComponent(new RankTab());
         addTab(ranks);
 
-        VerticalLayout departaments = new VerticalLayout();
-        departaments.setCaption("Отделы");
-        VerticalLayout depContent = new VerticalLayout();
-        depContent.setSizeUndefined();
-        depContent.setSpacing(true);
-        depContent.addStyleName("drafts");
-        departaments.addComponent(depContent);
-        departaments.setComponentAlignment(depContent, Alignment.MIDDLE_CENTER);
-        Label depContentTitle = new Label("Отделы");
-        depContentTitle.addStyleName(ValoTheme.LABEL_H1);
-        depContentTitle.setSizeUndefined();
-        depContent.addComponent(depContentTitle);
-        depContent.setComponentAlignment(depContentTitle, Alignment.TOP_CENTER);
-        JPAContainer<Department> departments = new HierarchicalDepartmentContainer();
-//        JPAContainer<Department> departments = JPAContainerFactory.make(
-//                Department.class, "appVaadinUnit"
-//        );
-//        departaments.setP
+        VerticalLayout structure = new VerticalLayout();
+        structure.setCaption("Структура организации");
+        VerticalLayout strcutContent = new VerticalLayout();
+        strcutContent.setSizeFull();
+        strcutContent.setSpacing(true);
+        strcutContent.addStyleName("drafts");
+        structure.addComponent(strcutContent);
+        structure.setComponentAlignment(strcutContent, Alignment.MIDDLE_CENTER);
+        Label strcutContentTitle = new Label("Структура организации");
+        strcutContentTitle.addStyleName(ValoTheme.LABEL_H1);
+        strcutContentTitle.setSizeUndefined();
+        strcutContent.addComponent(strcutContentTitle);
+        strcutContent.setComponentAlignment(strcutContentTitle, Alignment.TOP_CENTER);
 
-        Tree tree = new Tree(null, departments);
-        tree.setItemCaptionPropertyId("name");
-        tree.setImmediate(true);
-        tree.setSelectable(true);
-        depContent.addComponent(tree);
-        //depContent.addComponent(new DepartmentTree(new HierarchicalDepartmentContainer(), "name"));
-        addTab(departaments);
+        HorizontalLayout treeWrap = new HorizontalLayout();
+        treeWrap.setSizeUndefined();
+        strcutContent.addComponent(treeWrap);
+        strcutContent.setComponentAlignment(treeWrap, Alignment.TOP_LEFT);
+        Tree deps = new ExampleTree();
+        deps.setSizeFull();
+        treeWrap.addComponent(deps);
+        addTab(structure);
 
         VerticalLayout employee = new VerticalLayout();
         employee.setCaption("Персонал");

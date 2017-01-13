@@ -16,7 +16,8 @@ public class DirectoriesView extends TabSheet implements View {
     public DirectoriesView() {
 
         setSizeFull();
-        addStyleName("reports");
+        setStyleName("valo");
+        //addStyleName("reports");
         addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
 
         DashboardEventBus.register(this);

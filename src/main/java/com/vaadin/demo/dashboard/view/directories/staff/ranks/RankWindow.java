@@ -3,7 +3,7 @@ package com.vaadin.demo.dashboard.view.directories.staff.ranks;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.demo.dashboard.data.RankJPAContainer;
-import com.vaadin.demo.dashboard.model.staff.Rank;
+import com.vaadin.demo.dashboard.model.transneft.TransneftRank;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.ui.*;
 import org.vaadin.dialogs.ConfirmDialog;
@@ -15,7 +15,7 @@ public class RankWindow extends Window implements Button.ClickListener {
     private static final long serialVersionUID = -2996627404786697495L;
 
     private FormLayout layout;
-    private BeanFieldGroup<Rank> binder;
+    private BeanFieldGroup<TransneftRank> binder;
     private HorizontalLayout buttons;
     private Button saveButton;
     private Button cancelButton;
@@ -61,7 +61,7 @@ public class RankWindow extends Window implements Button.ClickListener {
     public void edit(Integer id) {
         try {
             setCaption("Редактирование должности");
-            Rank m = datasource.getItem(id).getEntity();
+            TransneftRank m = datasource.getItem(id).getEntity();
             bindingFields(m);
             deleteButton.setVisible(true);
             UI.getCurrent().addWindow(this);
@@ -74,13 +74,13 @@ public class RankWindow extends Window implements Button.ClickListener {
 
     public void create() {
         setCaption("Новая запись");
-        bindingFields(new Rank());
+        bindingFields(new TransneftRank());
         UI.getCurrent().addWindow(this);
     }
 
 
-    private void bindingFields(Rank m) {
-        binder = new BeanFieldGroup<Rank>(Rank.class);
+    private void bindingFields(TransneftRank m) {
+        binder = new BeanFieldGroup<TransneftRank>(TransneftRank.class);
         binder.setItemDataSource(m);
         Field<?> field = null;
         field = binder.buildAndBind("Полное название", "name");
