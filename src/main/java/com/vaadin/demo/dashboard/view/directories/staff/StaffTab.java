@@ -7,6 +7,7 @@ import com.vaadin.data.util.HierarchicalContainer;
 //import com.vaadin.demo.dashboard.model.staff.Department;
 import com.vaadin.demo.dashboard.view.directories.staff.department.DepartmentTree;
 import com.vaadin.demo.dashboard.view.directories.staff.ranks.RankTab;
+import com.vaadin.demo.dashboard.view.directories.staff.structure.StructureTab;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
@@ -15,51 +16,58 @@ import com.vaadin.ui.themes.ValoTheme;
  */
 public class StaffTab extends TabSheet {
 
+
+    private Tab addTab(String caption, Alignment contentAlignment, Component contentComponent) {
+        VerticalLayout wrapper = new VerticalLayout();
+        wrapper.setCaption(caption);
+        VerticalLayout content = new VerticalLayout();
+        content.setSizeFull();
+        content.setSpacing(true);
+        wrapper.addComponent(content);
+        wrapper.setComponentAlignment(content, contentAlignment);
+        Label title = new Label(caption);
+        title.addStyleName(ValoTheme.LABEL_H1);
+        title.setSizeUndefined();
+        content.addComponent(title);
+        content.setComponentAlignment(title, Alignment.TOP_CENTER);
+        content.addComponent(contentComponent);
+        return addTab(wrapper);
+    }
+
     public StaffTab() {
         setSizeFull();
         //addStyleName("reports");
         addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
         setCaption("Сотрудники");
 
-        VerticalLayout ranks = new VerticalLayout();
-        ranks.setCaption("Должности");
-        VerticalLayout ranksContent = new VerticalLayout();
-        ranksContent.setSizeFull();
-        ranksContent.setSpacing(true);
-        ranksContent.addStyleName("drafts");
+        addTab("Должности", Alignment.MIDDLE_CENTER, new RankTab());
+        addTab("Структура организации",Alignment.MIDDLE_CENTER, new StructureTab());
 
-        ranks.addComponent(ranksContent);
-        ranks.setComponentAlignment(ranksContent, Alignment.MIDDLE_CENTER);
-        Label ranksContentTitle = new Label("Должности");
-        ranksContentTitle.addStyleName(ValoTheme.LABEL_H1);
-        ranksContentTitle.setSizeUndefined();
-        ranksContent.addComponent(ranksContentTitle);
-        ranksContent.setComponentAlignment(ranksContentTitle, Alignment.TOP_CENTER);
-        ranksContent.addComponent(new RankTab());
-        addTab(ranks);
 
-        VerticalLayout structure = new VerticalLayout();
-        structure.setCaption("Структура организации");
-        VerticalLayout strcutContent = new VerticalLayout();
-        strcutContent.setSizeFull();
-        strcutContent.setSpacing(true);
-        strcutContent.addStyleName("drafts");
-        structure.addComponent(strcutContent);
-        structure.setComponentAlignment(strcutContent, Alignment.MIDDLE_CENTER);
-        Label strcutContentTitle = new Label("Структура организации");
-        strcutContentTitle.addStyleName(ValoTheme.LABEL_H1);
-        strcutContentTitle.setSizeUndefined();
-        strcutContent.addComponent(strcutContentTitle);
-        strcutContent.setComponentAlignment(strcutContentTitle, Alignment.TOP_CENTER);
 
-        HorizontalLayout treeWrap = new HorizontalLayout();
-        treeWrap.setSizeUndefined();
-        strcutContent.addComponent(treeWrap);
-        strcutContent.setComponentAlignment(treeWrap, Alignment.TOP_LEFT);
-        Tree deps = new ExampleTree();
-        deps.setSizeFull();
-        treeWrap.addComponent(deps);
-        addTab(structure);
+
+//        VerticalLayout structure = new VerticalLayout();
+//        structure.setCaption("Структура организации");
+//        VerticalLayout strcutContent = new VerticalLayout();
+//        strcutContent.setSizeFull();
+//        strcutContent.setSpacing(true);
+//        strcutContent.addStyleName("drafts");
+//        structure.addComponent(strcutContent);
+//        structure.setComponentAlignment(strcutContent, Alignment.MIDDLE_CENTER);
+//        Label strcutContentTitle = new Label("Структура организации");
+//        strcutContentTitle.addStyleName(ValoTheme.LABEL_H1);
+//        strcutContentTitle.setSizeUndefined();
+//        strcutContent.addComponent(strcutContentTitle);
+//        strcutContent.setComponentAlignment(strcutContentTitle, Alignment.TOP_CENTER);
+//
+//        HorizontalLayout treeWrap = new HorizontalLayout();
+//        treeWrap.setSizeUndefined();
+//        strcutContent.addComponent(treeWrap);
+//        strcutContent.setComponentAlignment(treeWrap, Alignment.TOP_LEFT);
+//        Tree deps = new ExampleTree();
+//        deps.setSizeFull();
+//        treeWrap.addComponent(deps);
+//        addTab(structure);
 
         VerticalLayout employee = new VerticalLayout();
         employee.setCaption("Персонал");
