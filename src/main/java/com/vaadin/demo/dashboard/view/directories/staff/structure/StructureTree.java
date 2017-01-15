@@ -9,11 +9,12 @@ import com.vaadin.ui.Tree;
  * Created by Anton on 13.01.2017.
  */
 public class StructureTree extends Tree {
-    public StructureTree() {
-        JPAContainer<TransneftStructure> structures = new HierarchicalStructureContainer();
+    public StructureTree(HierarchicalStructureContainer structures) {
+
         setContainerDataSource(structures);
         setItemCaptionPropertyId("name");
         setImmediate(true);
         setSelectable(true);
+
     }
 }

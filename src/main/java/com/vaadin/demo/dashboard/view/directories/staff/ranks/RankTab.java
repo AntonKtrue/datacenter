@@ -67,7 +67,7 @@ public class RankTab extends VerticalLayout {
         return vertical;
     }
 
-        private HorizontalLayout buildBarButtons(final RankJPAContainer datasource) {
+    private HorizontalLayout buildBarButtons(final RankJPAContainer datasource) {
         Button addButton = new Button("Добавить");
         addButton.addClickListener(new Button.ClickListener() {
             @Override

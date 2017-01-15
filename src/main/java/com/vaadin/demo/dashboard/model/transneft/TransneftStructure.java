@@ -21,11 +21,11 @@ public class TransneftStructure extends StandartEntity implements HasParent<Tran
     @JoinColumn(name = "parent_id")
     private TransneftStructure parent;
     @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "parent_id", insertable = false, updatable = false)
+    @JoinColumn(name = "parent_id")
     private Set<TransneftStructure> childs;
 
     @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "structure_id", insertable = false, updatable = false)
+    @JoinColumn(name = "structure_id")
     private Set<TransneftDepartment> departments;
 
     public StructureType getType() {
@@ -81,5 +81,15 @@ public class TransneftStructure extends StandartEntity implements HasParent<Tran
     }
 
     public TransneftStructure() {
+      //  this("",",)
+    }
+    public TransneftStructure(StructureType type, TransneftStructure parent) {
+        super("","");
+        int ord = type.ordinal();
+        ord++;
+        this.type = StructureType.getTypeByOrdinal(ord);
+        this.parent = parent;
+
+
     }
 }
