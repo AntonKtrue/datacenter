@@ -2,7 +2,6 @@ package com.vaadin.demo.dashboard.view;
 
 import com.vaadin.demo.dashboard.event.DashboardEvent.UserLoginRequestedEvent;
 import com.vaadin.demo.dashboard.event.DashboardEventBus;
-import com.vaadin.demo.dashboard.view.directories.staff.ExampleTree;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
@@ -54,7 +53,6 @@ public class LoginView extends VerticalLayout {
         loginPanel.addComponent(buildLabels());
         loginPanel.addComponent(buildFields());
         loginPanel.addComponent(new CheckBox("Remember me", true));
-        //loginPanel.addComponent(new ExampleTree());
 
         return loginPanel;
     }

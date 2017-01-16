@@ -86,7 +86,7 @@ public class StructureWindow extends Window implements Button.ClickListener {
         binder.setItemDataSource(m);
         Field<?> field = null;
         field = binder.buildAndBind("Полное название", "name");
-        field.setWidth("25");
+        field.setWidth("250");
         layout.addComponent(field);
 
         field = binder.buildAndBind("Краткое название", "shortName");
@@ -122,9 +122,7 @@ public class StructureWindow extends Window implements Button.ClickListener {
                             if (dialog.isConfirmed()) {
                                 try {
                                     datasource.removeItem(binder.getItemDataSource().getBean().getId());
-                                    //log.debug("Excluiu a Mercadoria!");
                                 } catch (Exception e) {
-                                    //log.debug("Não consegui remover a Mercadoria!",e);
                                     Notification.show("Ошибка удаления!\n"+e.getMessage(), Notification.Type.ERROR_MESSAGE);
                                 }
                                 close();

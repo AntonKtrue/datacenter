@@ -1,11 +1,5 @@
 package com.vaadin.demo.dashboard.view.directories.staff;
 
-import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.addon.jpacontainer.JPAContainerFactory;
-import com.vaadin.data.util.HierarchicalContainer;
-//import com.vaadin.demo.dashboard.data.HierarchicalDepartmentContainer;
-//import com.vaadin.demo.dashboard.model.staff.Department;
-import com.vaadin.demo.dashboard.view.directories.staff.department.DepartmentTree;
 import com.vaadin.demo.dashboard.view.directories.staff.ranks.RankTab;
 import com.vaadin.demo.dashboard.view.directories.staff.structure.StructureTab;
 import com.vaadin.ui.*;
@@ -36,38 +30,13 @@ public class StaffTab extends TabSheet {
 
     public StaffTab() {
         setSizeFull();
-        //addStyleName("reports");
+
         addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
         setCaption("Сотрудники");
 
         addTab("Должности", Alignment.MIDDLE_CENTER, new RankTab());
-        addTab("Структура организации",Alignment.MIDDLE_CENTER, new StructureTab());
+        addTab("Структура организации",Alignment.TOP_LEFT, new StructureTab());
 
-
-
-
-//        VerticalLayout structure = new VerticalLayout();
-//        structure.setCaption("Структура организации");
-//        VerticalLayout strcutContent = new VerticalLayout();
-//        strcutContent.setSizeFull();
-//        strcutContent.setSpacing(true);
-//        strcutContent.addStyleName("drafts");
-//        structure.addComponent(strcutContent);
-//        structure.setComponentAlignment(strcutContent, Alignment.MIDDLE_CENTER);
-//        Label strcutContentTitle = new Label("Структура организации");
-//        strcutContentTitle.addStyleName(ValoTheme.LABEL_H1);
-//        strcutContentTitle.setSizeUndefined();
-//        strcutContent.addComponent(strcutContentTitle);
-//        strcutContent.setComponentAlignment(strcutContentTitle, Alignment.TOP_CENTER);
-//
-//        HorizontalLayout treeWrap = new HorizontalLayout();
-//        treeWrap.setSizeUndefined();
-//        strcutContent.addComponent(treeWrap);
-//        strcutContent.setComponentAlignment(treeWrap, Alignment.TOP_LEFT);
-//        Tree deps = new ExampleTree();
-//        deps.setSizeFull();
-//        treeWrap.addComponent(deps);
-//        addTab(structure);
 
         VerticalLayout employee = new VerticalLayout();
         employee.setCaption("Персонал");
