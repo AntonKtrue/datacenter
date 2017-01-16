@@ -1,5 +1,6 @@
 package tn.kaz.ospas.view.directories.staff.structure;
 
+import com.vaadin.data.util.filter.Compare;
 import tn.kaz.ospas.data.HierarchicalDepartmentContainer;
 import tn.kaz.ospas.data.HierarchicalStructureContainer;
 import tn.kaz.ospas.model.transneft.StructureType;
@@ -16,18 +17,23 @@ import com.vaadin.ui.themes.Runo;
 public class StructureTab extends VerticalLayout {
     private Tree structureTree;
     private Tree departmentTree;
+    private Table personalTable;
 
     private TransneftStructure selectedStructure;
     private TransneftDepartment selectedDepartment;
 
+    private final HierarchicalStructureContainer structureDs;
+    private final HierarchicalDepartmentContainer departmentDs;
+
     public StructureTab() {
-        final HierarchicalStructureContainer structureDs = new HierarchicalStructureContainer();
+        structureDs = new HierarchicalStructureContainer();
         structureTree = new StructureTree(structureDs);
         structureTree.addItemClickListener(
                 new ItemClickEvent.ItemClickListener() {
                     @Override
                     public void itemClick(ItemClickEvent event) {
                         selectedStructure = structureDs.getItem(event.getItemId()).getEntity();
+                        updateDepartmentFilters();
                     }
                 }
         );
@@ -39,18 +45,25 @@ public class StructureTab extends VerticalLayout {
         wrapper.setWidth("100%");
         content.addComponent(wrapper);
 
-
         VerticalLayout structureVertical = new VerticalLayout(structureTree, structureBarButtons(structureDs));
         wrapper.addComponent(structureVertical);
         wrapper.setComponentAlignment(structureVertical, Alignment.TOP_LEFT);
-        final HierarchicalDepartmentContainer departmentDs = new HierarchicalDepartmentContainer();
-        DepartmentTree departmentTree = new DepartmentTree(departmentDs);
-
+        departmentDs = new HierarchicalDepartmentContainer();
+        departmentTree = new DepartmentTree(departmentDs);
+        departmentTree.addItemClickListener(new ItemClickEvent.ItemClickListener() {
+            @Override
+            public void itemClick(ItemClickEvent event) {
+                selectedDepartment = departmentDs.getItem(event.getItemId()).getEntity();
+                updatePersonalFilters();
+            }
+        });
         VerticalLayout departmentVertical = new VerticalLayout(departmentTree, departmentBarButtons(departmentDs));
         wrapper.addComponent(departmentVertical);
         wrapper.setComponentAlignment(departmentVertical,Alignment.TOP_LEFT);
         addErrorHandle(content);
     }
+
+
 
     private HorizontalLayout departmentBarButtons(final  HierarchicalDepartmentContainer datasource) {
         Button addButton = new Button("Добавить");
@@ -125,5 +138,16 @@ public class StructureTab extends VerticalLayout {
                 doDefault(event);
             }
         });
+    }
+    private void updateDepartmentFilters() {
+        departmentDs.setApplyFiltersImmediately(false);
+        departmentDs.removeAllContainerFilters();
+        if(selectedStructure != null) {
+            departmentDs.addContainerFilter(new Compare.Equal("structure",selectedStructure));
+        }
+        departmentDs.applyFilters();
+    }
+
+    private void updatePersonalFilters() {
     }
 }

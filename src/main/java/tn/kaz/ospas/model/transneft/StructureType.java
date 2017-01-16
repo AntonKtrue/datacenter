@@ -9,7 +9,8 @@ public enum StructureType {
     AK,
     OST,
     UMN,
-    NPS;
+    NPS,
+    OBJ;
 
     public static StructureType getTypeByOrdinal(final int ord) {
         StructureType result = null;

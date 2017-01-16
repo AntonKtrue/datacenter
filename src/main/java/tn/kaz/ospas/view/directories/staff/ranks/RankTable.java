@@ -9,11 +9,9 @@ import com.vaadin.ui.Table;
 @SuppressWarnings("serial")
 public class RankTable extends Table {
 
-
     public RankTable(RankJPAContainer rankContainer) {
         setContainerDataSource(rankContainer);
         setWidth("100%");
-
         configColumns();
     }
 
@@ -21,6 +19,4 @@ public class RankTable extends Table {
         setVisibleColumns(new Object[]{"id", "name", "shortName"});
         setColumnHeaders(new String[]{"#","Полное название", "Короткое название"});
     }
-
-
 }

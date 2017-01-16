@@ -21,7 +21,6 @@ public class HierarchicalDepartmentContainer extends JPAContainer<TransneftDepar
                         TransneftDepartment.class,
                         em));
         setParentProperty("parent");
-
     }
 
     @Override

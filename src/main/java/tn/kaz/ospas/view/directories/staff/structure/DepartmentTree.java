@@ -10,7 +10,7 @@ import tn.kaz.ospas.data.HierarchicalDepartmentContainer;
 public class DepartmentTree extends Tree {
     public DepartmentTree(HierarchicalDepartmentContainer datasource) {
         setContainerDataSource(datasource);
-        setItemCaptionPropertyId("name");
+        setItemCaptionPropertyId("shortName");
         setImmediate(true);
         setSelectable(true);
     }
