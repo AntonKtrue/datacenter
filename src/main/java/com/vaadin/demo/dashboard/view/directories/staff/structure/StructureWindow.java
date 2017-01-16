@@ -30,8 +30,7 @@ public class StructureWindow extends Window implements Button.ClickListener {
         setModal(true);
     }
 
-    private void itit() {
-        layout = new FormLayout();
+    protected void itit() {
         layout = new FormLayout();
         layout.setSizeFull();
         layout.setSpacing(true);
@@ -48,13 +47,9 @@ public class StructureWindow extends Window implements Button.ClickListener {
         deleteButton.addClickListener(this);
         deleteButton.setVisible(false);
 
-        buttons = new HorizontalLayout();
-        buttons.addComponent(saveButton);
-        buttons.addComponent(cancelButton);
-        buttons.addComponent(deleteButton);
+        buttons = new HorizontalLayout(saveButton, cancelButton, deleteButton);
 
         setContent(layout);
-
         setHeight("470");
         setWidth("600");
 
@@ -62,13 +57,12 @@ public class StructureWindow extends Window implements Button.ClickListener {
 
     public void edit(Integer id) {
         try {
-            setCaption("Редактирование должности");
+            setCaption("Редактирование структуры");
             TransneftStructure m = datasource.getItem(id).getEntity();
             bindingFields(m);
             deleteButton.setVisible(true);
             UI.getCurrent().addWindow(this);
         } catch (Exception ex) {
-            //log.error("Não conseguiu carregar a tela de edição: ", ex);
             Notification.show("Возникла ошибка 1! Обратитесь к разработчикам\n"+ex.getMessage(), Notification.Type.ERROR_MESSAGE);
         }
     }
@@ -93,6 +87,11 @@ public class StructureWindow extends Window implements Button.ClickListener {
         field.setWidth("250");
         layout.addComponent(field);
 
+        field = binder.buildAndBind("Шифр", "code");
+        field.setWidth("80");
+        layout.addComponent(field);
+
+
         layout.addComponent(buttons);
     }
 
@@ -109,6 +108,7 @@ public class StructureWindow extends Window implements Button.ClickListener {
 
             try {
                 datasource.addEntity(binder.getItemDataSource().getBean());
+                datasource.refresh();
                 Notification.show("Запись добавлена!", Notification.Type.HUMANIZED_MESSAGE);
             } catch(Exception e) {
 

@@ -28,6 +28,16 @@ public class TransneftStructure extends StandartEntity implements HasParent<Tran
     @JoinColumn(name = "structure_id")
     private Set<TransneftDepartment> departments;
 
+    protected String code;
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     public StructureType getType() {
         return type;
     }
@@ -85,10 +95,19 @@ public class TransneftStructure extends StandartEntity implements HasParent<Tran
     }
     public TransneftStructure(StructureType type, TransneftStructure parent) {
         super("","");
+        this.code = "";
         int ord = type.ordinal();
-        ord++;
-        this.type = StructureType.getTypeByOrdinal(ord);
-        this.parent = parent;
+        int ordCount = StructureType.values().length;
+
+        if((ord+1) >= ordCount) {
+            this.type = type;
+            this.parent = parent.getParent();
+        } else {
+            ord++;
+            this.type = StructureType.getTypeByOrdinal(ord);
+            this.parent = parent;
+        }
+
 
 
     }

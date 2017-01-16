@@ -46,7 +46,7 @@ public class StructureTab extends VerticalLayout {
                         //Notification.show(event.getItem().getItemProperty("type").toString());
                         selectedItem = (StructureType) event.getItem().getItemProperty("type").getValue();
                         parent = datasource.getItem(event.getItemId()).getEntity();
-                        Notification.show(selectedItem.toString() + " " + parent);
+                     //   Notification.show(selectedItem.toString() + " " + parent);
                     }
                 }
         );
@@ -90,9 +90,7 @@ public class StructureTab extends VerticalLayout {
             }
         });
 
-
-
-        Button[] buttons = {addButton, refreshButton}; //, bSobre};
+        Button[] buttons = {addButton, refreshButton};
         HorizontalLayout barButton = new HorizontalLayout();
         barButton.setHeight("50");
 
@@ -101,12 +99,8 @@ public class StructureTab extends VerticalLayout {
             barButton.addComponent(b);
             barButton.setComponentAlignment(b, Alignment.MIDDLE_CENTER);
         }
-
         return barButton;
     }
-
-
-
     private void addErrorHandle(final VerticalLayout content) {
         UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
             @Override
@@ -118,7 +112,6 @@ public class StructureTab extends VerticalLayout {
                         cause += t.getClass().getName() + "\n";
 
                 Notification.show(cause, Notification.Type.ERROR_MESSAGE);
-
                 doDefault(event);
             }
         });
