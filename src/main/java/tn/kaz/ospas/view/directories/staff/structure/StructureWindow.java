@@ -2,12 +2,19 @@ package tn.kaz.ospas.view.directories.staff.structure;
 
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup;
+
 import tn.kaz.ospas.data.HierarchicalStructureContainer;
 import tn.kaz.ospas.model.transneft.StructureType;
 import tn.kaz.ospas.model.transneft.TransneftStructure;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.ui.*;
 import org.vaadin.dialogs.ConfirmDialog;
+
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  * Created by Anton on 13.01.2017.
@@ -70,7 +77,23 @@ public class StructureWindow extends Window implements Button.ClickListener {
 
     public void create(TransneftStructure selectedStructure) {
         setCaption("Новая запись");
-        bindingFields(new TransneftStructure(selectedStructure));
+
+
+        TransneftStructure ts = new TransneftStructure(selectedStructure);
+//        if(ts.getType() == StructureType.OST
+//                || ts.getType() == StructureType.UMN
+//                || ts.getType() == StructureType.OBJ) {
+//            try {
+//                EntityManager em = datasource.getEntityProvider().getEntityManager();
+//                Query query = em.createQuery("Select MAX(s.code) from TransneftStructure s where s.type = '" +
+//                        ts.getType() + "' and s.parent = " + ts.getParentCodedId().getName());
+//                String newCode = String.format("%02d", Integer.parseInt((String)query.getSingleResult()) + 1);
+//                ts.setCode(newCode);
+//            } catch (Exception ignored) {
+//                ignored.printStackTrace();
+//            }
+//        }
+        bindingFields(ts);
         UI.getCurrent().addWindow(this);
     }
 
@@ -87,10 +110,14 @@ public class StructureWindow extends Window implements Button.ClickListener {
         field.setWidth("250");
         layout.addComponent(field);
 
-        field = binder.buildAndBind("Шифр", "code");
-        field.setWidth("80");
-        layout.addComponent(field);
+        if(m.getType() == StructureType.OST
+                || m.getType() == StructureType.UMN
+                || m.getType() == StructureType.OBJ)  {
+            field = binder.buildAndBind("Шифр", "code");
+            field.setWidth("80");
+            layout.addComponent(field);
 
+        }
         layout.addComponent(buttons);
     }
 
