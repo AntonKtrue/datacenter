@@ -85,5 +85,14 @@ public class TransneftEmployee {
     }
 
     public TransneftEmployee() {
+        this.firstName = "";
+        this.lastName = "";
+        this.patroName = "";
+        this.rank = null;
+    }
+
+    public TransneftEmployee(TransneftDepartment department) {
+        this();
+        this.department = department;
     }
 }

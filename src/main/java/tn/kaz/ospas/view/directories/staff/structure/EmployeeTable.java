@@ -9,12 +9,15 @@ import tn.kaz.ospas.data.EmployeeJPAContainer;
 public class EmployeeTable extends Table {
     public EmployeeTable(EmployeeJPAContainer datasource) {
         setContainerDataSource(datasource);
-        setWidth("100%");
+        setSizeFull();
         configColumns();
     }
 
     private void configColumns() {
+
         setVisibleColumns(new Object[]{"id", "firstName", "lastName", "patroName","rank"});
-        setColumnHeaders(new String[]{"#","Полное название", "Короткое название"});
+
+        setColumnHeaders(new String[]{"#","Фамилия", "Имя","Отчетство","Должность"});
+
     }
 }

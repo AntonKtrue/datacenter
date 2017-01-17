@@ -10,6 +10,7 @@ public class StructureTree extends Tree {
     public StructureTree(HierarchicalStructureContainer structures) {
         setContainerDataSource(structures);
         setItemCaptionPropertyId("name");
+        setSizeUndefined();
         setImmediate(true);
         setSelectable(true);
     }

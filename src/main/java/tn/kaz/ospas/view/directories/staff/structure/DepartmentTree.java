@@ -11,6 +11,7 @@ public class DepartmentTree extends Tree {
     public DepartmentTree(HierarchicalDepartmentContainer datasource) {
         setContainerDataSource(datasource);
         setItemCaptionPropertyId("shortName");
+        setSizeUndefined();
         setImmediate(true);
         setSelectable(true);
     }
