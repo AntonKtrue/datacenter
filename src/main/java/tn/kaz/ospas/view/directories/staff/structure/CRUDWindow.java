@@ -1,36 +1,37 @@
 package tn.kaz.ospas.view.directories.staff.structure;
 
+import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup;
-
-import tn.kaz.ospas.data.HierarchicalStructureContainer;
-import tn.kaz.ospas.model.transneft.StructureType;
-import tn.kaz.ospas.model.transneft.TransneftStructure;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.ui.*;
 import org.vaadin.dialogs.ConfirmDialog;
+import tn.kaz.ospas.data.HierarchicalDepartmentContainer;
+import tn.kaz.ospas.model.transneft.TransneftDepartment;
+import tn.kaz.ospas.model.transneft.TransneftStructure;
 
 /**
- * Created by Anton on 13.01.2017.
+ * Created by Anton on 17.01.2017.
  */
-@SuppressWarnings("serial")
-public class StructureWindow extends Window implements Button.ClickListener {
+public abstract class CRUDWindow<T> extends Window implements Button.ClickListener {
 
     private FormLayout layout;
-    private BeanFieldGroup<TransneftStructure> binder;
+    private BeanFieldGroup<T> binder;
     private HorizontalLayout buttons;
     private Button saveButton;
     private Button cancelButton;
     private Button deleteButton;
+    private Class<T> clazz;
 
-    private HierarchicalStructureContainer datasource;
 
-    public StructureWindow(HierarchicalStructureContainer datasource) {
+    private JPAContainer<T> datasource;
+
+    public CRUDWindow(JPAContainer<T> datasource, Class<T> clazz) {
         this.datasource = datasource;
+        this.clazz = clazz;
         itit();
         setModal(true);
     }
-
 
     protected void itit() {
         layout = new FormLayout();
@@ -54,13 +55,12 @@ public class StructureWindow extends Window implements Button.ClickListener {
         setContent(layout);
         setHeight("470");
         setWidth("600");
-
     }
 
     public void edit(Integer id) {
         try {
             setCaption("Редактирование структуры");
-            TransneftStructure m = datasource.getItem(id).getEntity();
+            T m = datasource.getItem(id).getEntity();
             bindingFields(m);
             deleteButton.setVisible(true);
             UI.getCurrent().addWindow(this);
@@ -70,53 +70,12 @@ public class StructureWindow extends Window implements Button.ClickListener {
     }
 
 
-    public void create(TransneftStructure selectedStructure) {
-        setCaption("Новая запись");
-        TransneftStructure ts = new TransneftStructure(selectedStructure);
-//        if(ts.getType() == StructureType.OST
-//                || ts.getType() == StructureType.UMN
-//                || ts.getType() == StructureType.OBJ) {
-//            try {
-//                EntityManager em = datasource.getEntityProvider().getEntityManager();
-//                Query query = em.createQuery("Select MAX(s.code) from TransneftStructure s where s.type = '" +
-//                        ts.getType() + "' and s.parent = " + ts.getParentCodedId().getName());
-//                String newCode = String.format("%02d", Integer.parseInt((String)query.getSingleResult()) + 1);
-//                ts.setCode(newCode);
-//            } catch (Exception ignored) {
-//                ignored.printStackTrace();
-//            }
-//        }
-        bindingFields(ts);
-        UI.getCurrent().addWindow(this);
-    }
+//    public void create() {
+//        setCaption("Новая запись");
+//        UI.getCurrent().addWindow(this);
+//    }
 
-
-    private void bindingFields(TransneftStructure m) {
-        binder = new BeanFieldGroup<TransneftStructure>(TransneftStructure.class);
-        binder.setItemDataSource(m);
-        Field<?> field = null;
-        field = binder.buildAndBind("Полное название", "name");
-        field.setWidth("250");
-        layout.addComponent(field);
-
-        field = binder.buildAndBind("Краткое название", "shortName");
-        field.setWidth("250");
-        layout.addComponent(field);
-
-
-
-
-        if(m.getType() == StructureType.OST
-                || m.getType() == StructureType.UMN
-                || m.getType() == StructureType.OBJ)  {
-            field = binder.buildAndBind("Шифр", "code");
-            field.setWidth("80");
-            layout.addComponent(field);
-
-        }
-        layout.addComponent(buttons);
-    }
-
+    abstract public void bindingFields(T m);
 
     @Override
     public void buttonClick(Button.ClickEvent event) {
@@ -143,7 +102,7 @@ public class StructureWindow extends Window implements Button.ClickListener {
                         public void onClose(ConfirmDialog dialog) {
                             if (dialog.isConfirmed()) {
                                 try {
-                                    datasource.removeItem(binder.getItemDataSource().getBean().getId());
+                                  //  datasource.removeItem(binder.getItemDataSource().getBean().getId());
                                 } catch (Exception e) {
                                     Notification.show("Ошибка удаления!\n"+e.getMessage(), Notification.Type.ERROR_MESSAGE);
                                 }
