@@ -8,13 +8,15 @@ import tn.kaz.ospas.data.EmployeeJPAContainer;
  */
 public class EmployeeTable extends Table {
     public EmployeeTable(EmployeeJPAContainer datasource) {
+        datasource.addNestedContainerProperty("rank.name");
         setContainerDataSource(datasource);
         setWidth("100%");
         configColumns();
     }
 
     private void configColumns() {
-        setVisibleColumns(new Object[]{"id", "firstName", "lastName", "patroName","rank"});
-        setColumnHeaders(new String[]{"#","Полное название", "Короткое название"});
+        setVisibleColumns(new Object[]{"id", "firstName", "lastName", "patroName","rank.name"});
+        setColumnHeaders(new String[]{"#","Имя", "Фамилия","Отчество","Должность"});
+
     }
 }

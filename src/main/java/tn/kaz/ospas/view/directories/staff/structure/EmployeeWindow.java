@@ -1,44 +1,37 @@
 package tn.kaz.ospas.view.directories.staff.structure;
 
+import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup;
-
-import tn.kaz.ospas.data.HierarchicalStructureContainer;
-import tn.kaz.ospas.model.transneft.StructureType;
-import tn.kaz.ospas.model.transneft.TransneftStructure;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.ui.*;
 import org.vaadin.dialogs.ConfirmDialog;
-
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import tn.kaz.ospas.data.EmployeeJPAContainer;
+import tn.kaz.ospas.data.RankJPAContainer;
+import tn.kaz.ospas.model.transneft.*;
 
 /**
- * Created by Anton on 13.01.2017.
+ * Created by user on 18.01.17.
  */
-@SuppressWarnings("serial")
-public class StructureWindow extends Window implements Button.ClickListener {
-
+public class EmployeeWindow extends Window implements Button.ClickListener{
     private FormLayout layout;
-    private BeanFieldGroup<TransneftStructure> binder;
+    private BeanFieldGroup<TransneftEmployee> binder;
     private HorizontalLayout buttons;
     private Button saveButton;
     private Button cancelButton;
     private Button deleteButton;
+    private RankJPAContainer ranks;
+    private EmployeeJPAContainer datasource;
 
-    private HierarchicalStructureContainer datasource;
-
-    public StructureWindow(HierarchicalStructureContainer datasource) {
+    public EmployeeWindow(EmployeeJPAContainer datasource, RankJPAContainer ranks) {
         this.datasource = datasource;
-        itit();
+        this.ranks = ranks;
+        init();
         setModal(true);
     }
 
 
-    protected void itit() {
+    protected void init() {
         layout = new FormLayout();
         layout.setSizeFull();
         layout.setSpacing(true);
@@ -66,7 +59,7 @@ public class StructureWindow extends Window implements Button.ClickListener {
     public void edit(Integer id) {
         try {
             setCaption("Редактирование структуры");
-            TransneftStructure m = datasource.getItem(id).getEntity();
+            TransneftEmployee m = datasource.getItem(id).getEntity();
             bindingFields(m);
             deleteButton.setVisible(true);
             UI.getCurrent().addWindow(this);
@@ -76,9 +69,9 @@ public class StructureWindow extends Window implements Button.ClickListener {
     }
 
 
-    public void create(TransneftStructure selectedStructure) {
+    public void create(TransneftDepartment department) {
         setCaption("Новая запись");
-        TransneftStructure ts = new TransneftStructure(selectedStructure);
+        TransneftEmployee ts = new TransneftEmployee(department);
 //        if(ts.getType() == StructureType.OST
 //                || ts.getType() == StructureType.UMN
 //                || ts.getType() == StructureType.OBJ) {
@@ -97,26 +90,33 @@ public class StructureWindow extends Window implements Button.ClickListener {
     }
 
 
-    private void bindingFields(TransneftStructure m) {
-        binder = new BeanFieldGroup<TransneftStructure>(TransneftStructure.class);
+    private void bindingFields(TransneftEmployee m) {
+        binder = new BeanFieldGroup<TransneftEmployee>(TransneftEmployee.class);
         binder.setItemDataSource(m);
         Field<?> field = null;
-        field = binder.buildAndBind("Полное название", "name");
+        field = binder.buildAndBind("Имя", "firstName");
         field.setWidth("250");
         layout.addComponent(field);
 
-        field = binder.buildAndBind("Краткое название", "shortName");
+        field = binder.buildAndBind("Фамилия", "lastName");
         field.setWidth("250");
         layout.addComponent(field);
 
-        if(m.getType() == StructureType.OST
-                || m.getType() == StructureType.UMN
-                || m.getType() == StructureType.OBJ)  {
-            field = binder.buildAndBind("Шифр", "code");
-            field.setWidth("80");
-            layout.addComponent(field);
+        field = binder.buildAndBind("Отчество", "patroName");
+        field.setWidth("250");
+        layout.addComponent(field);
 
-        }
+//        field = binder.buildAndBind("Должность", "rank", ComboBox.class);
+//        field.setWidth("250");
+//        layout.addComponent(field);
+        ComboBox rank = new ComboBox("Должность", ranks);
+        rank.setContainerDataSource(ranks);
+        rank.setItemCaptionPropertyId("name");
+        rank.setImmediate(true);
+        rank.setConverter(new SingleSelectConverter(rank));
+        binder.bind(rank, "rank");
+        layout.addComponent(rank);
+
         layout.addComponent(buttons);
     }
 
