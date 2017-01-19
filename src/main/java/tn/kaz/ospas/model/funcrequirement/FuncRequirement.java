@@ -50,7 +50,7 @@ public class FuncRequirement extends Identity {
     @OneToOne
     private Limitation limitation;
 
-    @ManyToOne
+    @OneToOne
     private FRDocs docs;
 
     public long getNumber() {
