@@ -2,6 +2,7 @@ package tn.kaz.ospas.view;
 
 import tn.kaz.ospas.view.dashboard.DashboardView;
 import tn.kaz.ospas.view.directories.DirectoriesView;
+import tn.kaz.ospas.view.funcrequirements.FuncRequirements;
 import tn.kaz.ospas.view.reports.ReportsView;
 import tn.kaz.ospas.view.schedule.ScheduleView;
 import tn.kaz.ospas.view.transactions.TransactionsView;
@@ -14,7 +15,8 @@ public enum DashboardViewType {
     TRANSACTIONS("transactions", TransactionsView.class, FontAwesome.TABLE, false),
     REPORTS("reports", ReportsView.class, FontAwesome.FILE_TEXT_O, true),
     SCHEDULE("schedule", ScheduleView.class, FontAwesome.CALENDAR_O, false),
-    DIRECTORIES("справочники", DirectoriesView.class, FontAwesome.BOOK, false)
+    DIRECTORIES("справочники", DirectoriesView.class, FontAwesome.BOOK, false),
+    FUNCREQUIREMENTS("функциональные требования",FuncRequirements.class, FontAwesome.INDUSTRY, false)
     ;
 
 

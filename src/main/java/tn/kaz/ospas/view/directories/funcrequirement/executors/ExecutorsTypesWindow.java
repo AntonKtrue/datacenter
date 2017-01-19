@@ -1,26 +1,22 @@
-package tn.kaz.ospas.view.directories.staff.ranks;
+package tn.kaz.ospas.view.directories.funcrequirement.executors;
 
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
-import com.vaadin.data.fieldgroup.FieldGroup;
-import tn.kaz.ospas.data.RankJPAContainer;
-import tn.kaz.ospas.model.transneft.TransneftRank;
-import com.vaadin.event.ShortcutAction;
 import com.vaadin.ui.*;
-import org.vaadin.dialogs.ConfirmDialog;
+import tn.kaz.ospas.data.ExecutorsTypeJPAContainer;
+import tn.kaz.ospas.model.funcrequirement.executors.ExecutorType;
 import tn.kaz.ospas.view.CrudButtons;
 
 /**
- * Created by user on 11.01.17.
+ * Created by Anton on 19.01.2017.
  */
 @SuppressWarnings("serial")
-public class RankWindow extends Window {
-
+public class ExecutorsTypesWindow extends Window {
     private FormLayout layout;
-    private BeanFieldGroup<TransneftRank> binder;
-    private RankJPAContainer datasource;
-    private CrudButtons<TransneftRank> crudButtons;
+    private BeanFieldGroup<ExecutorType> binder;
+    private ExecutorsTypeJPAContainer datasource;
+    private CrudButtons<ExecutorType> crudButtons;
 
-    public RankWindow(RankJPAContainer datasource) {
+    public ExecutorsTypesWindow(ExecutorsTypeJPAContainer datasource) {
         this.datasource = datasource;
         init();
         setModal(true);
@@ -40,7 +36,7 @@ public class RankWindow extends Window {
     public void edit(Integer id) {
         try {
             setCaption("Редактирование должности");
-            TransneftRank m = datasource.getItem(id).getEntity();
+            ExecutorType m = datasource.getItem(id).getEntity();
             bindingFields(m);
             crudButtons.getDeleteButton().setVisible(true);
             UI.getCurrent().addWindow(this);
@@ -52,25 +48,20 @@ public class RankWindow extends Window {
 
     public void create() {
         setCaption("Новая запись");
-        bindingFields(new TransneftRank());
+        bindingFields(new ExecutorType());
         UI.getCurrent().addWindow(this);
     }
 
 
-    private void bindingFields(TransneftRank m) {
-        binder = new BeanFieldGroup<TransneftRank>(TransneftRank.class);
+    private void bindingFields(ExecutorType m) {
+        binder = new BeanFieldGroup<ExecutorType>(ExecutorType.class);
         binder.setItemDataSource(m);
         Field<?> field = null;
         field = binder.buildAndBind("Полное название", "name");
         field.setWidth("140");
         layout.addComponent(field);
 
-        field = binder.buildAndBind("Краткое название", "shortName");
-        field.setWidth("200");
-        layout.addComponent(field);
-
         crudButtons = new CrudButtons(datasource, binder, this);
         layout.addComponent(crudButtons);
     }
-
 }

@@ -22,7 +22,6 @@ public class RankTab extends VerticalLayout {
 
     private Table table;
 
-
     public RankTab() {
         //setLocale(new Locale("pt", "BR"));
         final RankJPAContainer datasource = new RankJPAContainer();
@@ -91,8 +90,6 @@ public class RankTab extends VerticalLayout {
 
         return barButton;
     }
-
-
 
     private void addErrorHandle(final VerticalLayout content) {
         UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {

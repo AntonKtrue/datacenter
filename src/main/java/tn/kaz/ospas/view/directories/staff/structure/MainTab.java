@@ -17,7 +17,7 @@ import com.vaadin.ui.themes.Runo;
 /**
  * Created by Anton on 13.01.2017.
  */
-public class StructureTab extends VerticalLayout {
+public class MainTab extends VerticalLayout {
     private Tree structureTree;
     private Tree departmentTree;
     private Table personalTable;
@@ -30,7 +30,7 @@ public class StructureTab extends VerticalLayout {
     private final EmployeeJPAContainer employeeDs;
     private final RankJPAContainer ranks = new RankJPAContainer();
 
-    public StructureTab() {
+    public MainTab() {
         structureDs = new HierarchicalStructureContainer();
         structureTree = new StructureTree(structureDs);
         structureTree.addItemClickListener(
@@ -38,21 +38,25 @@ public class StructureTab extends VerticalLayout {
                     @Override
                     public void itemClick(ItemClickEvent event) {
                         selectedStructure = structureDs.getItem(event.getItemId()).getEntity();
+                        selectedDepartment = null;
                         updateDepartmentFilters();
+                        updatePersonalFilters();
                     }
                 }
         );
         VerticalLayout content = new VerticalLayout();
         content.setSizeFull();
         addComponent(content);
-        HorizontalLayout wrapper = new HorizontalLayout();
-        wrapper.setSizeFull();
-        wrapper.setWidth("100%");
-        content.addComponent(wrapper);
+        HorizontalLayout treeWrapper = new HorizontalLayout();
+
+        treeWrapper.setSizeFull();
+        treeWrapper.setWidth("100%");
+
+
 
         VerticalLayout structureVertical = new VerticalLayout(structureTree, structureBarButtons(structureDs));
-        wrapper.addComponent(structureVertical);
-        wrapper.setComponentAlignment(structureVertical, Alignment.TOP_LEFT);
+        treeWrapper.addComponent(structureVertical);
+
         departmentDs = new HierarchicalDepartmentContainer();
         departmentTree = new DepartmentTree(departmentDs);
         departmentTree.addItemClickListener(new ItemClickEvent.ItemClickListener() {
@@ -63,15 +67,16 @@ public class StructureTab extends VerticalLayout {
             }
         });
         VerticalLayout departmentVertical = new VerticalLayout(departmentTree, departmentBarButtons(departmentDs));
-        wrapper.addComponent(departmentVertical);
-        wrapper.setComponentAlignment(departmentVertical,Alignment.TOP_LEFT);
+        treeWrapper.addComponent(departmentVertical);
+
         employeeDs = new EmployeeJPAContainer();
         personalTable = new EmployeeTable(employeeDs);
+        personalTable.setHeight(500f,Unit.PIXELS);
         VerticalLayout personalVertical = new VerticalLayout(personalBarButtons(employeeDs), personalTable);
-        wrapper.addComponent(personalVertical);
+        content.addComponent(personalVertical);
+        content.addComponent(treeWrapper);
         addErrorHandle(content);
     }
-
 
     private HorizontalLayout personalBarButtons(final EmployeeJPAContainer datasource) {
         Button addButton = new Button("Добавить");
@@ -187,5 +192,11 @@ public class StructureTab extends VerticalLayout {
     }
 
     private void updatePersonalFilters() {
+        employeeDs.setApplyFiltersImmediately(false);
+        employeeDs.removeAllContainerFilters();
+        if(selectedDepartment != null) {
+            employeeDs.addContainerFilter(new Compare.Equal("department", selectedDepartment));
+        }
+        employeeDs.applyFilters();
     }
 }

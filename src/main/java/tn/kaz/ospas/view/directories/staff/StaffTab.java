@@ -1,60 +1,26 @@
 package tn.kaz.ospas.view.directories.staff;
 
+import tn.kaz.ospas.view.GuiHelper;
 import tn.kaz.ospas.view.directories.staff.ranks.RankTab;
-import tn.kaz.ospas.view.directories.staff.structure.StructureTab;
+import tn.kaz.ospas.view.directories.staff.structure.MainTab;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
 /**
- * Created by Anton on 11.01.2017.
+ * Структура предпрятия и сотрудники
+ *
+ * 19.01.2017 произведен легкий рефакторинг - вынос кнопок окна добалвения
+ * TODO:
+ * редактирование записей
+ * форматирование GUI
  */
 public class StaffTab extends TabSheet {
 
-
-    private Tab addTab(String caption, Alignment contentAlignment, Component contentComponent) {
-        VerticalLayout wrapper = new VerticalLayout();
-        wrapper.setCaption(caption);
-        VerticalLayout content = new VerticalLayout();
-        content.setSizeFull();
-        content.setSpacing(true);
-        wrapper.addComponent(content);
-        wrapper.setComponentAlignment(content, contentAlignment);
-        Label title = new Label(caption);
-        title.addStyleName(ValoTheme.LABEL_H1);
-        title.setSizeUndefined();
-        content.addComponent(title);
-        content.setComponentAlignment(title, Alignment.TOP_CENTER);
-        content.addComponent(contentComponent);
-        return addTab(wrapper);
-    }
-
     public StaffTab() {
         setSizeFull();
-
         addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
         setCaption("Сотрудники");
-
-        addTab("Должности", Alignment.MIDDLE_CENTER, new RankTab());
-        addTab("Структура организации",Alignment.TOP_LEFT, new StructureTab());
-
-
-        VerticalLayout employee = new VerticalLayout();
-        employee.setCaption("Персонал");
-        VerticalLayout emloyeeContent = new VerticalLayout();
-        emloyeeContent.setSizeUndefined();
-        emloyeeContent.setSpacing(true);
-        emloyeeContent.addStyleName("drafts");
-        employee.addComponent(emloyeeContent);
-        employee.setComponentAlignment(emloyeeContent, Alignment.MIDDLE_CENTER);
-        Label employeeContentTitle = new Label("Персонал");
-        employeeContentTitle.addStyleName(ValoTheme.LABEL_H1);
-        employeeContentTitle.setSizeUndefined();
-        emloyeeContent.addComponent(employeeContentTitle);
-        emloyeeContent.setComponentAlignment(employeeContentTitle, Alignment.TOP_CENTER);
-        addTab(employee);
+        addTab(GuiHelper.makeTabContent("Должности", Alignment.MIDDLE_CENTER, new RankTab()));
+        addTab(GuiHelper.makeTabContent("Структура организации",Alignment.TOP_LEFT, new MainTab()));
     }
-
-
-
-
 }

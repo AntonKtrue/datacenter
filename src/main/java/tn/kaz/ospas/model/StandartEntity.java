@@ -11,10 +11,8 @@ import javax.validation.constraints.Size;
  * Created by Anton on 13.01.2017.
  */
 @MappedSuperclass
-public class StandartEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public class StandartEntity extends Identity {
+
 
     @NotNull
     @Size(min=2, max=200)
@@ -22,14 +20,6 @@ public class StandartEntity {
 
     @NotNull @Size(min=2, max=45)
     protected String shortName;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

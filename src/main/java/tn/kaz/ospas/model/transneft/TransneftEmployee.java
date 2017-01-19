@@ -1,5 +1,7 @@
 package tn.kaz.ospas.model.transneft;
 
+import tn.kaz.ospas.model.Identity;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -8,10 +10,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "dict_employee")
-public class TransneftEmployee {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public class TransneftEmployee extends Identity {
 
     @NotNull
     private String firstName;
@@ -27,14 +26,6 @@ public class TransneftEmployee {
     @ManyToOne
     @JoinColumn(name = "rank_id")
     private TransneftRank rank;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getFirstName() {
         return firstName;
