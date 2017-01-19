@@ -1,9 +1,13 @@
 package tn.kaz.ospas.view.funcrequirements;
 
+import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
+import com.vaadin.addon.jpacontainer.fieldfactory.MasterDetailEditor;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.ui.*;
 import tn.kaz.ospas.data.FuncRequirementJPAContainer;
 import tn.kaz.ospas.data.NoticeJPAContainer;
+import tn.kaz.ospas.data.SimpleJPAContainer;
+import tn.kaz.ospas.model.funcrequirement.Agreementor;
 import tn.kaz.ospas.model.funcrequirement.FuncRequirement;
 import tn.kaz.ospas.model.funcrequirement.NoticeType;
 import tn.kaz.ospas.view.CrudButtons;
@@ -28,9 +32,15 @@ public class FuncRequirementWindow extends Window {
         layout.setSizeFull();
         layout.setSpacing(true);
 
+        test();
+
         setContent(layout);
-        setHeight("370");
-        setWidth("400");
+        setHeight("2600");
+        setWidth("800");
+    }
+
+    public void test() {
+
     }
 
 
@@ -49,12 +59,15 @@ public class FuncRequirementWindow extends Window {
 
     public void create() {
         setCaption("Новая запись");
-        bindingFields(new FuncRequirement());
+       // bindingFields(new FuncRequirement());
         UI.getCurrent().addWindow(this);
     }
 
 
     private void bindingFields(FuncRequirement m) {
+
+        FieldFactory fieldFactory = new FieldFactory();
+
         binder = new BeanFieldGroup<FuncRequirement>(FuncRequirement.class);
         binder.setItemDataSource(m);
         Field<?> field = null;
@@ -63,6 +76,10 @@ public class FuncRequirementWindow extends Window {
         field = binder.buildAndBind("Номер", "number");
         field.setWidth("140");
         layout.addComponent(field);
+
+        SimpleJPAContainer<Agreementor> agreementorsDs = new SimpleJPAContainer<Agreementor>(Agreementor.class);
+
+
 
 
 
