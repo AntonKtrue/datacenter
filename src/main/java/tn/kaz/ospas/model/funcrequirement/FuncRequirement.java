@@ -33,7 +33,7 @@ public class FuncRequirement extends Identity {
     private Set<Agreementor> agreementors;
 
     @NotNull
-    private Date funcReqDate;
+    private Date date;
 
     @OneToMany
     private Set<FRCause> causes;
@@ -45,7 +45,7 @@ public class FuncRequirement extends Identity {
     private WorkExecutors executors;
 
     @OneToMany
-    private Set<NoticeType> noticeType;
+    private Set<Notice> notice;
 
     @OneToOne
     private Limitation limitation;
@@ -94,11 +94,11 @@ public class FuncRequirement extends Identity {
     }
 
     public Date getFuncReqDate() {
-        return funcReqDate;
+        return date;
     }
 
     public void setFuncReqDate(Date funcReqDate) {
-        this.funcReqDate = funcReqDate;
+        this.date = funcReqDate;
     }
 
     public Set<FRCause> getCauses() {
@@ -125,12 +125,12 @@ public class FuncRequirement extends Identity {
         this.executors = executors;
     }
 
-    public Set<NoticeType> getNoticeType() {
-        return noticeType;
+    public Set<Notice> getNoticeType() {
+        return notice;
     }
 
-    public void setNoticeType(Set<NoticeType> noticeType) {
-        this.noticeType = noticeType;
+    public void setNoticeType(Set<Notice> notice) {
+        this.notice = notice;
     }
 
     public Limitation getLimitation() {
