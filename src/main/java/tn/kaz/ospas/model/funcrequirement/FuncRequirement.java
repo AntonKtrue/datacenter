@@ -3,9 +3,11 @@ package tn.kaz.ospas.model.funcrequirement;
 
 import tn.kaz.ospas.model.Identity;
 import tn.kaz.ospas.model.transneft.TransneftDepartment;
+import tn.kaz.ospas.model.transneft.TransneftStructure;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.Set;
 
@@ -19,9 +21,15 @@ public class FuncRequirement extends Identity {
     @NotNull
     private long number;
 
+    @Size(max = 255)
+    private String shortDescription;
+
+
     @ManyToOne
-    @JoinColumn(name = "department_id")
-    private TransneftDepartment department;
+    @JoinColumn(name = "structure_id")
+    private TransneftStructure structure;
+
+
 
     @OneToOne
     @PrimaryKeyJoinColumn
@@ -44,14 +52,123 @@ public class FuncRequirement extends Identity {
     @OneToOne
     private WorkExecutors executors;
 
-    @OneToMany
-    private Set<Notice> notice;
+    private Date developmentDate;
 
-    @OneToOne
-    private Limitation limitation;
+    private Date standTestDate;
 
-    @OneToOne
-    private FRDocs docs;
+    private Date implementationDate;
+
+    private String frFilePath;
+
+    private String pmiFilePath;
+
+    private String asiFilePath;
+
+    private String psiFilePath;
+
+    private String actFilePath;
+
+    private String protFilePath;
+
+    private String exchangeActFilePath;
+
+    private String noticeFilePath;
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Date getDevelopmentDate() {
+        return developmentDate;
+    }
+
+    public void setDevelopmentDate(Date developmentDate) {
+        this.developmentDate = developmentDate;
+    }
+
+    public Date getStandTestDate() {
+        return standTestDate;
+    }
+
+    public void setStandTestDate(Date standTestDate) {
+        this.standTestDate = standTestDate;
+    }
+
+    public Date getImplementationDate() {
+        return implementationDate;
+    }
+
+    public void setImplementationDate(Date implementationDate) {
+        this.implementationDate = implementationDate;
+    }
+
+    public String getFrFilePath() {
+        return frFilePath;
+    }
+
+    public void setFrFilePath(String frFilePath) {
+        this.frFilePath = frFilePath;
+    }
+
+    public String getPmiFilePath() {
+        return pmiFilePath;
+    }
+
+    public void setPmiFilePath(String pmiFilePath) {
+        this.pmiFilePath = pmiFilePath;
+    }
+
+    public String getAsiFilePath() {
+        return asiFilePath;
+    }
+
+    public void setAsiFilePath(String asiFilePath) {
+        this.asiFilePath = asiFilePath;
+    }
+
+    public String getPsiFilePath() {
+        return psiFilePath;
+    }
+
+    public void setPsiFilePath(String psiFilePath) {
+        this.psiFilePath = psiFilePath;
+    }
+
+    public String getActFilePath() {
+        return actFilePath;
+    }
+
+    public void setActFilePath(String actFilePath) {
+        this.actFilePath = actFilePath;
+    }
+
+    public String getProtFilePath() {
+        return protFilePath;
+    }
+
+    public void setProtFilePath(String protFilePath) {
+        this.protFilePath = protFilePath;
+    }
+
+    public String getExchangeActFilePath() {
+        return exchangeActFilePath;
+    }
+
+    public void setExchangeActFilePath(String exchangeActFilePath) {
+        this.exchangeActFilePath = exchangeActFilePath;
+    }
+
+    public String getNoticeFilePath() {
+        return noticeFilePath;
+    }
+
+    public void setNoticeFilePath(String noticeFilePath) {
+        this.noticeFilePath = noticeFilePath;
+    }
 
     public long getNumber() {
         return number;
@@ -61,12 +178,12 @@ public class FuncRequirement extends Identity {
         this.number = number;
     }
 
-    public TransneftDepartment getDepartment() {
-        return department;
+    public TransneftStructure getStructure() {
+        return structure;
     }
 
-    public void setDepartment(TransneftDepartment department) {
-        this.department = department;
+    public void setStructure(TransneftStructure structure) {
+        this.structure = structure;
     }
 
     public Acceptor getAcceptor() {
@@ -125,27 +242,23 @@ public class FuncRequirement extends Identity {
         this.executors = executors;
     }
 
-    public Set<Notice> getNoticeType() {
-        return notice;
+    public FuncRequirement(TransneftStructure structure) {
+        this.structure = structure;
     }
 
-    public void setNoticeType(Set<Notice> notice) {
-        this.notice = notice;
+    public FuncRequirement() {
+        shortDescription ="";
     }
 
-    public Limitation getLimitation() {
-        return limitation;
+    public String getShortDescription() {
+        return shortDescription;
     }
 
-    public void setLimitation(Limitation limitation) {
-        this.limitation = limitation;
+    public void setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
     }
 
-    public FRDocs getDocs() {
-        return docs;
-    }
 
-    public void setDocs(FRDocs docs) {
-        this.docs = docs;
-    }
+
+
 }

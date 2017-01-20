@@ -6,7 +6,6 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.DefaultErrorHandler;
 import com.vaadin.ui.*;
-
 import com.vaadin.ui.themes.ValoTheme;
 import tn.kaz.ospas.data.HierarchicalJPAContainer;
 import tn.kaz.ospas.data.SimpleJPAContainer;
@@ -15,13 +14,14 @@ import tn.kaz.ospas.model.Config;
 import tn.kaz.ospas.model.funcrequirement.FuncRequirement;
 import tn.kaz.ospas.model.transneft.StructureType;
 import tn.kaz.ospas.model.transneft.TransneftStructure;
+import com.vaadin.ui.TabSheet.CloseHandler;
 import tn.kaz.ospas.view.directories.staff.structure.StructureTree;
 
-
 /**
- * Created by Anton on 19.01.2017.
+ * Created by Anton on 20.01.2017.
  */
-public class FuncRequirementTab extends VerticalLayout {
+
+public class FuncRequirementView extends TabSheet implements View, CloseHandler {
     private Table table;
     private Button addButton, refreshButton;
     private HierarchicalJPAContainer<TransneftStructure> structureDs = new HierarchicalJPAContainer<TransneftStructure>(TransneftStructure.class, Config.PARENT_FIELD);
@@ -29,16 +29,24 @@ public class FuncRequirementTab extends VerticalLayout {
 
     private TransneftStructure selectedObject;
 
-    public FuncRequirementTab() {
+    public FuncRequirementView() {
 
-        setCaption("Функциональные требования");
-        buildMainScreen();
+        setSizeFull();
+        addStyleName("reports");
+        addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
+        setCloseHandler(this);
+        DashboardEventBus.register(this);
 
+        addTab(buildMainScreen());
 
     }
 
-    private void buildMainScreen() {
+    private Component buildMainScreen() {
+        final VerticalLayout mainScreen = new VerticalLayout();
+        mainScreen.setSizeFull();
+        mainScreen.setCaption("Функциональные требования");
         HorizontalSplitPanel splitPanel = new HorizontalSplitPanel();
+        mainScreen.addComponent(splitPanel);
         table = new FuncRequirementTable(funcRequiremntDs);
         table.addItemClickListener(new ItemClickEvent.ItemClickListener() {
             @Override
@@ -61,33 +69,9 @@ public class FuncRequirementTab extends VerticalLayout {
         splitPanel.setFirstComponent(structureTree);
         splitPanel.setSecondComponent(tableArea);
         splitPanel.setSplitPosition(380, Unit.PIXELS);
-        addComponent(splitPanel);
-        addErrorHandle(tableArea);
-    }
 
-    private void checkAddButton() {
-        if(selectedObject.getType() == StructureType.OBJ) {
-            addButton.setEnabled(true);
-        } else {
-            addButton.setEnabled(false);
-        }
-    }
-
-    private void addErrorHandle(final VerticalLayout content) {
-        UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
-            @Override
-            public void error(com.vaadin.server.ErrorEvent event) {
-                String cause = "Произошла ошибка!:\n";
-                for (Throwable t = event.getThrowable(); t != null;
-                     t = t.getCause())
-                    if (t.getCause() == null)
-                        cause += t.getClass().getName() + "\n";
-
-                Notification.show(cause, Notification.Type.ERROR_MESSAGE);
-
-                doDefault(event);
-            }
-        });
+        addErrorHandle(mainScreen);
+        return mainScreen;
     }
 
     private HorizontalLayout funcRequirementButton(final SimpleJPAContainer<FuncRequirement> datasource) {
@@ -121,11 +105,32 @@ public class FuncRequirementTab extends VerticalLayout {
     }
 
     private void addFuncRequirement() {
-//        FuncRequirementView newFuncRequirementView = new FuncRequirementView(selectedObject);
-//        addTab(newFuncRequirementView).setClosable(true);
-//        newFuncRequirementView.setCaption("Новое ФТ");
-//        setSelectedTab(getComponentCount() - 1);
+        FuncRequirementEditor funcRequirementEditor = new FuncRequirementEditor(selectedObject, funcRequiremntDs);
+        Tab addFtTab = addTab(funcRequirementEditor);
+        addFtTab.setClosable(true);
 
+        addFtTab.setCaption("ФТ " + selectedObject.getParent().getParent().getParent().getCode() +
+                "-" + selectedObject.getParent().getParent().getCode() + "-" + selectedObject.getCode());
+        setSelectedTab(getComponentCount() - 1);
+
+    }
+
+    @Override
+    public void onTabClose(TabSheet tabSheet, Component component) {
+
+    }
+
+    @Override
+    public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
+
+    }
+
+    private void checkAddButton() {
+        if(selectedObject.getType() == StructureType.OBJ) {
+            addButton.setEnabled(true);
+        } else {
+            addButton.setEnabled(false);
+        }
     }
 
     private void updateDepartmentFilters() {
@@ -146,8 +151,22 @@ public class FuncRequirementTab extends VerticalLayout {
         funcRequiremntDs.applyFilters();
     }
 
-//    @Override
-//    public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
-//
-//    }
+    private void addErrorHandle(final VerticalLayout content) {
+        UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
+            @Override
+            public void error(com.vaadin.server.ErrorEvent event) {
+                String cause = "Произошла ошибка!:\n";
+                for (Throwable t = event.getThrowable(); t != null;
+                     t = t.getCause())
+                    if (t.getCause() == null)
+                        cause += t.getClass().getName() + "\n";
+
+                Notification.show(cause, Notification.Type.ERROR_MESSAGE);
+
+                doDefault(event);
+            }
+        });
+    }
+
+
 }

@@ -3,7 +3,7 @@ package tn.kaz.ospas.view.directories.staff.structure;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.ui.*;
 
-import tn.kaz.ospas.data.HierarchicalDepartmentContainer;
+import tn.kaz.ospas.data.HierarchicalJPAContainer;
 import tn.kaz.ospas.model.transneft.TransneftDepartment;
 import tn.kaz.ospas.model.transneft.TransneftStructure;
 import tn.kaz.ospas.view.CrudButtons;
@@ -12,9 +12,9 @@ public class DepartmentWindow extends Window {
     private FormLayout layout;
     private BeanFieldGroup<TransneftDepartment> binder;
     private CrudButtons crudButtons;
-    private HierarchicalDepartmentContainer datasource;
+    private HierarchicalJPAContainer<TransneftDepartment> datasource;
 
-    public DepartmentWindow(HierarchicalDepartmentContainer datasource) {
+    public DepartmentWindow(HierarchicalJPAContainer<TransneftDepartment> datasource) {
         this.datasource = datasource;
         itit();
         setModal(true);

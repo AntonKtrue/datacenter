@@ -17,21 +17,16 @@ public class FuncRequirementTable extends Table {
     private void configColumns() {
         setVisibleColumns(new Object[]{"id",
                 "number",
-                "department",
+                "structure",
                 "acceptor",
                 "date",
-                "executors",
-                "notice",
-                "limitation",
-                "docs"});
+                "executors"
+                });
         setColumnHeaders(new String[]{"#",
                 "Номер",
-                "Отдел",
+                "Объект",
                 "Утверждающий",
                 "Дата",
-                "Исполнители",
-                "Извещения",
-                "сроки",
-                "документы"});
+                "Исполнители"});
     }
 }

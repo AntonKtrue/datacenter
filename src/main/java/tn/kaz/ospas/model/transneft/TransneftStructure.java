@@ -138,4 +138,9 @@ public class TransneftStructure extends StandartEntity implements HasParent<Tran
             this.parent = selectedStructure;
         }
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

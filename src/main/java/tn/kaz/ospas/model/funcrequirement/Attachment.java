@@ -2,6 +2,7 @@ package tn.kaz.ospas.model.funcrequirement;
 
 import tn.kaz.ospas.model.Identity;
 
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;

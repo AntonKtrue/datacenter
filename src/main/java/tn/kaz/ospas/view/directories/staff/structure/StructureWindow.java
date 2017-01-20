@@ -1,14 +1,12 @@
 package tn.kaz.ospas.view.directories.staff.structure;
 
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
-import com.vaadin.data.fieldgroup.FieldGroup;
 
-import tn.kaz.ospas.data.HierarchicalStructureContainer;
+import tn.kaz.ospas.data.HierarchicalJPAContainer;
+
 import tn.kaz.ospas.model.transneft.StructureType;
 import tn.kaz.ospas.model.transneft.TransneftStructure;
-import com.vaadin.event.ShortcutAction;
 import com.vaadin.ui.*;
-import org.vaadin.dialogs.ConfirmDialog;
 import tn.kaz.ospas.view.CrudButtons;
 
 /**
@@ -20,9 +18,9 @@ public class StructureWindow extends Window {
     private FormLayout layout;
     private BeanFieldGroup<TransneftStructure> binder;
     private CrudButtons<TransneftStructure> crudButtons;
-    private HierarchicalStructureContainer datasource;
+    private HierarchicalJPAContainer<TransneftStructure> datasource;
 
-    public StructureWindow(HierarchicalStructureContainer datasource) {
+    public StructureWindow(HierarchicalJPAContainer<TransneftStructure> datasource) {
         this.datasource = datasource;
         itit();
         setModal(true);

@@ -35,5 +35,17 @@ public class Agreementor extends Signatory {
         this.funcRequirement = funcRequirement;
     }
 
+    public Agreementor(TransneftEmployee employee, FuncRequirement funcRequirement, int order) {
+        super(employee);
+        this.funcRequirement = funcRequirement;
+        this.order = order;
+    }
 
+    public Agreementor(FuncRequirement funcRequirement, int order) {
+        this.funcRequirement = funcRequirement;
+        this.order = order;
+    }
+
+    public Agreementor() {
+    }
 }

@@ -2,6 +2,7 @@ package tn.kaz.ospas.view.directories.staff.structure;
 
 import com.vaadin.data.util.filter.Compare;
 import tn.kaz.ospas.data.*;
+import tn.kaz.ospas.model.Config;
 import tn.kaz.ospas.model.transneft.*;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.server.DefaultErrorHandler;
@@ -19,13 +20,13 @@ public class MainTab extends VerticalLayout {
     private TransneftStructure selectedStructure;
     private TransneftDepartment selectedDepartment;
 
-    private final HierarchicalStructureContainer structureDs;
-    private final HierarchicalDepartmentContainer departmentDs;
+    private final HierarchicalJPAContainer<TransneftStructure> structureDs;
+    private final HierarchicalJPAContainer<TransneftDepartment> departmentDs;
     private final SimpleJPAContainer<TransneftEmployee> employeeDs;
     private final SimpleJPAContainer<TransneftRank> ranks = new SimpleJPAContainer<TransneftRank>(TransneftRank.class);
 
     public MainTab() {
-        structureDs = new HierarchicalStructureContainer();
+        structureDs = new HierarchicalJPAContainer<TransneftStructure>(TransneftStructure.class, Config.PARENT_FIELD);
         structureTree = new StructureTree(structureDs);
         structureTree.addItemClickListener(
                 new ItemClickEvent.ItemClickListener() {
@@ -51,7 +52,7 @@ public class MainTab extends VerticalLayout {
         VerticalLayout structureVertical = new VerticalLayout(structureTree, structureBarButtons(structureDs));
         treeWrapper.addComponent(structureVertical);
 
-        departmentDs = new HierarchicalDepartmentContainer();
+        departmentDs = new HierarchicalJPAContainer<TransneftDepartment>(TransneftDepartment.class, Config.PARENT_FIELD);
         departmentTree = new DepartmentTree(departmentDs);
         departmentTree.addItemClickListener(new ItemClickEvent.ItemClickListener() {
             @Override
@@ -64,6 +65,7 @@ public class MainTab extends VerticalLayout {
         treeWrapper.addComponent(departmentVertical);
 
         employeeDs = new SimpleJPAContainer<TransneftEmployee>(TransneftEmployee.class);
+
         personalTable = new EmployeeTable(employeeDs);
         personalTable.setHeight(500f,Unit.PIXELS);
         VerticalLayout personalVertical = new VerticalLayout(personalBarButtons(employeeDs), personalTable);
@@ -102,7 +104,7 @@ public class MainTab extends VerticalLayout {
         return barButton;
     }
 
-    private HorizontalLayout departmentBarButtons(final  HierarchicalDepartmentContainer datasource) {
+    private HorizontalLayout departmentBarButtons(final  HierarchicalJPAContainer<TransneftDepartment> datasource) {
         Button addButton = new Button("Добавить");
         addButton.addClickListener(new Button.ClickListener() {
             @Override
@@ -120,19 +122,13 @@ public class MainTab extends VerticalLayout {
             }
         });
 
-        Button[] buttons = {addButton, refreshButton};
-        HorizontalLayout barButton = new HorizontalLayout();
-        barButton.setHeight("50");
 
-        for (Button b: buttons) {
-            b.setStyleName(Runo.BUTTON_BIG);
-            barButton.addComponent(b);
-            barButton.setComponentAlignment(b, Alignment.MIDDLE_CENTER);
-        }
+        HorizontalLayout barButton = new HorizontalLayout(addButton, refreshButton);
+        barButton.setHeight("50");
         return barButton;
     }
 
-    private HorizontalLayout structureBarButtons(final HierarchicalStructureContainer datasource) {
+    private HorizontalLayout structureBarButtons(final HierarchicalJPAContainer<TransneftStructure> datasource) {
         Button addButton = new Button("Добавить");
         addButton.addClickListener(new Button.ClickListener() {
             @Override

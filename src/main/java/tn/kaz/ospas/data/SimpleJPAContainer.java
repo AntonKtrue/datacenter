@@ -16,5 +16,6 @@ public class SimpleJPAContainer<T> extends JPAContainer<T>{
         super(clazz);
         EntityManager em = JPAContainerFactory.createEntityManagerForPersistenceUnit(Config.JPA_UNIT);
         setEntityProvider(new CachingMutableLocalEntityProvider<T>(clazz, em));
+
     }
 }

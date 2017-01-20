@@ -5,4 +5,5 @@ package tn.kaz.ospas.model;
  */
 public class Config {
     public static final String JPA_UNIT = "appVaadinUnit";
+    public static final String PARENT_FIELD = "parent";
 }
