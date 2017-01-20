@@ -2,12 +2,10 @@ package tn.kaz.ospas.view.directories.staff.structure;
 
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
-import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.event.ShortcutAction;
+
 import com.vaadin.ui.*;
-import org.vaadin.dialogs.ConfirmDialog;
-import tn.kaz.ospas.data.EmployeeJPAContainer;
-import tn.kaz.ospas.data.RankJPAContainer;
+
+import tn.kaz.ospas.data.SimpleJPAContainer;
 import tn.kaz.ospas.model.transneft.*;
 import tn.kaz.ospas.view.CrudButtons;
 
@@ -18,10 +16,10 @@ public class EmployeeWindow extends Window {
     private FormLayout layout;
     private BeanFieldGroup<TransneftEmployee> binder;
     private CrudButtons<TransneftEmployee> crudButtons;
-    private RankJPAContainer ranks;
-    private EmployeeJPAContainer datasource;
+    private SimpleJPAContainer<TransneftRank> ranks;
+    private SimpleJPAContainer<TransneftEmployee> datasource;
 
-    public EmployeeWindow(EmployeeJPAContainer datasource, RankJPAContainer ranks) {
+    public EmployeeWindow(SimpleJPAContainer<TransneftEmployee> datasource, SimpleJPAContainer<TransneftRank> ranks) {
         this.datasource = datasource;
         this.ranks = ranks;
         init();

@@ -1,14 +1,8 @@
 package tn.kaz.ospas.view.directories.staff.structure;
 
 import com.vaadin.data.util.filter.Compare;
-import tn.kaz.ospas.data.EmployeeJPAContainer;
-import tn.kaz.ospas.data.HierarchicalDepartmentContainer;
-import tn.kaz.ospas.data.HierarchicalStructureContainer;
-import tn.kaz.ospas.data.RankJPAContainer;
-import tn.kaz.ospas.model.transneft.StructureType;
-import tn.kaz.ospas.model.transneft.TransneftDepartment;
-import tn.kaz.ospas.model.transneft.TransneftEmployee;
-import tn.kaz.ospas.model.transneft.TransneftStructure;
+import tn.kaz.ospas.data.*;
+import tn.kaz.ospas.model.transneft.*;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.server.DefaultErrorHandler;
 import com.vaadin.ui.*;
@@ -27,8 +21,8 @@ public class MainTab extends VerticalLayout {
 
     private final HierarchicalStructureContainer structureDs;
     private final HierarchicalDepartmentContainer departmentDs;
-    private final EmployeeJPAContainer employeeDs;
-    private final RankJPAContainer ranks = new RankJPAContainer();
+    private final SimpleJPAContainer<TransneftEmployee> employeeDs;
+    private final SimpleJPAContainer<TransneftRank> ranks = new SimpleJPAContainer<TransneftRank>(TransneftRank.class);
 
     public MainTab() {
         structureDs = new HierarchicalStructureContainer();
@@ -69,7 +63,7 @@ public class MainTab extends VerticalLayout {
         VerticalLayout departmentVertical = new VerticalLayout(departmentTree, departmentBarButtons(departmentDs));
         treeWrapper.addComponent(departmentVertical);
 
-        employeeDs = new EmployeeJPAContainer();
+        employeeDs = new SimpleJPAContainer<TransneftEmployee>(TransneftEmployee.class);
         personalTable = new EmployeeTable(employeeDs);
         personalTable.setHeight(500f,Unit.PIXELS);
         VerticalLayout personalVertical = new VerticalLayout(personalBarButtons(employeeDs), personalTable);
@@ -78,7 +72,7 @@ public class MainTab extends VerticalLayout {
         addErrorHandle(content);
     }
 
-    private HorizontalLayout personalBarButtons(final EmployeeJPAContainer datasource) {
+    private HorizontalLayout personalBarButtons(final SimpleJPAContainer<TransneftEmployee> datasource) {
         Button addButton = new Button("Добавить");
         addButton.addClickListener(new Button.ClickListener() {
             @Override

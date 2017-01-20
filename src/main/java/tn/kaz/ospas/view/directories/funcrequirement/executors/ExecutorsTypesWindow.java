@@ -2,7 +2,8 @@ package tn.kaz.ospas.view.directories.funcrequirement.executors;
 
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.ui.*;
-import tn.kaz.ospas.data.ExecutorsTypeJPAContainer;
+
+import tn.kaz.ospas.data.SimpleJPAContainer;
 import tn.kaz.ospas.model.funcrequirement.executors.ExecutorType;
 import tn.kaz.ospas.view.CrudButtons;
 
@@ -13,10 +14,10 @@ import tn.kaz.ospas.view.CrudButtons;
 public class ExecutorsTypesWindow extends Window {
     private FormLayout layout;
     private BeanFieldGroup<ExecutorType> binder;
-    private ExecutorsTypeJPAContainer datasource;
+    private SimpleJPAContainer<ExecutorType> datasource;
     private CrudButtons<ExecutorType> crudButtons;
 
-    public ExecutorsTypesWindow(ExecutorsTypeJPAContainer datasource) {
+    public ExecutorsTypesWindow(SimpleJPAContainer<ExecutorType> datasource) {
         this.datasource = datasource;
         init();
         setModal(true);

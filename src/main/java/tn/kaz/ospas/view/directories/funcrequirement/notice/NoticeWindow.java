@@ -2,20 +2,18 @@ package tn.kaz.ospas.view.directories.funcrequirement.notice;
 
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.ui.*;
-import tn.kaz.ospas.data.NoticeJPAContainer;
+
+import tn.kaz.ospas.data.SimpleJPAContainer;
 import tn.kaz.ospas.model.funcrequirement.NoticeType;
 import tn.kaz.ospas.view.CrudButtons;
 
-/**
- * Created by Anton on 19.01.2017.
- */
 public class NoticeWindow extends Window {
     private FormLayout layout;
     private BeanFieldGroup<NoticeType> binder;
-    private NoticeJPAContainer datasource;
+    private SimpleJPAContainer<NoticeType> datasource;
     private CrudButtons<NoticeType> crudButtons;
 
-    public NoticeWindow(NoticeJPAContainer datasource) {
+    public NoticeWindow(SimpleJPAContainer<NoticeType> datasource) {
         this.datasource = datasource;
         init();
         setModal(true);

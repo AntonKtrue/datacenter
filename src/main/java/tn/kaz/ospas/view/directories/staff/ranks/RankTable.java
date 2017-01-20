@@ -1,7 +1,8 @@
 package tn.kaz.ospas.view.directories.staff.ranks;
 
-import tn.kaz.ospas.data.RankJPAContainer;
 import com.vaadin.ui.Table;
+import tn.kaz.ospas.data.SimpleJPAContainer;
+import tn.kaz.ospas.model.transneft.TransneftRank;
 
 /**
  * Created by user on 11.01.17.
@@ -9,8 +10,8 @@ import com.vaadin.ui.Table;
 @SuppressWarnings("serial")
 public class RankTable extends Table {
 
-    public RankTable(RankJPAContainer rankContainer) {
-        setContainerDataSource(rankContainer);
+    public RankTable(SimpleJPAContainer<TransneftRank> datasource) {
+        setContainerDataSource(datasource);
         setWidth("100%");
         configColumns();
     }

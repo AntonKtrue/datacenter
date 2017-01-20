@@ -1,13 +1,15 @@
 package tn.kaz.ospas.view.directories.staff.structure;
 
 import com.vaadin.ui.Table;
-import tn.kaz.ospas.data.EmployeeJPAContainer;
+
+import tn.kaz.ospas.data.SimpleJPAContainer;
+import tn.kaz.ospas.model.transneft.TransneftEmployee;
 
 /**
  * Created by Anton on 16.01.2017.
  */
 public class EmployeeTable extends Table {
-    public EmployeeTable(EmployeeJPAContainer datasource) {
+    public EmployeeTable(SimpleJPAContainer<TransneftEmployee> datasource) {
         datasource.addNestedContainerProperty("rank.name");
         setContainerDataSource(datasource);
         setSelectable(true);

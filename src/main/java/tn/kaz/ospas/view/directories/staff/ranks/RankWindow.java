@@ -1,12 +1,10 @@
 package tn.kaz.ospas.view.directories.staff.ranks;
 
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
-import com.vaadin.data.fieldgroup.FieldGroup;
-import tn.kaz.ospas.data.RankJPAContainer;
+
+import tn.kaz.ospas.data.SimpleJPAContainer;
 import tn.kaz.ospas.model.transneft.TransneftRank;
-import com.vaadin.event.ShortcutAction;
 import com.vaadin.ui.*;
-import org.vaadin.dialogs.ConfirmDialog;
 import tn.kaz.ospas.view.CrudButtons;
 
 /**
@@ -17,10 +15,10 @@ public class RankWindow extends Window {
 
     private FormLayout layout;
     private BeanFieldGroup<TransneftRank> binder;
-    private RankJPAContainer datasource;
+    private SimpleJPAContainer<TransneftRank> datasource;
     private CrudButtons<TransneftRank> crudButtons;
 
-    public RankWindow(RankJPAContainer datasource) {
+    public RankWindow(SimpleJPAContainer<TransneftRank> datasource) {
         this.datasource = datasource;
         init();
         setModal(true);

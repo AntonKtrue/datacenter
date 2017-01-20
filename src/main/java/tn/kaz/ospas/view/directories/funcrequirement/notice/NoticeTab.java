@@ -3,19 +3,16 @@ package tn.kaz.ospas.view.directories.funcrequirement.notice;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.server.DefaultErrorHandler;
 import com.vaadin.ui.*;
-import tn.kaz.ospas.data.NoticeJPAContainer;
-import tn.kaz.ospas.view.directories.funcrequirement.executors.ExecutorsTypesWindow;
 
-/**
- * Created by Anton on 19.01.2017.
- */
+import tn.kaz.ospas.data.SimpleJPAContainer;
+import tn.kaz.ospas.model.funcrequirement.NoticeType;
+
+
 public class NoticeTab extends VerticalLayout {
 
     private Table table;
-
     public NoticeTab() {
-
-        final NoticeJPAContainer datasource = new NoticeJPAContainer();
+        final SimpleJPAContainer<NoticeType> datasource = new SimpleJPAContainer<NoticeType>(NoticeType.class);
         table = new NoticeTable(datasource);
         table.addItemClickListener(new ItemClickEvent.ItemClickListener() {
             @Override
@@ -54,7 +51,7 @@ public class NoticeTab extends VerticalLayout {
         });
     }
 
-    private HorizontalLayout noticeButtons(final NoticeJPAContainer datasource) {
+    private HorizontalLayout noticeButtons(final SimpleJPAContainer<NoticeType> datasource) {
         Button addButton = new Button("Добавить");
         addButton.addClickListener(new Button.ClickListener() {
             @Override

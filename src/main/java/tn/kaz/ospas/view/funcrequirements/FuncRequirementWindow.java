@@ -1,27 +1,23 @@
 package tn.kaz.ospas.view.funcrequirements;
 
 import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
-import com.vaadin.addon.jpacontainer.fieldfactory.MasterDetailEditor;
+
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.ui.*;
-import tn.kaz.ospas.data.FuncRequirementJPAContainer;
-import tn.kaz.ospas.data.NoticeJPAContainer;
+
 import tn.kaz.ospas.data.SimpleJPAContainer;
 import tn.kaz.ospas.model.funcrequirement.Agreementor;
 import tn.kaz.ospas.model.funcrequirement.FuncRequirement;
 import tn.kaz.ospas.model.funcrequirement.NoticeType;
 import tn.kaz.ospas.view.CrudButtons;
 
-/**
- * Created by Anton on 19.01.2017.
- */
 public class FuncRequirementWindow extends Window {
     private FormLayout layout;
     private BeanFieldGroup<FuncRequirement> binder;
-    private FuncRequirementJPAContainer datasource;
+    private SimpleJPAContainer<FuncRequirement> datasource;
     private CrudButtons<NoticeType> crudButtons;
 
-    public FuncRequirementWindow(FuncRequirementJPAContainer datasource) {
+    public FuncRequirementWindow(SimpleJPAContainer<FuncRequirement> datasource) {
         this.datasource = datasource;
         init();
         setModal(true);

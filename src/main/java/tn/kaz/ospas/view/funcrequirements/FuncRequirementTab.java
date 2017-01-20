@@ -3,10 +3,10 @@ package tn.kaz.ospas.view.funcrequirements;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.server.DefaultErrorHandler;
 import com.vaadin.ui.*;
-import tn.kaz.ospas.data.FuncRequirementJPAContainer;
-import tn.kaz.ospas.data.NoticeJPAContainer;
+
+import tn.kaz.ospas.data.SimpleJPAContainer;
 import tn.kaz.ospas.model.funcrequirement.FuncRequirement;
-import tn.kaz.ospas.view.directories.funcrequirement.notice.NoticeWindow;
+
 
 /**
  * Created by Anton on 19.01.2017.
@@ -16,7 +16,7 @@ public class FuncRequirementTab extends VerticalLayout {
 
     public FuncRequirementTab() {
 
-        final FuncRequirementJPAContainer datasource = new FuncRequirementJPAContainer();
+        final SimpleJPAContainer<FuncRequirement> datasource = new SimpleJPAContainer<FuncRequirement>(FuncRequirement.class);
         table = new FuncRequirementTable(datasource);
         table.addItemClickListener(new ItemClickEvent.ItemClickListener() {
             @Override
@@ -55,7 +55,7 @@ public class FuncRequirementTab extends VerticalLayout {
         });
     }
 
-    private HorizontalLayout funcRequirementButton(final FuncRequirementJPAContainer datasource) {
+    private HorizontalLayout funcRequirementButton(final SimpleJPAContainer<FuncRequirement> datasource) {
         Button addButton = new Button("Добавить");
         addButton.addClickListener(new Button.ClickListener() {
             @Override

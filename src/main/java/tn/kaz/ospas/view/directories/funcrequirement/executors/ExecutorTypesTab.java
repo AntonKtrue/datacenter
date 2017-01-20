@@ -3,8 +3,9 @@ package tn.kaz.ospas.view.directories.funcrequirement.executors;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.server.DefaultErrorHandler;
 import com.vaadin.ui.*;
-import com.vaadin.ui.themes.Runo;
-import tn.kaz.ospas.data.ExecutorsTypeJPAContainer;
+
+import tn.kaz.ospas.data.SimpleJPAContainer;
+import tn.kaz.ospas.model.funcrequirement.executors.ExecutorType;
 
 /**
  * Created by Anton on 19.01.2017.
@@ -15,7 +16,7 @@ public class ExecutorTypesTab extends VerticalLayout {
 
     public ExecutorTypesTab() {
 
-        final ExecutorsTypeJPAContainer datasource = new ExecutorsTypeJPAContainer();
+        final SimpleJPAContainer<ExecutorType> datasource = new SimpleJPAContainer<ExecutorType>(ExecutorType.class);
         table = new ExecutorsTypesTable(datasource);
         table.addItemClickListener(new ItemClickEvent.ItemClickListener() {
             @Override
@@ -67,7 +68,7 @@ public class ExecutorTypesTab extends VerticalLayout {
         });
     }
 
-    private HorizontalLayout executorTypeButtons(final ExecutorsTypeJPAContainer datasource) {
+    private HorizontalLayout executorTypeButtons(final SimpleJPAContainer<ExecutorType> datasource) {
         Button addButton = new Button("Добавить");
         addButton.addClickListener(new Button.ClickListener() {
             @Override
