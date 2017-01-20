@@ -7,6 +7,7 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.DefaultErrorHandler;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
+import org.vaadin.dialogs.ConfirmDialog;
 import tn.kaz.ospas.data.HierarchicalJPAContainer;
 import tn.kaz.ospas.data.SimpleJPAContainer;
 import tn.kaz.ospas.event.DashboardEventBus;
@@ -57,6 +58,9 @@ public class FuncRequirementView extends TabSheet implements View, CloseHandler 
         });
 
         Tree structureTree = new StructureTree(structureDs);
+        structureTree.expandItem(structureDs.firstItemId());
+
+
         structureTree.addItemClickListener(new ItemClickEvent.ItemClickListener() {
             @Override
             public void itemClick(ItemClickEvent event) {
@@ -79,13 +83,21 @@ public class FuncRequirementView extends TabSheet implements View, CloseHandler 
         addButton.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                //FuncRequirementWindow window = new FuncRequirementWindow(datasource);
-                //window.create(selectedObject);
 
-                addFuncRequirement();
 
-                //UI.getCurrent().getNavigator().addView("createFt",FuncRequirementView.class);
-                //UI.getCurrent().getNavigator().navigateTo("createFt");
+                ConfirmDialog.show(UI.getCurrent(), "Подтвердите создание нового ФТ",
+                        "Создать новое ФТ?", "Создать", "Отмена", new ConfirmDialog.Listener() {
+                            @Override
+                            public void onClose(ConfirmDialog confirmDialog) {
+                                if(confirmDialog.isConfirmed()) {
+                                    Notification.show("Confirmed");
+                                    addFuncRequirement();
+                                } else {
+                                    Notification.show("Отмена действия");
+                                }
+                            }
+                        });
+
             }
         });
         addButton.setEnabled(false);

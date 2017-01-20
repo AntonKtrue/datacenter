@@ -11,6 +11,7 @@ import tn.kaz.ospas.model.transneft.TransneftStructure;
 public class StructureTree extends Tree {
     public StructureTree(HierarchicalJPAContainer<TransneftStructure> structures) {
         setContainerDataSource(structures);
+
         setItemCaptionPropertyId("name");
         setSizeUndefined();
         setImmediate(true);

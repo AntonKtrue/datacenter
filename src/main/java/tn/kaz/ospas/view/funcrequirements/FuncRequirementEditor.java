@@ -69,16 +69,22 @@ public class FuncRequirementEditor extends VerticalLayout {
 //        Label panelLabel = new Label("this is a panel");
 //        panel.setContent(panelLabel);
 //        layout.addComponent(panel);
-        JPAContainer<Agreementor> agreementorJPAContainer = new SimpleJPAContainer<Agreementor>(Agreementor.class);
-        agreementorJPAContainer.setApplyFiltersImmediately(false);
-        agreementorJPAContainer.addContainerFilter(new Compare.Equal("funcRequirement",funcRequirement));
-        agreementorJPAContainer.applyFilters();
+        JPAContainer<Agreementor> agreementorsDs = new SimpleJPAContainer<Agreementor>(Agreementor.class);
+        //agreementorJPAContainer.setApplyFiltersImmediately(false);
+        //agreementorJPAContainer.addContainerFilter(new Compare.Equal("funcRequirement",funcRequirement));
+        //agreementorJPAContainer.applyFilters();
+ //       agreementorsDs.setApplyFiltersImmediately(false);
+//        agreementorsDs.removeAllContainerFilters();
+//        if(funcRequirement != null) {
+//            agreementorsDs.addContainerFilter(new Compare.Equal("funcRequirement",funcRequirement));
+//        }
+//        agreementorsDs.applyFilters();
 
-        Table table = new Table("Agreementors");
-        table.setContainerDataSource(agreementorJPAContainer);
-        table.setVisibleColumns("id","order");
-        table.setColumnHeaders("#","Порядок");
-        layout.addComponent(table);
+//        Table table = new Table("Agreementors");
+//        table.setContainerDataSource(funcRequirement.getAgreementors());
+//        table.setVisibleColumns("id","order");
+//        table.setColumnHeaders("#","Порядок");
+//        layout.addComponent(table);
 
         addComponent(layout);
 

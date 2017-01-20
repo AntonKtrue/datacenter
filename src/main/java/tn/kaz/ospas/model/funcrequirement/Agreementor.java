@@ -12,8 +12,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "fr_agreementor")
 public class Agreementor extends Signatory {
-    @OneToOne
-    @PrimaryKeyJoinColumn
+    @ManyToOne(cascade = CascadeType.ALL)
     private FuncRequirement funcRequirement;
 
     @NotNull
