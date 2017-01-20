@@ -57,7 +57,7 @@ CREATE TABLE `dict_employee` (
   `department_id` int(11) DEFAULT NULL,
   `rank_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,7 +66,7 @@ CREATE TABLE `dict_employee` (
 
 LOCK TABLES `dict_employee` WRITE;
 /*!40000 ALTER TABLE `dict_employee` DISABLE KEYS */;
-INSERT INTO `dict_employee` VALUES (1,'Китов','Антон','Александрович',6,5),(2,'Ракипов','Марат','Марселевич',6,5),(3,'Бородин','Сергей','Николаевич',7,7);
+INSERT INTO `dict_employee` VALUES (1,'Китов','Антон','Александрович',6,5),(2,'Ракипов','Марат','Марселевич',6,5),(3,'Бородин','Сергей','Николаевич',7,7),(4,'Дамир','Насыбуллин','Аминович',NULL,4);
 /*!40000 ALTER TABLE `dict_employee` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -82,7 +82,7 @@ CREATE TABLE `dict_rank` (
   `name` varchar(45) NOT NULL,
   `shortName` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -91,7 +91,7 @@ CREATE TABLE `dict_rank` (
 
 LOCK TABLES `dict_rank` WRITE;
 /*!40000 ALTER TABLE `dict_rank` DISABLE KEYS */;
-INSERT INTO `dict_rank` VALUES (1,'Генеральный директор','Ген.директор'),(2,'Главный инженер','Гл.инженер'),(3,'Начальник','Начальник'),(4,'Заместитель начальника','Зам.начальника'),(5,'Ведущий инженер программист','Вед.инженер программист'),(6,'инженер программист 1 категории','инженер программист 1 кат.'),(7,'инженер по АСУП','инженер АСУП');
+INSERT INTO `dict_rank` VALUES (1,'Генеральный директор','Ген.директор'),(2,'Главный инженер','Гл.инженер'),(3,'Начальник','Начальник'),(4,'Заместитель начальника','Зам.начальника'),(5,'Ведущий инженер программист','Вед.инженер программист'),(6,'инженер программист 1 категории','инженер программист 1 кат.'),(7,'инженер по АСУП','инженер АСУП'),(8,'инженер по документированию','инженер по документированию');
 /*!40000 ALTER TABLE `dict_rank` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -110,7 +110,7 @@ CREATE TABLE `dict_structure` (
   `type` enum('AK','OST','UMN','NPS','OBJ') DEFAULT NULL,
   `code` varchar(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -119,7 +119,7 @@ CREATE TABLE `dict_structure` (
 
 LOCK TABLES `dict_structure` WRITE;
 /*!40000 ALTER TABLE `dict_structure` DISABLE KEYS */;
-INSERT INTO `dict_structure` VALUES (1,'ПАО \"Транснефть\"','ПАО \"Транснефть\"',NULL,'AK',NULL),(2,'АО \"Транснефть - Прикамье\"','ТПК',1,'OST','10'),(3,'Альметьевское РНУ','АРНУ',2,'UMN','01'),(4,'Казанское РНУ','КРНУ',2,'UMN','02'),(5,'Пермское РНУ','ПРНУ',2,'UMN','03'),(6,'Ромашкинское РНУ','РРНУ',2,'UMN','04'),(7,'Удмуртское РНУ','УРНУ',2,'UMN','05'),(8,'НПС \"Байтуган\"','НПС Байтуган',20,'OBJ','01'),(9,'НПС \"Елизаветинка-1\"','НПС Елизаветинка-1',20,'OBJ','02'),(10,'НПС \"Елизаветинка-2\"','НПС Елизаветинка-2',20,'OBJ','03'),(11,'НПС \"Елизаветинка-3\"','НПС Елизаветинка-3',20,'OBJ','04'),(12,'НПС \"Елизаветинка-4\"','НПС Елизаветинка-4',20,'OBJ','05'),(13,'НПС \"Калейкино-1\"','НПС Калейкино-1',19,'OBJ','06'),(14,'НПС \"Калейкино-2\"','НПС Калейкино-2',19,'OBJ','07'),(15,'НПС \"Калейкино-3\"','НПС Калейкино-3',19,'OBJ','08'),(16,'НПС \"Калейкино-4\"','НПС Калейкино-4',19,'OBJ','09'),(17,'НПС \"Калейкино-5\"','НПС Калейкино-5',19,'OBJ','10'),(18,'НПС \"Калиновый Ключ\"','НПС Калиновый Ключ',6,'NPS','11'),(19,'НПС \"Калейкино\"','НПС Калейкино',6,'NPS',NULL),(20,'НПС \"Елизаветинка\"','НПС Елизаветинка',6,'NPS',NULL),(23,'НПС \"Калиновый Ключ\"','НПС Калиновый Ключ',18,'OBJ','11'),(24,'НПС-3','НПС-3',3,'NPS','');
+INSERT INTO `dict_structure` VALUES (1,'ПАО \"Транснефть\"','ПАО \"Транснефть\"',NULL,'AK',NULL),(2,'АО \"Транснефть - Прикамье\"','ТПК',1,'OST','10'),(3,'Альметьевское РНУ','АРНУ',2,'UMN','01'),(4,'Казанское РНУ','КРНУ',2,'UMN','02'),(5,'Пермское РНУ','ПРНУ',2,'UMN','03'),(6,'Ромашкинское РНУ','РРНУ',2,'UMN','04'),(7,'Удмуртское РНУ','УРНУ',2,'UMN','05'),(8,'НПС \"Байтуган\"','НПС Байтуган',20,'OBJ','01'),(9,'НПС \"Елизаветинка-1\"','НПС Елизаветинка-1',20,'OBJ','02'),(10,'НПС \"Елизаветинка-2\"','НПС Елизаветинка-2',20,'OBJ','03'),(11,'НПС \"Елизаветинка-3\"','НПС Елизаветинка-3',20,'OBJ','04'),(12,'НПС \"Елизаветинка-4\"','НПС Елизаветинка-4',20,'OBJ','05'),(13,'НПС \"Калейкино-1\"','НПС Калейкино-1',19,'OBJ','06'),(14,'НПС \"Калейкино-2\"','НПС Калейкино-2',19,'OBJ','07'),(15,'НПС \"Калейкино-3\"','НПС Калейкино-3',19,'OBJ','08'),(16,'НПС \"Калейкино-4\"','НПС Калейкино-4',19,'OBJ','09'),(17,'НПС \"Калейкино-5\"','НПС Калейкино-5',19,'OBJ','10'),(18,'НПС \"Калиновый Ключ\"','НПС Калиновый Ключ',6,'NPS','11'),(19,'НПС \"Калейкино\"','НПС Калейкино',6,'NPS',NULL),(20,'НПС \"Елизаветинка\"','НПС Елизаветинка',6,'NPS',NULL),(23,'НПС \"Калиновый Ключ\"','НПС Калиновый Ключ',18,'OBJ','11'),(24,'НПС-3','НПС-3',3,'NPS',''),(25,'НПС-3','НПС-3',24,'OBJ','04');
 /*!40000 ALTER TABLE `dict_structure` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -162,7 +162,7 @@ CREATE TABLE `fr_agreementor` (
   `rank_id` int(11) NOT NULL,
   `department_id` int(11) NOT NULL,
   `order` int(11) NOT NULL,
-  `funcrequirement_id` int(11) NOT NULL,
+  `funcRequirement_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -274,36 +274,6 @@ LOCK TABLES `fr_description` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `fr_docs`
---
-
-DROP TABLE IF EXISTS `fr_docs`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `fr_docs` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `frFilePath` varchar(255) DEFAULT NULL,
-  `pmiFilePath` varchar(255) DEFAULT NULL,
-  `asiFilePath` varchar(255) DEFAULT NULL,
-  `psiFilePath` varchar(255) DEFAULT NULL,
-  `actFilePath` varchar(255) DEFAULT NULL,
-  `protFilePath` varchar(255) DEFAULT NULL,
-  `exchangeFilePath` varchar(255) DEFAULT NULL,
-  `noticeFilePath` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `fr_docs`
---
-
-LOCK TABLES `fr_docs` WRITE;
-/*!40000 ALTER TABLE `fr_docs` DISABLE KEYS */;
-/*!40000 ALTER TABLE `fr_docs` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `fr_executor_type`
 --
 
@@ -337,16 +307,29 @@ DROP TABLE IF EXISTS `fr_funcrequirement`;
 CREATE TABLE `fr_funcrequirement` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `number` int(11) NOT NULL,
-  `department_id` int(11) NOT NULL,
-  `acceptor_id` int(11) DEFAULT NULL,
   `date` date NOT NULL,
+  `structure_id` int(11) NOT NULL,
+  `shortDescription` varchar(255) DEFAULT NULL,
+  `acceptor_id` int(11) DEFAULT NULL,
   `workExecutors_id` int(11) DEFAULT NULL,
   `notice_id` int(11) DEFAULT NULL,
   `limitation_id` int(11) DEFAULT NULL,
   `docs_id` int(11) DEFAULT NULL,
   `cause_id` int(11) DEFAULT NULL,
+  `executors_id` int(11) DEFAULT NULL,
+  `developmentDate` date DEFAULT NULL,
+  `standTestDate` date DEFAULT NULL,
+  `implementationDate` date DEFAULT NULL,
+  `frFilePath` varchar(255) DEFAULT NULL,
+  `pmiFilePath` varchar(255) DEFAULT NULL,
+  `asiFilePath` varchar(255) DEFAULT NULL,
+  `psiFilePath` varchar(255) DEFAULT NULL,
+  `actFilePath` varchar(255) DEFAULT NULL,
+  `protFilePath` varchar(255) DEFAULT NULL,
+  `exchangeActFilePath` varchar(255) DEFAULT NULL,
+  `noticeFilePath` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -355,6 +338,7 @@ CREATE TABLE `fr_funcrequirement` (
 
 LOCK TABLES `fr_funcrequirement` WRITE;
 /*!40000 ALTER TABLE `fr_funcrequirement` DISABLE KEYS */;
+INSERT INTO `fr_funcrequirement` VALUES (1,13,'2017-01-23',13,'werqwewe',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2017-01-12','2017-01-23','2017-01-14',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,21312,'2017-01-13',15,'null12e12e1w',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(3,213,'2017-01-25',23,'1232131',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(4,213213,'2017-01-05',25,'цуйцуцйу',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `fr_funcrequirement` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -380,32 +364,6 @@ CREATE TABLE `fr_kdcorrector` (
 LOCK TABLES `fr_kdcorrector` WRITE;
 /*!40000 ALTER TABLE `fr_kdcorrector` DISABLE KEYS */;
 /*!40000 ALTER TABLE `fr_kdcorrector` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `fr_limitation`
---
-
-DROP TABLE IF EXISTS `fr_limitation`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `fr_limitation` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `development` date DEFAULT NULL,
-  `standTest` date DEFAULT NULL,
-  `implementation` date DEFAULT NULL,
-  `funcrequirement_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `fr_limitation`
---
-
-LOCK TABLES `fr_limitation` WRITE;
-/*!40000 ALTER TABLE `fr_limitation` DISABLE KEYS */;
-/*!40000 ALTER TABLE `fr_limitation` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -615,4 +573,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-19 16:56:12
+-- Dump completed on 2017-01-20 17:23:04
