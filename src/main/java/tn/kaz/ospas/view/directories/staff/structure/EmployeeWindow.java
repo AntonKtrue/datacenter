@@ -3,17 +3,20 @@ package tn.kaz.ospas.view.directories.staff.structure;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 
+import com.vaadin.data.validator.BeanValidator;
 import com.vaadin.ui.*;
 
 import tn.kaz.ospas.data.SimpleJPAContainer;
 import tn.kaz.ospas.model.transneft.*;
 import tn.kaz.ospas.view.CrudButtons;
+import tn.kaz.ospas.view.GuiHelper;
 
 /**
  * Created by user on 18.01.17.
  */
 public class EmployeeWindow extends Window {
     private FormLayout layout;
+
     private BeanFieldGroup<TransneftEmployee> binder;
     private CrudButtons<TransneftEmployee> crudButtons;
     private SimpleJPAContainer<TransneftRank> ranks;
@@ -60,26 +63,38 @@ public class EmployeeWindow extends Window {
     private void bindingFields(TransneftEmployee m) {
         binder = new BeanFieldGroup<TransneftEmployee>(TransneftEmployee.class);
         binder.setItemDataSource(m);
-        Field<?> field = null;
-        field = binder.buildAndBind("Имя", "firstName");
-        field.setWidth("250");
-        layout.addComponent(field);
+//        Field<?> field = null;
+//        field = binder.buildAndBind("Фамилия", "firstName");
+//        field.setWidth("250");
+//        layout.addComponent(field);
+//
+//        field = binder.buildAndBind("Фамилия", "lastName");
+//        field.setWidth("250");
+//        layout.addComponent(field);
+//
+//        field = binder.buildAndBind("Отчество", "patroName");
+//        field.setWidth("250");
+//        layout.addComponent(field);
 
-        field = binder.buildAndBind("Фамилия", "lastName");
-        field.setWidth("250");
-        layout.addComponent(field);
+        TextField firstName, lastName, patroName;
+        lastName = GuiHelper.makeTextField("Фамилия",TransneftEmployee.class,"lastName");
+        firstName = GuiHelper.makeTextField("Имя",TransneftEmployee.class,"firstName");
+        patroName = GuiHelper.makeTextField("Отчество",TransneftEmployee.class,"patroName");
+        lastName.setRequired(true);
+        firstName.setRequired(true);
+        binder.bind(lastName,"lastName");
+        binder.bind(firstName,"firstName");
+        binder.bind(patroName,"patroName");
 
-        field = binder.buildAndBind("Отчество", "patroName");
-        field.setWidth("250");
-        layout.addComponent(field);
 
         ComboBox rank = new ComboBox("Должность", ranks);
         rank.setContainerDataSource(ranks);
         rank.setItemCaptionPropertyId("name");
         rank.setImmediate(true);
         rank.setConverter(new SingleSelectConverter(rank));
+        rank.setRequired(true);
         binder.bind(rank, "rank");
-        layout.addComponent(rank);
+        layout.addComponents(firstName, lastName, patroName, rank);
 
         crudButtons = new CrudButtons(datasource, binder, this);
         layout.addComponent(crudButtons);

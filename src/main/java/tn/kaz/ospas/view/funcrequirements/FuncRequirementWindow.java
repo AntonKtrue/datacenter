@@ -12,6 +12,8 @@ import tn.kaz.ospas.model.funcrequirement.NoticeType;
 import tn.kaz.ospas.model.transneft.TransneftStructure;
 import tn.kaz.ospas.view.CrudButtons;
 
+import java.util.Date;
+
 public class FuncRequirementWindow extends Window {
     private FormLayout layout;
     private BeanFieldGroup<FuncRequirement> binder;
@@ -60,7 +62,7 @@ public class FuncRequirementWindow extends Window {
 
     private void bindingFields(FuncRequirement m) {
 
-        FieldFactory fieldFactory = new FieldFactory();
+        //FieldFactory fieldFactory = new FieldFactory();
         Label objectName = new Label(m.getStructure().toString());
         layout.addComponent(objectName);
 
@@ -79,7 +81,9 @@ public class FuncRequirementWindow extends Window {
         layout.addComponent(shortDescription);
 
         PopupDateField date = new PopupDateField("Дата ФТ:");
-        date.setDateFormat("dd.MM.yyyy");
+        //date.setDateFormat("dd.MM.yyyy");
+        date.setRequired(true);
+        date.setValue(new Date());
         binder.bind(date,"date" );
         layout.addComponent(date);
 

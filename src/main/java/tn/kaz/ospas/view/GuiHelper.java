@@ -1,6 +1,9 @@
 package tn.kaz.ospas.view;
 
+import com.vaadin.data.fieldgroup.BeanFieldGroup;
+import com.vaadin.data.validator.BeanValidator;
 import com.vaadin.event.ShortcutAction;
+import com.vaadin.server.Sizeable;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
@@ -23,6 +26,14 @@ public class GuiHelper {
         content.setComponentAlignment(title, Alignment.TOP_CENTER);
         content.addComponent(contentComponent);
         return wrapper;
+    }
+
+    public static TextField makeTextField(String caption, Class clazz, String property) {
+        TextField field = new TextField(caption);
+        field.setNullRepresentation("");
+        field.addValidator(new BeanValidator(clazz, property));
+        field.setWidth(250f, Sizeable.Unit.PIXELS);
+        return field;
     }
 
 }

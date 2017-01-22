@@ -60,11 +60,13 @@ public class RankWindow extends Window {
         binder.setItemDataSource(m);
         Field<?> field = null;
         field = binder.buildAndBind("Полное название", "name");
-        field.setWidth("140");
+        field.setWidth("250");
+        field.setRequired(true);
         layout.addComponent(field);
 
         field = binder.buildAndBind("Краткое название", "shortName");
-        field.setWidth("200");
+        field.setWidth("250");
+        field.setRequired(true);
         layout.addComponent(field);
 
         crudButtons = new CrudButtons(datasource, binder, this);

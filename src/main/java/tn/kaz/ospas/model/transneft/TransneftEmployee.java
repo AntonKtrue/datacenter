@@ -4,6 +4,8 @@ import tn.kaz.ospas.model.Identity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 
 /**
  * Created by Anton on 13.01.2017.
@@ -12,11 +14,13 @@ import javax.validation.constraints.NotNull;
 @Table(name = "dict_employee")
 public class TransneftEmployee extends Identity {
 
-    @NotNull
+    @NotNull(message = "Name is required")
+    @Size(min = 3, max = 40, message = "name must be longer than 3 and less than 40 characters")
     private String firstName;
     @NotNull
+    @Size(min = 2, max = 45)
     private String lastName;
-    @NotNull
+
     private String patroName;
 
     @ManyToOne
@@ -76,9 +80,9 @@ public class TransneftEmployee extends Identity {
     }
 
     public TransneftEmployee() {
-        this.firstName = "";
-        this.lastName = "";
-        this.patroName = "";
+//        this.firstName = "";
+//        this.lastName = "";
+//        this.patroName = "";
     }
 
     public TransneftEmployee(TransneftDepartment department) {

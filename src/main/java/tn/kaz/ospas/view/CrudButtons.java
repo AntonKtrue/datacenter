@@ -58,7 +58,7 @@ public class CrudButtons<T extends Identity> extends HorizontalLayout implements
             try {
                 binder.commit();
             } catch (FieldGroup.CommitException e) {
-                Notification.show("Возникла ошибка 2!");
+                Notification.show("Ошибка в заполнении полей формы!");
                 return;
             }
 

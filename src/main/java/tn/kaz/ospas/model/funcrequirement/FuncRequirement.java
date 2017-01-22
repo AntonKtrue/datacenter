@@ -29,8 +29,6 @@ public class FuncRequirement extends Identity {
     @JoinColumn(name = "structure_id")
     private TransneftStructure structure;
 
-
-
     @OneToOne
     @PrimaryKeyJoinColumn
     private Acceptor acceptor;
@@ -41,6 +39,7 @@ public class FuncRequirement extends Identity {
     private Set<Agreementor> agreementors;
 
     @NotNull
+    @Temporal(TemporalType.DATE)
     private Date date;
 
     @OneToMany
