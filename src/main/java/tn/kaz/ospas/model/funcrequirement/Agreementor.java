@@ -1,6 +1,5 @@
 package tn.kaz.ospas.model.funcrequirement;
 
-import tn.kaz.ospas.model.Identity;
 import tn.kaz.ospas.model.transneft.TransneftEmployee;
 
 import javax.persistence.*;
@@ -13,6 +12,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "fr_agreementor")
 public class Agreementor extends Signatory {
     @ManyToOne(cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
     private FuncRequirement funcRequirement;
 
     @NotNull

@@ -24,7 +24,7 @@ public class TransneftDepartment extends StandartEntity implements HasParent<Tra
     @JoinColumn(name = "structure_id")
     private TransneftStructure structure;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id")
     private Set<TransneftEmployee> employees;
 

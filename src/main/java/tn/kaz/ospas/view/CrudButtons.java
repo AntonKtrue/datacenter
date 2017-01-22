@@ -4,12 +4,10 @@ import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.event.ShortcutAction;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.Window;
+import com.vaadin.ui.*;
 import org.vaadin.dialogs.ConfirmDialog;
 import tn.kaz.ospas.model.Identity;
+import tn.kaz.ospas.view.funcrequirements.FuncRequirementEditor;
 
 /**
  * Created by Anton on 19.01.2017.
@@ -21,9 +19,9 @@ public class CrudButtons<T extends Identity> extends HorizontalLayout implements
 
     private BeanFieldGroup<T> binder;
     private JPAContainer<T> datasource;
-    private Window owner;
+    private Component owner;
 
-    public CrudButtons(JPAContainer<T> datasource, BeanFieldGroup<T> binder, Window owner) {
+    public CrudButtons(JPAContainer<T> datasource, BeanFieldGroup<T> binder, Component owner) {
         this.datasource = datasource;
         this.owner = owner;
         this.binder = binder;
@@ -82,7 +80,8 @@ public class CrudButtons<T extends Identity> extends HorizontalLayout implements
                                 } catch (Exception e) {
                                     Notification.show("Ошибка удаления!\n"+e.getMessage(), Notification.Type.ERROR_MESSAGE);
                                 }
-                                owner.close();
+                                if(owner instanceof Window) ((Window)owner).close();
+                                if(owner instanceof FuncRequirementEditor) ((FuncRequirementEditor)owner).addCommitedLabel();
                             }
                         }
                     });
@@ -91,6 +90,7 @@ public class CrudButtons<T extends Identity> extends HorizontalLayout implements
             binder.discard();
         }
         datasource.refresh();
-        owner.close();
+        if(owner instanceof Window) ((Window)owner).close();
+        if(owner instanceof FuncRequirementEditor) ((FuncRequirementEditor)owner).addCommitedLabel();
     }
 }

@@ -40,7 +40,8 @@ public final class DashboardUI extends UI {
 
     @Override
     protected void init(final VaadinRequest request) {
-        setLocale(Locale.US);
+        //        setLocale(Locale.US);
+        setLocale(new Locale("ru","RU"));
 
         DashboardEventBus.register(this);
         Responsive.makeResponsive(this);

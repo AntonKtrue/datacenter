@@ -1,25 +1,20 @@
 package tn.kaz.ospas.view.funcrequirements;
 
+
 import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.addon.jpacontainer.fieldfactory.ElementCollectionEditor;
-import com.vaadin.addon.jpacontainer.fieldfactory.EmbeddableEditor;
-import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
-import com.vaadin.addon.jpacontainer.fieldfactory.MasterDetailEditor;
-import com.vaadin.data.Item;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
-import com.vaadin.data.util.AbstractBeanContainer;
-import com.vaadin.data.util.BeanContainer;
-import com.vaadin.data.util.filter.Compare;
 import com.vaadin.ui.*;
-import org.vaadin.viritin.fields.ElementCollectionTable;
+import org.vaadin.easyuploads.FileFactory;
+import org.vaadin.easyuploads.UploadField;
+
 import tn.kaz.ospas.data.SimpleJPAContainer;
 import tn.kaz.ospas.model.funcrequirement.Agreementor;
 import tn.kaz.ospas.model.funcrequirement.FuncRequirement;
-import tn.kaz.ospas.model.transneft.TransneftEmployee;
-import tn.kaz.ospas.model.transneft.TransneftStructure;
 
-import javax.persistence.EntityManagerFactory;
-import java.util.Collection;
+import tn.kaz.ospas.model.transneft.TransneftStructure;
+import tn.kaz.ospas.view.CrudButtons;
+
+import java.io.File;
 
 /**
  * Created by Anton on 20.01.2017.
@@ -29,6 +24,8 @@ public class FuncRequirementEditor extends VerticalLayout {
     private SimpleJPAContainer<FuncRequirement> funcRequirementDs;
     private BeanFieldGroup<FuncRequirement> binder;
     private FuncRequirement funcRequirement;
+    private CrudButtons<FuncRequirement> crudButtons;
+    private FormLayout layout;
 
 
     public FuncRequirementEditor(TransneftStructure structure, SimpleJPAContainer<FuncRequirement> funcRequirementDs ) {
@@ -40,12 +37,26 @@ public class FuncRequirementEditor extends VerticalLayout {
 
     }
 
+    public void addCommitedLabel() {
+        Label addede = new Label("ФТ добавлен!");
+        addComponent(addede);
+
+
+
+
+    }
+
+
+
+
     private void buildFuncRequirementScreen() {
-        FormLayout layout = new FormLayout();
+        layout = new FormLayout();
         Label objectName = new Label(structure.getName());
         layout.addComponent(objectName);
         binder = new BeanFieldGroup<FuncRequirement>(FuncRequirement.class);
         binder.setItemDataSource(funcRequirement);
+        crudButtons = new CrudButtons<FuncRequirement>(funcRequirementDs, binder, this);
+        layout.addComponent(crudButtons);
         Field<?> field = null;
 
         field = binder.buildAndBind("Номер", "number");
@@ -63,28 +74,7 @@ public class FuncRequirementEditor extends VerticalLayout {
         binder.bind(date,"date" );
         layout.addComponent(date);
 
-//        Panel panel = new Panel();
-//        panel.setWidth(400f,Unit.PIXELS);
-//        panel.setHeight(300f, Unit.PIXELS);
-//        Label panelLabel = new Label("this is a panel");
-//        panel.setContent(panelLabel);
-//        layout.addComponent(panel);
         JPAContainer<Agreementor> agreementorsDs = new SimpleJPAContainer<Agreementor>(Agreementor.class);
-        //agreementorJPAContainer.setApplyFiltersImmediately(false);
-        //agreementorJPAContainer.addContainerFilter(new Compare.Equal("funcRequirement",funcRequirement));
-        //agreementorJPAContainer.applyFilters();
- //       agreementorsDs.setApplyFiltersImmediately(false);
-//        agreementorsDs.removeAllContainerFilters();
-//        if(funcRequirement != null) {
-//            agreementorsDs.addContainerFilter(new Compare.Equal("funcRequirement",funcRequirement));
-//        }
-//        agreementorsDs.applyFilters();
-
-//        Table table = new Table("Agreementors");
-//        table.setContainerDataSource(funcRequirement.getAgreementors());
-//        table.setVisibleColumns("id","order");
-//        table.setColumnHeaders("#","Порядок");
-//        layout.addComponent(table);
 
         addComponent(layout);
 

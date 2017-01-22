@@ -129,7 +129,7 @@ public class FuncRequirementView extends TabSheet implements View, CloseHandler 
 
     @Override
     public void onTabClose(TabSheet tabSheet, Component component) {
-
+        removeComponent(component);
     }
 
     @Override
@@ -179,6 +179,8 @@ public class FuncRequirementView extends TabSheet implements View, CloseHandler 
             }
         });
     }
+
+
 
 
 }

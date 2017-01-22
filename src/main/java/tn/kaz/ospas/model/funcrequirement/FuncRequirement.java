@@ -35,9 +35,9 @@ public class FuncRequirement extends Identity {
     @PrimaryKeyJoinColumn
     private Acceptor acceptor;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "funcRequirement")
     private Set<TopAgreementor> topAgreementors;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "funcRequirement")
     private Set<Agreementor> agreementors;
 
     @NotNull
