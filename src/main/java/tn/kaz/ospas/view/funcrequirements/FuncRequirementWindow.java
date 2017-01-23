@@ -3,6 +3,7 @@ package tn.kaz.ospas.view.funcrequirements;
 import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
 
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
+import com.vaadin.server.FileResource;
 import com.vaadin.ui.*;
 
 import tn.kaz.ospas.data.SimpleJPAContainer;
@@ -12,6 +13,7 @@ import tn.kaz.ospas.model.funcrequirement.NoticeType;
 import tn.kaz.ospas.model.transneft.TransneftStructure;
 import tn.kaz.ospas.view.CrudButtons;
 
+import java.io.File;
 import java.util.Date;
 
 public class FuncRequirementWindow extends Window {
@@ -99,8 +101,13 @@ public class FuncRequirementWindow extends Window {
 //        implementationDate.setDateFormat("dd.MM.yyyy");
 //        binder.bind(implementationDate,"implementationDate" );
 //        layout.addComponent(implementationDate);
+        if(m.getFrFilePath() != null) {
+            Link frFileLink = new Link("ФТ", new FileResource(new File(m.getFrFilePath())));
+            frFileLink.setTargetName("_blank");
+            layout.addComponent(frFileLink);
+        }
 
-        SimpleJPAContainer<Agreementor> agreementorsDs = new SimpleJPAContainer<Agreementor>(Agreementor.class);
+      //  SimpleJPAContainer<Agreementor> agreementorsDs = new SimpleJPAContainer<Agreementor>(Agreementor.class);
 
 
 

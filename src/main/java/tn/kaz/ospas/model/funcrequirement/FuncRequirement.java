@@ -16,6 +16,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "fr_funcrequirement")
+@NamedQuery(name = "Number.empty", query = "SELECT (fr.number+1) as empty_number FROM FuncRequirement fr WHERE (SELECT 1 FROM FuncRequirement st WHERE st.number = (fr.number + 1)) IS NULL ORDER BY fr.number ASC")
 public class FuncRequirement extends Identity {
 
     @NotNull
@@ -25,30 +26,30 @@ public class FuncRequirement extends Identity {
     private String shortDescription;
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "structure_id")
     private TransneftStructure structure;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
     private Acceptor acceptor;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "funcRequirement")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "funcRequirement", fetch = FetchType.LAZY)
     private Set<TopAgreementor> topAgreementors;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "funcRequirement")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "funcRequirement", fetch = FetchType.LAZY)
     private Set<Agreementor> agreementors;
 
     @NotNull
     @Temporal(TemporalType.DATE)
     private Date date;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     private Set<FRCause> causes;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     private Set<Description> descriptions;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private WorkExecutors executors;
 
     private Date developmentDate;
@@ -256,6 +257,14 @@ public class FuncRequirement extends Identity {
     public void setShortDescription(String shortDescription) {
         this.shortDescription = shortDescription;
     }
+
+    @Transient
+    public String generateDocPath() {
+        return structure.getParent().getParent().getParent().getCode() + "/" +
+                structure.getParent().getParent().getCode() + "/" +
+                structure.getCode() + "/" + number;
+    }
+
 
 
 

@@ -1,43 +1,43 @@
 package tn.kaz.ospas.view.funcrequirements;
 
 
-        import java.io.ByteArrayInputStream;
-        import java.io.ByteArrayOutputStream;
-        import java.io.File;
-        import java.io.FileOutputStream;
-        import java.io.InputStream;
-        import java.io.OutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 
-        import com.vaadin.server.FileResource;
-        import com.vaadin.server.Page;
-        import com.vaadin.server.StreamResource;
-        import com.vaadin.server.StreamResource.StreamSource;
-        import com.vaadin.ui.CustomComponent;
-        import com.vaadin.ui.Image;
-        import com.vaadin.ui.Label;
-        import com.vaadin.ui.Layout;
-        import com.vaadin.ui.Notification;
-        import com.vaadin.ui.Panel;
-        import com.vaadin.ui.ProgressBar;
-        import com.vaadin.ui.Upload;
-        import com.vaadin.ui.Upload.FailedEvent;
-        import com.vaadin.ui.Upload.FailedListener;
-        import com.vaadin.ui.Upload.ProgressListener;
-        import com.vaadin.ui.Upload.Receiver;
-        import com.vaadin.ui.Upload.StartedEvent;
-        import com.vaadin.ui.Upload.StartedListener;
-        import com.vaadin.ui.Upload.SucceededEvent;
-        import com.vaadin.ui.Upload.SucceededListener;
-        import com.vaadin.ui.VerticalLayout;
+import com.vaadin.server.FileResource;
+import com.vaadin.server.Page;
+import com.vaadin.server.StreamResource;
+import com.vaadin.server.StreamResource.StreamSource;
+import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.Image;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.Layout;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Panel;
+import com.vaadin.ui.ProgressBar;
+import com.vaadin.ui.Upload;
+import com.vaadin.ui.Upload.FailedEvent;
+import com.vaadin.ui.Upload.FailedListener;
+import com.vaadin.ui.Upload.ProgressListener;
+import com.vaadin.ui.Upload.Receiver;
+import com.vaadin.ui.Upload.StartedEvent;
+import com.vaadin.ui.Upload.StartedListener;
+import com.vaadin.ui.Upload.SucceededEvent;
+import com.vaadin.ui.Upload.SucceededListener;
+import com.vaadin.ui.VerticalLayout;
 
 public class UploadExample extends VerticalLayout {
     private static final long serialVersionUID = -4292553844521293140L;
 
     public UploadExample() {
-        init("basic");
+        init("advanced");
     }
 
-    public void init (String context) {
+    public void init(String context) {
         VerticalLayout layout = new VerticalLayout();
 
         if ("basic".equals(context))
@@ -69,7 +69,8 @@ public class UploadExample extends VerticalLayout {
                 FileOutputStream fos = null; // Stream to write to
                 try {
                     // Open the file for writing.
-                    file = new File("/tmp/uploads/" + filename);
+
+                    file = new File("E:/TEMP/" + filename);
                     fos = new FileOutputStream(file);
                 } catch (final java.io.FileNotFoundException e) {
                     new Notification("Could not open file<br/>",
@@ -86,7 +87,8 @@ public class UploadExample extends VerticalLayout {
                 image.setVisible(true);
                 image.setSource(new FileResource(file));
             }
-        };
+        }
+        ;
         ImageReceiver receiver = new ImageReceiver();
 
         // Create the upload with a caption and set receiver later
@@ -196,8 +198,8 @@ public class UploadExample extends VerticalLayout {
                     progress.setIndeterminate(true);
                 else {
                     progress.setIndeterminate(false);
-                    progress.setValue(((float)readBytes) /
-                            ((float)contentLength));
+                    progress.setValue(((float) readBytes) /
+                            ((float) contentLength));
                 }
             }
 

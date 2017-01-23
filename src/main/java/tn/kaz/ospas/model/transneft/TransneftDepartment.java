@@ -82,4 +82,9 @@ public class TransneftDepartment extends StandartEntity implements HasParent<Tra
 
     public TransneftDepartment() {
     }
+
+    @Override
+    public String toString() {
+        return shortName;
+    }
 }

@@ -24,7 +24,7 @@ import tn.kaz.ospas.view.directories.staff.structure.StructureTree;
 
 public class FuncRequirementView extends TabSheet implements View, CloseHandler {
     private Table table;
-    private Button addButton, refreshButton;
+    private Button addButton, refreshButton, addExistButton;
     private HierarchicalJPAContainer<TransneftStructure> structureDs = new HierarchicalJPAContainer<TransneftStructure>(TransneftStructure.class, Config.PARENT_FIELD);
     private SimpleJPAContainer<FuncRequirement> funcRequiremntDs = new SimpleJPAContainer<FuncRequirement>(FuncRequirement.class);
 
@@ -79,7 +79,7 @@ public class FuncRequirementView extends TabSheet implements View, CloseHandler 
     }
 
     private HorizontalLayout funcRequirementButton(final SimpleJPAContainer<FuncRequirement> datasource) {
-        addButton = new Button("Добавить");
+        addButton = new Button("Добавить новое");
         addButton.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
@@ -110,8 +110,16 @@ public class FuncRequirementView extends TabSheet implements View, CloseHandler 
             }
         });
 
+        addExistButton = new Button("Добавить существующее");
+        addExistButton.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
 
-        HorizontalLayout barButton = new HorizontalLayout(addButton, refreshButton);
+            }
+        });
+
+
+        HorizontalLayout barButton = new HorizontalLayout(addButton, refreshButton, addExistButton);
         barButton.setHeight("50");
         return barButton;
     }

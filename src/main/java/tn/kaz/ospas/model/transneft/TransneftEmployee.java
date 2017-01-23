@@ -85,6 +85,11 @@ public class TransneftEmployee extends Identity {
 //        this.patroName = "";
     }
 
+    @Override
+    public String toString() {
+        return lastName + " " + firstName.substring(0,1) + "." + (patroName!=null ? patroName.substring(0,1) + "." : "" );
+    }
+
     public TransneftEmployee(TransneftDepartment department) {
         this();
         this.department = department;

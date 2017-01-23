@@ -25,4 +25,9 @@ public class TransneftRank extends StandartEntity {
     public TransneftRank() {
         this("","");
     }
+
+    @Override
+    public String toString() {
+        return shortName;
+    }
 }

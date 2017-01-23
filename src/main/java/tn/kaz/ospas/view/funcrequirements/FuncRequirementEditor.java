@@ -1,24 +1,25 @@
 package tn.kaz.ospas.view.funcrequirements;
 
-
 import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.annotations.StyleSheet;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.ui.*;
-import org.vaadin.easyuploads.FileFactory;
-import org.vaadin.easyuploads.UploadField;
 
+import javafx.scene.control.Tab;
 import tn.kaz.ospas.data.SimpleJPAContainer;
+import tn.kaz.ospas.model.Config;
+
 import tn.kaz.ospas.model.funcrequirement.Agreementor;
 import tn.kaz.ospas.model.funcrequirement.FuncRequirement;
-
 import tn.kaz.ospas.model.transneft.TransneftStructure;
 import tn.kaz.ospas.view.CrudButtons;
+import tn.kaz.ospas.view.funcrequirements.components.OneToManyField;
 
-import java.io.File;
+import javax.persistence.Query;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Anton on 20.01.2017.
@@ -44,54 +45,6 @@ public class FuncRequirementEditor extends VerticalLayout {
     public void addCommitedLabel() {
         Label addede = new Label("ФТ добавлен!");
         addComponent(addede);
-//        final UploadField fileUpload = new UploadField();
-//        fileUpload.setFieldType(UploadField.FieldType.FILE);
-//        final File tempDir = new File("/tmp",String.valueOf(funcRequirement.getNumber()));
-//
-//        tempDir.mkdirs();
-//
-//
-//        fileUpload.setCaption("Storagemode: " + tempDir + " , fieldType:"
-//                + fileUpload.getFieldType());
-//        fileUpload.setFileFactory(new FileFactory() {
-//            @Override
-//            public File createFile(String fileName, String fileType) {
-//                File f = new File(tempDir, fileName);
-//                return f;
-//            }
-//        });
-//        addComponent(fileUpload);
-
-//        LineBreakCounter lineBreakCounter = new LineBreakCounter();
-//        lineBreakCounter.setSlow(true);
-//
-//        Upload sample = new Upload(null, lineBreakCounter);
-//        final UploadInfoWindow uploadInfoWindow = new UploadInfoWindow(sample, lineBreakCounter);
-//        sample.setImmediate(false);
-//        sample.setButtonCaption("Upload File");
-//        sample.addStartedListener(new Upload.StartedListener() {
-//            @Override
-//            public void uploadStarted(final Upload.StartedEvent event) {
-//                if (uploadInfoWindow.getParent() == null) {
-//                    uploadInfoWindow.setModal(true);
-//                    uploadInfoWindow.setPosition(200,200);
-//
-//                    UI.getCurrent().addWindow(uploadInfoWindow);
-//                }
-//                uploadInfoWindow.setClosable(false);
-//            }
-//        });
-//        sample.addFinishedListener(new Upload.FinishedListener() {
-//            @Override
-//            public void uploadFinished(final Upload.FinishedEvent event) {
-//                uploadInfoWindow.setClosable(true);
-//            }
-//        });
-
-
-
-        addComponent(new UploadExample());
-
     }
 
 
@@ -99,8 +52,13 @@ public class FuncRequirementEditor extends VerticalLayout {
         layout = new FormLayout();
         Label objectName = new Label(structure.getName());
         layout.addComponent(objectName);
+        Query query = funcRequirementDs.getEntityProvider().getEntityManager().createNamedQuery("Number.empty");
+        List<Long> result  = query.getResultList();
+        funcRequirement.setNumber(result.get(0));
+        System.out.println("NEW NUMBER IS " + funcRequirement.getNumber());
         binder = new BeanFieldGroup<FuncRequirement>(FuncRequirement.class);
         binder.setItemDataSource(funcRequirement);
+
 
         crudButtons = new CrudButtons<FuncRequirement>(funcRequirementDs, binder, this);
         layout.addComponent(crudButtons);
@@ -110,11 +68,14 @@ public class FuncRequirementEditor extends VerticalLayout {
         field.setWidth("250");
         field.setRequired(true);
 
+
+
         layout.addComponent(field);
 
         TextArea shortDescription = new TextArea("Краткое описание (250 символов)");
         shortDescription.setRows(5);
-        shortDescription.setColumns(50);
+        shortDescription.setColumns(40);
+        shortDescription.setNullRepresentation("");
         binder.bind(shortDescription,"shortDescription");
         layout.addComponent(shortDescription);
 
@@ -125,11 +86,27 @@ public class FuncRequirementEditor extends VerticalLayout {
         date.setValue(new Date());
 
         layout.addComponent(date);
-
-
         JPAContainer<Agreementor> agreementorsDs = new SimpleJPAContainer<Agreementor>(Agreementor.class);
 
         addComponent(layout);
+        addComponent(new FileUploader("Документ ФТ", 100000000l, Config.DOC_DIR, funcRequirement));
+
+        Panel childsElement = new OneToManyField<Agreementor>(
+                "Согласующие",
+                binder, agreementorsDs,
+                new Object[]{"id","order", "employee", "rank", "department"},
+                new String[]{"#","Порядок","Сотрудник","Должность","Отдел"},
+                "agreementors"
+        );
+        addComponent(childsElement);
+//        Table agreementors = new Table("Согласующие");
+//        JPAContainer<Agreementor> agreementorsDs = new SimpleJPAContainer<Agreementor>(Agreementor.class);
+//        agreementors.setContainerDataSource(agreementorsDs);
+//        agreementors.setSizeFull();
+//        agreementors.setVisibleColumns( new Object[]{"id","order", "employee", "rank", "department"});
+//        agreementors.setColumnHeaders(new String[]{"#","Порядок","Сотрудник","Должность","Отдел"});
+//        binder.bind(agreementors,"agreementors");
+//        addComponent(agreementors);
 
     }
 
