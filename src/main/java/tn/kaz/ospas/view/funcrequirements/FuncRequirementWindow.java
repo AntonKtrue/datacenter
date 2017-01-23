@@ -1,17 +1,23 @@
 package tn.kaz.ospas.view.funcrequirements;
 
+import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
 
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
+import com.vaadin.data.util.filter.Compare;
 import com.vaadin.server.FileResource;
 import com.vaadin.ui.*;
 
 import tn.kaz.ospas.data.SimpleJPAContainer;
+import tn.kaz.ospas.model.Config;
 import tn.kaz.ospas.model.funcrequirement.Agreementor;
 import tn.kaz.ospas.model.funcrequirement.FuncRequirement;
 import tn.kaz.ospas.model.funcrequirement.NoticeType;
 import tn.kaz.ospas.model.transneft.TransneftStructure;
 import tn.kaz.ospas.view.CrudButtons;
+import tn.kaz.ospas.view.funcrequirements.components.AgreementorWindow;
+import tn.kaz.ospas.view.funcrequirements.components.OneToManyField;
 
 import java.io.File;
 import java.util.Date;
@@ -108,8 +114,24 @@ public class FuncRequirementWindow extends Window {
         }
 
       //  SimpleJPAContainer<Agreementor> agreementorsDs = new SimpleJPAContainer<Agreementor>(Agreementor.class);
-
-
+        final JPAContainer<Agreementor> agreementorsDs = JPAContainerFactory.make(Agreementor.class, Config.JPA_UNIT);
+        agreementorsDs.addContainerFilter(new Compare.Equal("funcRequirement", m));
+        agreementorsDs.applyFilters();
+        OneToManyField<Agreementor> agreementors = new OneToManyField<Agreementor>(
+                "Согласующие",
+                binder,agreementorsDs ,
+                new Object[]{"id","order", "employee", "rank", "department"},
+                new String[]{"#","Порядок","Сотрудник","Должность","Отдел"},
+                "agreementors"
+        );
+        agreementors.addListenerToAddButton(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+               // AgreementorWindow window = new AgreementorWindow(agreementorsDs, m);
+              //  window.create();
+            }
+        });
+        layout.addComponent(agreementors);
 
 
 
