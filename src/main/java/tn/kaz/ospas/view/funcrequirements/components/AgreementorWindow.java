@@ -8,6 +8,7 @@ import com.vaadin.ui.*;
 import tn.kaz.ospas.data.SimpleJPAContainer;
 import tn.kaz.ospas.model.funcrequirement.Agreementor;
 import tn.kaz.ospas.model.funcrequirement.FuncRequirement;
+import tn.kaz.ospas.model.transneft.TransneftDepartment;
 import tn.kaz.ospas.model.transneft.TransneftEmployee;
 import tn.kaz.ospas.model.transneft.TransneftRank;
 import tn.kaz.ospas.view.CrudButtons;
@@ -62,13 +63,18 @@ public class AgreementorWindow extends Window {
 
 
     private void bindingFields(Agreementor m) {
-        m.setOrder(3);
+        m.setSequence(3);
+        m.setFuncRequirement(funcRequirement);
+
         binder = new BeanFieldGroup<Agreementor>(Agreementor.class);
         binder.setItemDataSource(m);
         final SimpleJPAContainer<TransneftEmployee> employeesDs = new SimpleJPAContainer<TransneftEmployee>(TransneftEmployee.class);
         SimpleJPAContainer<TransneftRank> ranks = new SimpleJPAContainer<TransneftRank>(TransneftRank.class);
+        SimpleJPAContainer<TransneftDepartment> departments = new SimpleJPAContainer<TransneftDepartment>(TransneftDepartment.class);
+
         ComboBox employee = new ComboBox("Сотрудник", employeesDs);
         final ComboBox rank = new ComboBox("Должность", ranks);
+        final ComboBox department = new ComboBox("Отдел", departments);
         employee.setContainerDataSource(employeesDs);
         employee.setImmediate(true);
         employee.setItemCaptionPropertyId("lastName");
@@ -79,17 +85,25 @@ public class AgreementorWindow extends Window {
             public void valueChange(Property.ValueChangeEvent event) {
                 TransneftEmployee selectedEmployee = employeesDs.getItem(event.getProperty().getValue()).getEntity();
                 rank.setValue(selectedEmployee.getRank().getId());
+                department.setValue(selectedEmployee.getDepartment().getId());
             }
         });
-
+        binder.bind(employee, "employee");
         rank.setContainerDataSource(ranks);
-
         rank.setItemCaptionPropertyId("name");
         rank.setImmediate(true);
         rank.setConverter(new SingleSelectConverter(rank));
         rank.setRequired(true);
         binder.bind(rank, "rank");
-        layout.addComponents(employee, rank);
+
+        department.setContainerDataSource(departments);
+        department.setItemCaptionPropertyId("name");
+        department.setImmediate(true);
+        department.setConverter(new SingleSelectConverter(department));
+        department.setRequired(true);
+        binder.bind(department, "department");
+        layout.addComponents(employee, rank, department);
+
 
         crudButtons = new CrudButtons(datasource, binder, this);
         layout.addComponent(crudButtons);

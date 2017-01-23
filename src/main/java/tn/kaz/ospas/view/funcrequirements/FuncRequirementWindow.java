@@ -68,7 +68,7 @@ public class FuncRequirementWindow extends Window {
     }
 
 
-    private void bindingFields(FuncRequirement m) {
+    private void bindingFields(final FuncRequirement m) {
 
         //FieldFactory fieldFactory = new FieldFactory();
         Label objectName = new Label(m.getStructure().toString());
@@ -120,15 +120,15 @@ public class FuncRequirementWindow extends Window {
         OneToManyField<Agreementor> agreementors = new OneToManyField<Agreementor>(
                 "Согласующие",
                 binder,agreementorsDs ,
-                new Object[]{"id","order", "employee", "rank", "department"},
+                new Object[]{"id","sequence", "employee", "rank", "department"},
                 new String[]{"#","Порядок","Сотрудник","Должность","Отдел"},
                 "agreementors"
         );
         agreementors.addListenerToAddButton(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-               // AgreementorWindow window = new AgreementorWindow(agreementorsDs, m);
-              //  window.create();
+                AgreementorWindow window = new AgreementorWindow(agreementorsDs, m);
+                window.create();
             }
         });
         layout.addComponent(agreementors);

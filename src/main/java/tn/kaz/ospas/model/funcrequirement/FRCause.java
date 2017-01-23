@@ -13,7 +13,7 @@ import java.util.Set;
 @Table(name = "fr_cause")
 public class FRCause extends Identity {
     @NotNull
-    private int order;
+    private int sequence;
     @NotNull
     private String description;
 
@@ -24,12 +24,12 @@ public class FRCause extends Identity {
     @OneToMany
     private Set<Attachment> attachments;
 
-    public int getOrder() {
-        return order;
+    public int getSequence() {
+        return sequence;
     }
 
-    public void setOrder(int order) {
-        this.order = order;
+    public void setSequence(int order) {
+        this.sequence = order;
     }
 
     public String getDescription() {

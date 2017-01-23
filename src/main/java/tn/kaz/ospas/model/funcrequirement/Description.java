@@ -2,7 +2,6 @@ package tn.kaz.ospas.model.funcrequirement;
 
 import tn.kaz.ospas.model.Identity;
 
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -15,7 +14,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "fr_rescription")
 public class Description extends Identity {
     @NotNull
-    private int order;
+    private int sequence;
     @NotNull
     private String text;
 
@@ -31,8 +30,8 @@ public class Description extends Identity {
         this.funcRequirement = funcRequirement;
     }
 
-    public Description(int order, String text) {
-        this.order = order;
+    public Description(int sequence, String text) {
+        this.sequence = sequence;
         this.text = text;
     }
 
@@ -40,12 +39,12 @@ public class Description extends Identity {
         this(0,"");
     }
 
-    public int getOrder() {
-        return order;
+    public int getSequence() {
+        return sequence;
     }
 
-    public void setOrder(int order) {
-        this.order = order;
+    public void setSequence(int order) {
+        this.sequence = order;
     }
 
     public String getText() {

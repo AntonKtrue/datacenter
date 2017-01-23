@@ -5,23 +5,18 @@ import tn.kaz.ospas.model.transneft.TransneftDepartment;
 import tn.kaz.ospas.model.transneft.TransneftEmployee;
 import tn.kaz.ospas.model.transneft.TransneftRank;
 
-import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.*;
 
 /**
  * Created by Anton on 19.01.2017.
  */
 @MappedSuperclass
 public class Signatory extends Identity {
-    @OneToOne
-    @PrimaryKeyJoinColumn
+    @ManyToOne(fetch = FetchType.LAZY)
     private TransneftEmployee employee;
-    @OneToOne
-    @PrimaryKeyJoinColumn
+    @ManyToOne(fetch = FetchType.LAZY)
     private TransneftRank rank;
-    @OneToOne
-    @PrimaryKeyJoinColumn
+    @ManyToOne(fetch = FetchType.LAZY)
     private TransneftDepartment department;
 
     public Signatory(TransneftEmployee employee) {

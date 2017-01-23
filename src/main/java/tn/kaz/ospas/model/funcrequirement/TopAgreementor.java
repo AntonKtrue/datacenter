@@ -18,14 +18,14 @@ public class TopAgreementor extends Signatory
     private FuncRequirement funcRequirement;
 
     @NotNull
-    private int order;
+    private int sequence;
 
-    public int getOrder() {
-        return order;
+    public int getSequence() {
+        return sequence;
     }
 
-    public void setOrder(int order) {
-        this.order = order;
+    public void setSequence(int order) {
+        this.sequence = order;
     }
 
     public FuncRequirement getFuncRequirement() {
@@ -36,15 +36,15 @@ public class TopAgreementor extends Signatory
         this.funcRequirement = funcRequirement;
     }
 
-    public TopAgreementor(TransneftEmployee employee, FuncRequirement funcRequirement, int order) {
+    public TopAgreementor(TransneftEmployee employee, FuncRequirement funcRequirement, int sequence) {
         super(employee);
         this.funcRequirement = funcRequirement;
-        this.order = order;
+        this.sequence = sequence;
     }
 
-    public TopAgreementor(FuncRequirement funcRequirement, int order) {
+    public TopAgreementor(FuncRequirement funcRequirement, int sequence) {
         this.funcRequirement = funcRequirement;
-        this.order = order;
+        this.sequence = sequence;
     }
 
     public TopAgreementor() {
