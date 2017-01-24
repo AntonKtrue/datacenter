@@ -10,18 +10,18 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "fr_agreementor")
-public class Agreementor extends Signatory {
+public class Agreementor extends Signatory implements Sequenceable {
     @ManyToOne(cascade = CascadeType.DETACH)
     @PrimaryKeyJoinColumn
     private FuncRequirement funcRequirement;
 
     @NotNull
     private int sequence;
-
+    @Override
     public int getSequence() {
         return sequence;
     }
-
+    @Override
     public void setSequence(int order) {
         this.sequence = order;
     }

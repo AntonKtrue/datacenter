@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "fr_description")
-public class Description extends Identity {
+public class Description extends Identity implements Sequenceable {
     @NotNull
     private int sequence;
     @NotNull
@@ -40,10 +40,12 @@ public class Description extends Identity {
         this(0,"");
     }
 
+    @Override
     public int getSequence() {
         return sequence;
     }
 
+    @Override
     public void setSequence(int order) {
         this.sequence = order;
     }

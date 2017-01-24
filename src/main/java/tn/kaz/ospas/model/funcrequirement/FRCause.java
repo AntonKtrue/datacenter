@@ -11,7 +11,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "fr_cause")
-public class FRCause extends Identity {
+public class FRCause extends Identity implements Sequenceable {
     @NotNull
     private int sequence;
     @NotNull
@@ -24,10 +24,12 @@ public class FRCause extends Identity {
     @OneToMany
     private Set<Attachment> attachments;
 
+    @Override
     public int getSequence() {
         return sequence;
     }
 
+    @Override
     public void setSequence(int order) {
         this.sequence = order;
     }

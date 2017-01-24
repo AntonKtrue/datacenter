@@ -88,15 +88,16 @@ public class FuncRequirementEditor extends VerticalLayout {
                 window.edit(Integer.valueOf(event.getItemId().toString()));
             }
         });
+        //agreementors.getTable().setCellStyleGenerator(new Table.CellStyleGenerator());
 
         addComponent(agreementors);
     }
     private void addCauseArea() {
         final RichTextArea causeRta = new RichTextArea("Основание доработки");
-        final SortableLayout sortableLayout = new SortableLayout();
-        sortableLayout.setSizeUndefined();
-        sortableLayout.setWidth("600px");
-        sortableLayout.addStyleName("no-horisontal-drag-hints");
+//        final SortableLayout sortableLayout = new SortableLayout();
+//        sortableLayout.setSizeUndefined();
+//        sortableLayout.setWidth("600px");
+//        sortableLayout.addStyleName("no-horisontal-drag-hints");
 
         causeRta.setWidth(700f,Unit.PIXELS);
         Button show = new Button("debug show");
@@ -106,13 +107,13 @@ public class FuncRequirementEditor extends VerticalLayout {
                 Notification.show(causeRta.getValue());
                 Panel panel = new Panel();
                 panel.setContent(new Label(causeRta.getValue(), ContentMode.HTML));
-                sortableLayout.addComponent(panel);
+              //  sortableLayout.addComponent(panel);
             }
         });
 
         addComponent(causeRta);
         addComponent(show);
-        addComponent(sortableLayout);
+     //   addComponent(sortableLayout);
 //        final JPAContainer<FRCause> frCauseDs = new SimpleJPAContainer<FRCause>(FRCause.class);
 //        Table table = new Table("Основания доработки",frCauseDs);
 //        table.setContainerDataSource(frCauseDs);

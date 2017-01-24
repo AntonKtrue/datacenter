@@ -8,8 +8,10 @@ import tn.kaz.ospas.data.SimpleJPAContainer;
 import tn.kaz.ospas.model.Identity;
 import tn.kaz.ospas.model.funcrequirement.Agreementor;
 import tn.kaz.ospas.model.funcrequirement.FuncRequirement;
+import tn.kaz.ospas.model.funcrequirement.Sequenceable;
 import tn.kaz.ospas.model.transneft.TransneftRank;
 import tn.kaz.ospas.view.CrudButtons;
+import tn.kaz.ospas.view.funcrequirements.components.sortable.ReorderTableEntityDropHandler;
 
 /**
  * Created by Anton on 23.01.2017.
@@ -74,6 +76,10 @@ public class OneToManyField<T extends Identity> extends Panel {
         HorizontalLayout buttons = new HorizontalLayout(addButon, editButton, deleteButton, upButton);
         layout.addComponent(buttons);
         table = new Table();
+        table.setDragMode(Table.TableDragMode.ROW);
+        ReorderTableEntityDropHandler dropHandler = new ReorderTableEntityDropHandler(table);
+        table.setDropHandler(dropHandler);
+
 
         table.setContainerDataSource(datasource);
         table.setSelectable(true);

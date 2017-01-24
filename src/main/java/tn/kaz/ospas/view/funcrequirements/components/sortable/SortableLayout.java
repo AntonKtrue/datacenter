@@ -2,11 +2,13 @@ package tn.kaz.ospas.view.funcrequirements.components.sortable;
 
 import com.vaadin.event.dd.DropHandler;
 import com.vaadin.ui.*;
+import tn.kaz.ospas.model.Identity;
+import tn.kaz.ospas.model.funcrequirement.Sequenceable;
 
 /**
  * Created by Anton on 24.01.2017.
  */
-public class SortableLayout extends CustomComponent {
+public class SortableLayout<T extends Sequenceable> extends CustomComponent {
     private final AbstractOrderedLayout layout;
     private final DropHandler dropHandler;
 

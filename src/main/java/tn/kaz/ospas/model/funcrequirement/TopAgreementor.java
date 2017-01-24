@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "fr_topagreementor")
-public class TopAgreementor extends Signatory
+public class TopAgreementor extends Signatory implements Sequenceable
 {
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -19,11 +19,11 @@ public class TopAgreementor extends Signatory
 
     @NotNull
     private int sequence;
-
+    @Override
     public int getSequence() {
         return sequence;
     }
-
+    @Override
     public void setSequence(int order) {
         this.sequence = order;
     }
