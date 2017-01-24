@@ -21,7 +21,7 @@ public class FRCause extends Identity implements Sequenceable {
     @PrimaryKeyJoinColumn
     private FuncRequirement funcRequirement;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cause", fetch = FetchType.LAZY)
     private Set<Attachment> attachments;
 
     @Override
@@ -56,5 +56,14 @@ public class FRCause extends Identity implements Sequenceable {
 
     public void setAttachments(Set<Attachment> attachments) {
         this.attachments = attachments;
+    }
+
+    public FRCause() {
+    }
+
+    public FRCause(int sequence, String description, FuncRequirement funcRequirement) {
+        this.sequence = sequence;
+        this.description = description;
+        this.funcRequirement = funcRequirement;
     }
 }

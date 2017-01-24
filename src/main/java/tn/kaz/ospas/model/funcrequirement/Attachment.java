@@ -2,21 +2,19 @@ package tn.kaz.ospas.model.funcrequirement;
 
 import tn.kaz.ospas.model.Identity;
 
-import javax.persistence.Embeddable;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by Anton on 19.01.2017.
  */
 @Entity
-@Table(name = "attachment")
+@Table(name = "fr_attachment")
 public class Attachment extends Identity {
     private String name;
     private String filePath;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @PrimaryKeyJoinColumn
     private FRCause cause;
 
     public FRCause getCause() {
