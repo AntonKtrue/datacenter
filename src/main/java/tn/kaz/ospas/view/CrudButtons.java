@@ -27,11 +27,11 @@ public class CrudButtons<T extends Identity> extends HorizontalLayout implements
         this.binder = binder;
         saveButton = new Button("Сохранить");
         saveButton.addClickListener(this);
-        saveButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
+        //saveButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
         cancelButton = new Button("Отменить");
         cancelButton.addClickListener(this);
-        cancelButton.setClickShortcut(ShortcutAction.KeyCode.ESCAPE);
+       // cancelButton.setClickShortcut(ShortcutAction.KeyCode.ESCAPE);
 
         deleteButton = new Button("Удалить");
         deleteButton.addClickListener(this);
@@ -57,6 +57,7 @@ public class CrudButtons<T extends Identity> extends HorizontalLayout implements
             Notification.show("save button");
             try {
                 binder.commit();
+                if(owner instanceof FuncRequirementEditor) ((FuncRequirementEditor)owner).addCommitedContent();
             } catch (FieldGroup.CommitException e) {
                 Notification.show("Ошибка в заполнении полей формы!");
                 return;
@@ -76,12 +77,13 @@ public class CrudButtons<T extends Identity> extends HorizontalLayout implements
                         public void onClose(ConfirmDialog dialog) {
                             if (dialog.isConfirmed()) {
                                 try {
+                                    System.out.println("DELETE ID " + binder.getItemDataSource().getBean().getId());
                                     datasource.removeItem(binder.getItemDataSource().getBean().getId());
+
                                 } catch (Exception e) {
                                     Notification.show("Ошибка удаления!\n"+e.getMessage(), Notification.Type.ERROR_MESSAGE);
                                 }
                                 if(owner instanceof Window) ((Window)owner).close();
-                                if(owner instanceof FuncRequirementEditor) ((FuncRequirementEditor)owner).addCommitedLabel();
                             }
                         }
                     });
@@ -91,6 +93,6 @@ public class CrudButtons<T extends Identity> extends HorizontalLayout implements
         }
         datasource.refresh();
         if(owner instanceof Window) ((Window)owner).close();
-        if(owner instanceof FuncRequirementEditor) ((FuncRequirementEditor)owner).addCommitedLabel();
+
     }
 }

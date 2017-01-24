@@ -41,7 +41,6 @@ public class AgreementorWindow extends Window {
         setWidth("400");
     }
 
-
     public void edit(Integer id) {
         try {
             setCaption("Редактирование должности");
@@ -57,29 +56,25 @@ public class AgreementorWindow extends Window {
 
     public void create() {
         setCaption("Новая запись");
-        bindingFields(new Agreementor());
+        Agreementor agreementor = new Agreementor();
+        agreementor.setSequence(datasource.size() + 1);
+        agreementor.setFuncRequirement(funcRequirement);
+        bindingFields(agreementor);
         UI.getCurrent().addWindow(this);
     }
 
 
-    private void bindingFields(Agreementor m) {
-        m.setSequence(3);
-        m.setFuncRequirement(funcRequirement);
+    private void bindingFields(Agreementor agreementor) {
 
         binder = new BeanFieldGroup<Agreementor>(Agreementor.class);
-        binder.setItemDataSource(m);
+        binder.setItemDataSource(agreementor);
         final SimpleJPAContainer<TransneftEmployee> employeesDs = new SimpleJPAContainer<TransneftEmployee>(TransneftEmployee.class);
-        SimpleJPAContainer<TransneftRank> ranks = new SimpleJPAContainer<TransneftRank>(TransneftRank.class);
-        SimpleJPAContainer<TransneftDepartment> departments = new SimpleJPAContainer<TransneftDepartment>(TransneftDepartment.class);
+        SimpleJPAContainer<TransneftRank> ranksDs = new SimpleJPAContainer<TransneftRank>(TransneftRank.class);
+        SimpleJPAContainer<TransneftDepartment> departmentsDs = new SimpleJPAContainer<TransneftDepartment>(TransneftDepartment.class);
 
-        ComboBox employee = new ComboBox("Сотрудник", employeesDs);
-        final ComboBox rank = new ComboBox("Должность", ranks);
-        final ComboBox department = new ComboBox("Отдел", departments);
-        employee.setContainerDataSource(employeesDs);
-        employee.setImmediate(true);
-        employee.setItemCaptionPropertyId("lastName");
-        employee.setConverter(new SingleSelectConverter(employee));
-        employee.setRequired(true);
+        ComboBox employee = new ManyToOneComboBox("Сотрудник",employeesDs,"caption", true);
+        final ComboBox rank = new ManyToOneComboBox("Должность", ranksDs, "name", true);
+        final ComboBox department = new ManyToOneComboBox("Отдел",departmentsDs, "name", true);
         employee.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
@@ -89,18 +84,7 @@ public class AgreementorWindow extends Window {
             }
         });
         binder.bind(employee, "employee");
-        rank.setContainerDataSource(ranks);
-        rank.setItemCaptionPropertyId("name");
-        rank.setImmediate(true);
-        rank.setConverter(new SingleSelectConverter(rank));
-        rank.setRequired(true);
         binder.bind(rank, "rank");
-
-        department.setContainerDataSource(departments);
-        department.setItemCaptionPropertyId("name");
-        department.setImmediate(true);
-        department.setConverter(new SingleSelectConverter(department));
-        department.setRequired(true);
         binder.bind(department, "department");
         layout.addComponents(employee, rank, department);
 

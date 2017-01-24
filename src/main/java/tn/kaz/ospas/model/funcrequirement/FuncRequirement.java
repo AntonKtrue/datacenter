@@ -25,7 +25,6 @@ public class FuncRequirement extends Identity {
     @Size(max = 255)
     private String shortDescription;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "structure_id")
     private TransneftStructure structure;
@@ -43,10 +42,10 @@ public class FuncRequirement extends Identity {
     @Temporal(TemporalType.DATE)
     private Date date;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "funcRequirement", fetch = FetchType.LAZY)
     private Set<FRCause> causes;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "funcRequirement", fetch = FetchType.LAZY)
     private Set<Description> descriptions;
 
     @OneToOne(fetch = FetchType.LAZY)

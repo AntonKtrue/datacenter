@@ -12,6 +12,7 @@ public class StructureTree extends Tree {
     public StructureTree(HierarchicalJPAContainer<TransneftStructure> structures) {
         setContainerDataSource(structures);
 
+
         setItemCaptionPropertyId("name");
         setSizeUndefined();
         setImmediate(true);

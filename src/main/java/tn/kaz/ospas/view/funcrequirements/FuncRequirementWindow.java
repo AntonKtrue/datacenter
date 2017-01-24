@@ -6,9 +6,11 @@ import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
 
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.util.filter.Compare;
+import com.vaadin.event.ItemClickEvent;
 import com.vaadin.server.FileResource;
 import com.vaadin.ui.*;
 
+import org.vaadin.dialogs.ConfirmDialog;
 import tn.kaz.ospas.data.SimpleJPAContainer;
 import tn.kaz.ospas.model.Config;
 import tn.kaz.ospas.model.funcrequirement.Agreementor;
@@ -19,8 +21,10 @@ import tn.kaz.ospas.view.CrudButtons;
 import tn.kaz.ospas.view.funcrequirements.components.AgreementorWindow;
 import tn.kaz.ospas.view.funcrequirements.components.OneToManyField;
 
+import javax.persistence.Query;
 import java.io.File;
 import java.util.Date;
+import java.util.List;
 
 public class FuncRequirementWindow extends Window {
     private FormLayout layout;
@@ -28,8 +32,7 @@ public class FuncRequirementWindow extends Window {
     private SimpleJPAContainer<FuncRequirement> datasource;
     private CrudButtons<NoticeType> crudButtons;
 
-    public FuncRequirementWindow(SimpleJPAContainer<FuncRequirement> datasource
-    ) {
+    public FuncRequirementWindow(SimpleJPAContainer<FuncRequirement> datasource ) {
         this.datasource = datasource;
         init();
         setModal(true);
@@ -63,19 +66,24 @@ public class FuncRequirementWindow extends Window {
 
     public void create(TransneftStructure structure) {
         setCaption("Новая запись");
-        bindingFields(new FuncRequirement(structure));
+        FuncRequirement funcRequirement = new FuncRequirement(structure);
+        Query query = datasource.getEntityProvider().getEntityManager().createNamedQuery("Number.empty");
+        List<Long> result  = query.getResultList();
+        funcRequirement.setNumber(result.size() > 0 ? result.get(0) : 1);
+        funcRequirement.setDate(new Date());
+        bindingFields(funcRequirement);
         UI.getCurrent().addWindow(this);
     }
 
 
-    private void bindingFields(final FuncRequirement m) {
+    private void bindingFields(final FuncRequirement funcRequirement) {
 
         //FieldFactory fieldFactory = new FieldFactory();
-        Label objectName = new Label(m.getStructure().toString());
+        Label objectName = new Label(funcRequirement.getStructure().toString());
         layout.addComponent(objectName);
 
         binder = new BeanFieldGroup<FuncRequirement>(FuncRequirement.class);
-        binder.setItemDataSource(m);
+        binder.setItemDataSource(funcRequirement);
         Field<?> field = null;
 
         field = binder.buildAndBind("Номер", "number");
@@ -85,6 +93,7 @@ public class FuncRequirementWindow extends Window {
         TextArea shortDescription = new TextArea("Краткое описание (250 символов)");
         shortDescription.setRows(5);
         shortDescription.setColumns(50);
+        shortDescription.setNullRepresentation("");
         binder.bind(shortDescription,"shortDescription");
         layout.addComponent(shortDescription);
 
@@ -107,33 +116,39 @@ public class FuncRequirementWindow extends Window {
 //        implementationDate.setDateFormat("dd.MM.yyyy");
 //        binder.bind(implementationDate,"implementationDate" );
 //        layout.addComponent(implementationDate);
-        if(m.getFrFilePath() != null) {
-            Link frFileLink = new Link("ФТ", new FileResource(new File(m.getFrFilePath())));
-            frFileLink.setTargetName("_blank");
-            layout.addComponent(frFileLink);
-        }
+//        if(funcRequirement.getFrFilePath() != null) {
+//            Link frFileLink = new Link("ФТ", new FileResource(new File(funcRequirement.getFrFilePath())));
+//            frFileLink.setTargetName("_blank");
+//            layout.addComponent(frFileLink);
+//        }
 
-      //  SimpleJPAContainer<Agreementor> agreementorsDs = new SimpleJPAContainer<Agreementor>(Agreementor.class);
-        final JPAContainer<Agreementor> agreementorsDs = JPAContainerFactory.make(Agreementor.class, Config.JPA_UNIT);
-        agreementorsDs.addContainerFilter(new Compare.Equal("funcRequirement", m));
-        agreementorsDs.applyFilters();
-        OneToManyField<Agreementor> agreementors = new OneToManyField<Agreementor>(
-                "Согласующие",
-                binder,agreementorsDs ,
-                new Object[]{"id","sequence", "employee", "rank", "department"},
-                new String[]{"#","Порядок","Сотрудник","Должность","Отдел"},
-                "agreementors"
-        );
-        agreementors.addListenerToAddButton(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                AgreementorWindow window = new AgreementorWindow(agreementorsDs, m);
-                window.create();
-            }
-        });
-        layout.addComponent(agreementors);
-
-
+//        SimpleJPAContainer<Agreementor> agreementorsDs = new SimpleJPAContainer<Agreementor>(Agreementor.class);
+//        final JPAContainer<Agreementor> agreementorsDs = JPAContainerFactory.make(Agreementor.class, Config.JPA_UNIT);
+//        agreementorsDs.addContainerFilter(new Compare.Equal("funcRequirement", funcRequirement));
+//        agreementorsDs.applyFilters();
+//        final OneToManyField<Agreementor> agreementors = new OneToManyField<Agreementor>(
+//                "Согласующие",
+//                binder,agreementorsDs ,
+//                new Object[]{"id","sequence", "employee", "rank", "department"},
+//                new String[]{"#","Порядок","Сотрудник","Должность","Отдел"},
+//                "agreementors"
+//        );
+//        agreementors.addListenerToAddButton(new Button.ClickListener() {
+//            @Override
+//            public void buttonClick(Button.ClickEvent clickEvent) {
+//                AgreementorWindow window = new AgreementorWindow(agreementorsDs, funcRequirement);
+//                window.create();
+//            }
+//        });
+//        agreementors.getTable().addItemClickListener(new ItemClickEvent.ItemClickListener() {
+//            @Override
+//            public void itemClick(ItemClickEvent event) {
+//                AgreementorWindow window = new AgreementorWindow(agreementorsDs, funcRequirement);
+//                window.edit(Integer.valueOf(event.getItemId().toString()));
+//            }
+//        });
+//
+//        layout.addComponent(agreementors);
 
         crudButtons = new CrudButtons(datasource, binder, this);
         layout.addComponent(crudButtons);

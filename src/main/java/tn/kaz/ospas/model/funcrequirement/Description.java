@@ -4,6 +4,7 @@ import tn.kaz.ospas.model.Identity;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -11,15 +12,15 @@ import javax.validation.constraints.NotNull;
  * Created by Anton on 19.01.2017.
  */
 @Entity
-@Table(name = "fr_rescription")
+@Table(name = "fr_description")
 public class Description extends Identity {
     @NotNull
     private int sequence;
     @NotNull
     private String text;
 
-
     @ManyToOne
+    @PrimaryKeyJoinColumn
     private FuncRequirement funcRequirement;
 
     public FuncRequirement getFuncRequirement() {

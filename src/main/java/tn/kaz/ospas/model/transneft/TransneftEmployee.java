@@ -31,6 +31,9 @@ public class TransneftEmployee extends Identity {
     @JoinColumn(name = "rank_id")
     private TransneftRank rank;
 
+    @Transient
+    private String caption;
+
     public String getFirstName() {
         return firstName;
     }
@@ -93,5 +96,15 @@ public class TransneftEmployee extends Identity {
     public TransneftEmployee(TransneftDepartment department) {
         this();
         this.department = department;
+    }
+
+    public String getCaption() {
+
+        return lastName + " " + firstName.substring(0,1) + "." + (patroName!=null ? patroName.substring(0,1) + "." : "") + " "
+                + (department != null ? department.getShortName() : "");
+    }
+
+    public void setCaption(String caption) {
+        this.caption = caption;
     }
 }

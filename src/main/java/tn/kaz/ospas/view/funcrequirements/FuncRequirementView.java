@@ -1,6 +1,7 @@
 package tn.kaz.ospas.view.funcrequirements;
 
 import com.vaadin.data.util.filter.Compare;
+import com.vaadin.data.util.filter.Not;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -31,15 +32,12 @@ public class FuncRequirementView extends TabSheet implements View, CloseHandler 
     private TransneftStructure selectedObject;
 
     public FuncRequirementView() {
-
         setSizeFull();
         addStyleName("reports");
         addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
         setCloseHandler(this);
         DashboardEventBus.register(this);
-
         addTab(buildMainScreen());
-
     }
 
     private Component buildMainScreen() {
@@ -52,15 +50,16 @@ public class FuncRequirementView extends TabSheet implements View, CloseHandler 
         table.addItemClickListener(new ItemClickEvent.ItemClickListener() {
             @Override
             public void itemClick(ItemClickEvent event) {
-                FuncRequirementWindow window = new FuncRequirementWindow(funcRequiremntDs);
-                window.edit(Integer.valueOf(event.getItemId().toString()));
+                //FuncRequirementWindow window = new FuncRequirementWindow(funcRequiremntDs);
+                //window.edit(Integer.valueOf(event.getItemId().toString()));
+                FuncRequirementEditor editor = new FuncRequirementEditor(funcRequiremntDs, event.getItemId());
+                selectedObject = editor.getFuncRequirement().getStructure();
+                addFtTab(editor);
             }
         });
 
         Tree structureTree = new StructureTree(structureDs);
         structureTree.expandItem(structureDs.firstItemId());
-
-
 
         structureTree.addItemClickListener(new ItemClickEvent.ItemClickListener() {
             @Override
@@ -84,14 +83,12 @@ public class FuncRequirementView extends TabSheet implements View, CloseHandler 
         addButton.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-
-
                 ConfirmDialog.show(UI.getCurrent(), "Подтвердите создание нового ФТ",
                         "Создать новое ФТ?", "Создать", "Отмена", new ConfirmDialog.Listener() {
                             @Override
                             public void onClose(ConfirmDialog confirmDialog) {
                                 if(confirmDialog.isConfirmed()) {
-                                    Notification.show("Confirmed");
+                                    //Notification.show("Confirmed");
                                     addFuncRequirement();
                                 } else {
                                     Notification.show("Отмена действия");
@@ -119,21 +116,30 @@ public class FuncRequirementView extends TabSheet implements View, CloseHandler 
             }
         });
 
-
         HorizontalLayout barButton = new HorizontalLayout(addButton, refreshButton, addExistButton);
         barButton.setHeight("50");
         return barButton;
     }
 
     private void addFuncRequirement() {
-        FuncRequirementEditor funcRequirementEditor = new FuncRequirementEditor(selectedObject, funcRequiremntDs);
+       // FuncRequirementEditor funcRequirementEditor = new FuncRequirementEditor(selectedObject, funcRequiremntDs);
+        FuncRequirementWindow funcRequirementWindow = new FuncRequirementWindow(funcRequiremntDs);
+        funcRequirementWindow.create(selectedObject);
+        funcRequirementWindow.addCloseListener(new Window.CloseListener() {
+            @Override
+            public void windowClose(Window.CloseEvent closeEvent) {
+                Notification.show("WINDOW CLOSED");
+            }
+        });
+        //addFtTab(funcRequirementWindow);
+    }
+
+    private void addFtTab(FuncRequirementEditor funcRequirementEditor) {
         Tab addFtTab = addTab(funcRequirementEditor);
         addFtTab.setClosable(true);
-
         addFtTab.setCaption("ФТ " + selectedObject.getParent().getParent().getParent().getCode() +
                 "-" + selectedObject.getParent().getParent().getCode() + "-" + selectedObject.getCode());
         setSelectedTab(getComponentCount() - 1);
-
     }
 
     @Override
@@ -188,8 +194,4 @@ public class FuncRequirementView extends TabSheet implements View, CloseHandler 
             }
         });
     }
-
-
-
-
 }

@@ -33,9 +33,9 @@ public class LoginView extends VerticalLayout {
         setComponentAlignment(loginForm, Alignment.MIDDLE_CENTER);
 
         Notification notification = new Notification(
-                "Welcome to Dashboard Demo");
+                "Добро пожаловать в OSPAS <strong>DATACENTER</strong>");
         notification
-                .setDescription("<span>This application is not real, it only demonstrates an application built with the <a href=\"https://vaadin.com\">Vaadin framework</a>.</span> <span>No username or password is required, just click the <b>Sign In</b> button to continue.</span>");
+                .setDescription("<span>Данное приложение находится в тестовом режиме.</span> <span>Не требуется имя пользователя и пароля, просто нажмите <b>Войти</b> чтобы продолжить.</span>");
         notification.setHtmlContentAllowed(true);
         notification.setStyleName("tray dark small closable login-help");
         notification.setPosition(Position.BOTTOM_CENTER);
@@ -52,7 +52,7 @@ public class LoginView extends VerticalLayout {
 
         loginPanel.addComponent(buildLabels());
         loginPanel.addComponent(buildFields());
-        loginPanel.addComponent(new CheckBox("Remember me", true));
+        loginPanel.addComponent(new CheckBox("Запомнить меня", true));
 
         return loginPanel;
     }
@@ -62,15 +62,15 @@ public class LoginView extends VerticalLayout {
         fields.setSpacing(true);
         fields.addStyleName("fields");
 
-        final TextField username = new TextField("Username");
+        final TextField username = new TextField("Имя пользователя");
         username.setIcon(FontAwesome.USER);
         username.addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
 
-        final PasswordField password = new PasswordField("Password");
+        final PasswordField password = new PasswordField("Пароль");
         password.setIcon(FontAwesome.LOCK);
         password.addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
 
-        final Button signin = new Button("Sign In");
+        final Button signin = new Button("Войти");
         signin.addStyleName(ValoTheme.BUTTON_PRIMARY);
         signin.setClickShortcut(KeyCode.ENTER);
         signin.focus();
@@ -92,13 +92,13 @@ public class LoginView extends VerticalLayout {
         CssLayout labels = new CssLayout();
         labels.addStyleName("labels");
 
-        Label welcome = new Label("Welcome");
+        Label welcome = new Label("Добро пожаловать");
         welcome.setSizeUndefined();
         welcome.addStyleName(ValoTheme.LABEL_H4);
         welcome.addStyleName(ValoTheme.LABEL_COLORED);
         labels.addComponent(welcome);
 
-        Label title = new Label("QuickTickets Dashboard");
+        Label title = new Label("OSPAS DATACENTER");
         title.setSizeUndefined();
         title.addStyleName(ValoTheme.LABEL_H3);
         title.addStyleName(ValoTheme.LABEL_LIGHT);

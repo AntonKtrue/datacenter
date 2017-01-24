@@ -2,7 +2,6 @@ package tn.kaz.ospas.view;
 
 import tn.kaz.ospas.view.dashboard.DashboardView;
 import tn.kaz.ospas.view.directories.DirectoriesView;
-import tn.kaz.ospas.view.funcrequirements.FuncRequirementTab;
 
 import tn.kaz.ospas.view.funcrequirements.FuncRequirementView;
 import tn.kaz.ospas.view.reports.ReportsView;

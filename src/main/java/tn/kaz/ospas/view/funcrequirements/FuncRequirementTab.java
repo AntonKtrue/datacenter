@@ -45,6 +45,7 @@ public class FuncRequirementTab extends VerticalLayout {
             public void itemClick(ItemClickEvent event) {
                 FuncRequirementWindow window = new FuncRequirementWindow(funcRequiremntDs);
                 window.edit(Integer.valueOf(event.getItemId().toString()));
+
             }
         });
 
@@ -95,13 +96,7 @@ public class FuncRequirementTab extends VerticalLayout {
         addButton.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                //FuncRequirementWindow window = new FuncRequirementWindow(datasource);
-                //window.create(selectedObject);
-
                 addFuncRequirement();
-
-                //UI.getCurrent().getNavigator().addView("createFt",FuncRequirementView.class);
-                //UI.getCurrent().getNavigator().navigateTo("createFt");
             }
         });
         addButton.setEnabled(false);
@@ -113,7 +108,6 @@ public class FuncRequirementTab extends VerticalLayout {
                 datasource.refresh();
             }
         });
-
 
         HorizontalLayout barButton = new HorizontalLayout(addButton, refreshButton);
         barButton.setHeight("50");
