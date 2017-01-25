@@ -50,11 +50,16 @@ public class FuncRequirementView extends TabSheet implements View, CloseHandler 
         table.addItemClickListener(new ItemClickEvent.ItemClickListener() {
             @Override
             public void itemClick(ItemClickEvent event) {
-                //FuncRequirementWindow window = new FuncRequirementWindow(funcRequiremntDs);
-                //window.edit(Integer.valueOf(event.getItemId().toString()));
+
                 FuncRequirementEditor editor = new FuncRequirementEditor(funcRequiremntDs, event.getItemId());
                 selectedObject = editor.getFuncRequirement().getStructure();
                 addFtTab(editor);
+            }
+        });
+        table.setItemDescriptionGenerator(new AbstractSelect.ItemDescriptionGenerator() {
+            @Override
+            public String generateDescription(Component source, Object itemId, Object propertyId) {
+                return "Описание: " + funcRequiremntDs.getItem(itemId).getItemProperty("shortDescription");
             }
         });
 
@@ -122,7 +127,7 @@ public class FuncRequirementView extends TabSheet implements View, CloseHandler 
     }
 
     private void addFuncRequirement() {
-       // FuncRequirementEditor funcRequirementEditor = new FuncRequirementEditor(selectedObject, funcRequiremntDs);
+
         FuncRequirementWindow funcRequirementWindow = new FuncRequirementWindow(funcRequiremntDs);
         funcRequirementWindow.create(selectedObject);
         funcRequirementWindow.addCloseListener(new Window.CloseListener() {
@@ -131,7 +136,7 @@ public class FuncRequirementView extends TabSheet implements View, CloseHandler 
                 Notification.show("WINDOW CLOSED");
             }
         });
-        //addFtTab(funcRequirementWindow);
+
     }
 
     private void addFtTab(FuncRequirementEditor funcRequirementEditor) {

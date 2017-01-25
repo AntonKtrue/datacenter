@@ -1,8 +1,6 @@
 package tn.kaz.ospas.view.funcrequirements.components;
 
 import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
 import com.vaadin.event.DataBoundTransferable;
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;

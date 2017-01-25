@@ -1,8 +1,10 @@
 package tn.kaz.ospas.view.funcrequirements;
 
+
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Page;
 import com.vaadin.ui.*;
+import tn.kaz.ospas.data.SimpleJPAContainer;
 import tn.kaz.ospas.model.funcrequirement.FuncRequirement;
 
 import java.io.File;
@@ -16,14 +18,16 @@ import java.io.OutputStream;
 public class FileUploader extends VerticalLayout {
     final Label succededLabel = new Label("Загрузка завершена");
     final private FuncRequirement funcRequirement;
+    final private SimpleJPAContainer<FuncRequirement> funcRequirementDs;
     final Upload upload;
     private Long limit;
     private String filename;
     private File uploads;
 
-    public FileUploader(String caption, final Long limit, String uploadDir, FuncRequirement funcRequirement) {
+    public FileUploader(String caption, final Long limit, String uploadDir, FuncRequirement funcRequirement, SimpleJPAContainer<FuncRequirement> funcRequirementDs) {
         this.limit = limit;
         this.funcRequirement = funcRequirement;
+        this.funcRequirementDs = funcRequirementDs;
         succededLabel.setVisible(false);
         addComponent(succededLabel);
         FileReceiver receiver = new FileReceiver();
@@ -94,12 +98,14 @@ public class FileUploader extends VerticalLayout {
         }
 
         public void uploadSucceeded(Upload.SucceededEvent event) {
-            // Show the uploaded file in the image viewer
-           // image.setVisible(true);
-          //  image.setSource(new FileResource(file));
+
             succededLabel.setVisible(true);
+            funcRequirementDs.getItem(funcRequirement.getId()).getItemProperty("frFilePath").setValue(file.getAbsoluteFile());
+            funcRequirementDs.commit();
+            funcRequirementDs.refresh();
             funcRequirement.setFrFilePath(file.getAbsolutePath());
             upload.setVisible(false);
+            addComponent(new Link("ФТ",new FileResource(file.getAbsoluteFile())));
 
         }
     }

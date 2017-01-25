@@ -3,32 +3,20 @@ package tn.kaz.ospas.view.funcrequirements;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
+
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
+import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.filter.Compare;
-import com.vaadin.event.DataBoundTransferable;
+
 import com.vaadin.event.ItemClickEvent;
-
-import com.vaadin.event.Transferable;
-import com.vaadin.event.dd.DragAndDropEvent;
-import com.vaadin.event.dd.DropHandler;
-import com.vaadin.event.dd.acceptcriteria.AcceptAll;
-import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
 import com.vaadin.server.FileResource;
-
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 
 
 import tn.kaz.ospas.data.SimpleJPAContainer;
 import tn.kaz.ospas.model.Config;
-import tn.kaz.ospas.model.funcrequirement.Agreementor;
+import tn.kaz.ospas.model.funcrequirement.*;
 
-import tn.kaz.ospas.model.funcrequirement.FRCause;
-import tn.kaz.ospas.model.funcrequirement.FuncRequirement;
-
-import tn.kaz.ospas.model.funcrequirement.Sequenceable;
 import tn.kaz.ospas.model.transneft.TransneftStructure;
 import tn.kaz.ospas.view.CrudButtons;
 import tn.kaz.ospas.view.funcrequirements.components.AgreementorWindow;
@@ -39,9 +27,8 @@ import tn.kaz.ospas.view.funcrequirements.components.SequenceTextContainer;
 import javax.persistence.Query;
 import java.io.File;
 
-import java.util.Collection;
+import java.io.IOException;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -52,8 +39,10 @@ public class FuncRequirementEditor extends VerticalLayout {
     private SimpleJPAContainer<FuncRequirement> funcRequirementDs;
     private BeanFieldGroup<FuncRequirement> binder;
     private FuncRequirement funcRequirement;
-    private CrudButtons<FuncRequirement> crudButtons;
+   // private CrudButtons<FuncRequirement> crudButtons;
     private FormLayout layout;
+    private Button saveButton;
+    private Button printFt;
 
     public FuncRequirement getFuncRequirement() {
         return funcRequirement;
@@ -101,212 +90,80 @@ public class FuncRequirementEditor extends VerticalLayout {
                 window.edit(Integer.valueOf(event.getItemId().toString()));
             }
         });
-        //agreementors.getTable().setCellStyleGenerator(new Table.CellStyleGenerator());
 
         addComponent(agreementors);
     }
     private void addCauseArea() {
         final SimpleJPAContainer<FRCause> frCauseDs = new SimpleJPAContainer<FRCause>(FRCause.class);
-//        final RichTextArea causeRta = new RichTextArea("Основание доработки");
-//
-//        causeRta.setWidth(700f,Unit.PIXELS);
-//        Button show = new Button("Добавить");
-//
-//        show.addClickListener(new Button.ClickListener() {
-//            @Override
-//            public void buttonClick(Button.ClickEvent clickEvent) {
-//                Notification.show(causeRta.getValue());
-//                FRCause frCause = new FRCause(frCauseDs.size() + 1,causeRta.getValue(),funcRequirement);
-//                frCauseDs.addEntity(frCause);
-//                frCauseDs.refresh();
-//
-//            }
-//        });
-//        Button del = new Button("Удалить");
-//
-//        final Table frCauseTable = new Table("cause table ",frCauseDs);
-//        del.addClickListener(new Button.ClickListener() {
-//            @Override
-//            public void buttonClick(Button.ClickEvent clickEvent) {
-//                if(frCauseTable.getValue() == null) return;
-//                frCauseDs.removeItem(frCauseTable.getValue());
-//                Collection<Object> collection = frCauseDs.getItemIds();
-//                Iterator<Object> it = collection.iterator();
-//                int i = 1;
-//                while(it.hasNext()) {
-//                    Object itemId = it.next();
-//                    frCauseDs.getItem(itemId).getItemProperty("sequence").setValue(i);
-//                    i++;
-//                }
-//                frCauseDs.commit();
-//                frCauseTable.commit();
-//                frCauseDs.refresh();
-//            }
-//        });
-//        frCauseTable.setContainerDataSource(frCauseDs);
-//        frCauseTable.setVisibleColumns(new Object[]{"sequence"});
-//        frCauseTable.addGeneratedColumn("", new Table.ColumnGenerator() {
-//            @Override
-//            public Object generateCell(Table source, Object itemId, Object columnId) {
-//                Property prop = source.getItem(itemId).getItemProperty(columnId);
-//
-//                Label label = new Label(source.getItem(itemId).getItemProperty("description"),ContentMode.HTML);
-//                label.setHeightUndefined();
-//                label.setWidth(500f, Unit.PIXELS);
-//                return label;
-//            }
-//        });
-//        frCauseTable.setDragMode(Table.TableDragMode.ROW);
-//        frCauseTable.setSelectable(true);
-//        frCauseTable.setMultiSelect(false);
-//        frCauseTable.setDropHandler(new DropHandler() {
-//            @Override
-//            public void drop(DragAndDropEvent event) {
-//                //Transferable t = event.getTransferable();
-//                DataBoundTransferable t = (DataBoundTransferable) event.getTransferable();
-//                Container sourceContainer = t.getSourceContainer();
-//
-//                Object sourceItemId = t.getData("itemId");
-//
-//                AbstractSelect.AbstractSelectTargetDetails dropData = (AbstractSelect.AbstractSelectTargetDetails)event.getTargetDetails();
-//                Object targetItemId = dropData.getItemIdOver();
-//
-//                if(sourceItemId.equals(targetItemId)) return;
-//
-//                switch(dropData.getDropLocation()) {
-//                    case BOTTOM:
-//                        if(Integer.valueOf(targetItemId.toString()) == Integer.valueOf(sourceItemId.toString()) - 1) return;
-//                        moveAfter(frCauseDs, targetItemId, sourceItemId);
-//                        frCauseDs.commit();
-//                        frCauseTable.commit();
-//                        frCauseDs.refresh();
-//                        break;
-//                    case MIDDLE:
-//                    case TOP:
-//                        moveBefore(frCauseDs, targetItemId, sourceItemId);
-//                        frCauseDs.commit();
-//                        frCauseTable.commit();
-//                        frCauseDs.refresh();
-//                        break;
-//                }
-////                Notification.show("Source: " + sourceItemId.toString() + " obj: "
-////                        + frCauseDs.getItem(sourceItemId).getEntity().getSequence() +
-////                        "; Target: " + targetItemId.toString() + " obj: " +
-////                        + frCauseDs.getItem(targetItemId).getEntity().getSequence() +
-////                        "; Location " + dropData.getDropLocation().toString());
-//            }
-//
-//            @Override
-//            public AcceptCriterion getAcceptCriterion() {
-//                return AcceptAll.get();
-//            }
-//        });
-//        frCauseTable.setSortContainerPropertyId("sequence");
-//        frCauseTable.setSortEnabled(false);
-//
-//        addComponent(causeRta);
-//        addComponent(show);
-//        addComponent(del);
-//        addComponent(frCauseTable);
-
-        SequenceTextContainer<FRCause> frCauseArea = new SequenceTextContainer<FRCause>(FRCause.class, frCauseDs, "Основания доработки", 700f, funcRequirement );
+        frCauseDs.setApplyFiltersImmediately(false);
+        frCauseDs.addContainerFilter(new Compare.Equal("funcRequirement", funcRequirement));
+        frCauseDs.applyFilters();
+        SequenceTextContainer<FRCause> frCauseArea = new SequenceTextContainer<FRCause>(FRCause.class, frCauseDs, "Основания доработки", 800f, funcRequirement );
         addComponent(frCauseArea);
     }
 
-    private void moveAfter(SimpleJPAContainer<? extends Sequenceable> datasource, Object target, Object source) {
-        Collection<Object> collection = datasource.getItemIds();
-        Iterator<Object> it = collection.iterator();
-        int i = 1;
-        Object itemId = null;
-        while (it.hasNext()) {
-            itemId = it.next();
-            if(itemId.equals(source)) {
-                continue;
-            } else if(itemId.equals(target)) {
-                datasource.getItem(target).getItemProperty("sequence").setValue(i);
-                i++;
-                datasource.getItem(source).getItemProperty("sequence").setValue(i);
-            } else {
-                datasource.getItem(itemId).getItemProperty("sequence").setValue(i);
-            }
-            i++;
-        }
-    }
-
-    private void moveBefore(JPAContainer datasource, Object target, Object source) {
-        Collection<Object> collection = datasource.getItemIds();
-        Iterator<Object> it = collection.iterator();
-        int i = 1;
-        Object itemId = null;
-        boolean flag = false;
-        while (it.hasNext()) {
-            itemId = it.next();
-            if(itemId.equals(source)) {
-                continue;
-            } else if (itemId.equals(target)) {
-                datasource.getItem(source).getItemProperty("sequence").setValue(i);
-                i++;
-                datasource.getItem(target).getItemProperty("sequence").setValue(i);
-            } else {
-                datasource.getItem(itemId).getItemProperty("sequence").setValue(i);
-            }
-            i++;
-        }
+    private void addDescriptionArea() {
+        final SimpleJPAContainer<Description> frDescriptionDs = new SimpleJPAContainer<Description>(Description.class);
+        frDescriptionDs.setApplyFiltersImmediately(false);
+        frDescriptionDs.addContainerFilter(new Compare.Equal("funcRequirement", funcRequirement));
+        frDescriptionDs.applyFilters();
+        SequenceTextContainer<Description> frDescriptionArea = new SequenceTextContainer<Description>(Description.class, frDescriptionDs, "Подробное описание доработки", 800f, funcRequirement);
+        addComponent(frDescriptionArea);
     }
 
     public void addCommitedContent() {
-
         if(funcRequirement.getFrFilePath() != null) {
             Link frFileLink = new Link("Документ ФТ " , new FileResource(new File(funcRequirement.getFrFilePath())));
             frFileLink.setTargetName("_blank");
             layout.addComponent(frFileLink);
         } else {
-            addComponent(new FileUploader("Документ ФТ", 100000000l, Config.DOC_DIR, funcRequirement));
+            addComponent(new FileUploader("Документ ФТ", 100000000l, Config.DOC_DIR, funcRequirement, funcRequirementDs));
         }
 
         addAgreementorsArea();
         addCauseArea();
+        addDescriptionArea();
+        addLimitDatesArea();
+        saveButton.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                try {
+                    binder.commit();
+                } catch (FieldGroup.CommitException e) {
+                    e.printStackTrace();
+                }
+                funcRequirementDs.addEntity(binder.getItemDataSource().getBean());
+                funcRequirementDs.refresh();
+            }
+        });
 
+    }
 
+    private void addLimitDatesArea() {
+        PopupDateField developmentDate = new PopupDateField("Дата разработки ПО:");
+        developmentDate.setDateFormat("dd.MM.yyyy");
+        developmentDate.setRequired(true);
 
+        binder.bind(developmentDate,"developmentDate" );
+        if(funcRequirement.getDevelopmentDate() == null)
+            developmentDate.setValue(new Date());
 
+        PopupDateField standTestDate = new PopupDateField("Дата стендовых испытаний:");
+        standTestDate.setDateFormat("dd.MM.yyyy");
+        standTestDate.setRequired(true);
+        binder.bind(standTestDate,"standTestDate" );
+        if(funcRequirement.getStandTestDate() == null)
+            standTestDate.setValue(new Date());
 
+        PopupDateField implementationDate = new PopupDateField("Дата внедрения:");
+        implementationDate.setDateFormat("dd.MM.yyyy");
+        implementationDate.setRequired(true);
+        binder.bind(implementationDate,"implementationDate" );
+        if(funcRequirement.getImplementationDate() == null)
+            implementationDate.setValue(new Date());
 
+        layout.addComponents(developmentDate, standTestDate, implementationDate);
 
-//        field = binder.buildAndBind("Согласующие","agreementors");
-//        field.setWidth("600");
-//        layout.addComponent(field);
-
-//        final JPAContainer<Agreementor> agreementorsDs = JPAContainerFactory.make(Agreementor.class, Config.JPA_UNIT);
-//        agreementorsDs.addContainerFilter(new Compare.Equal("funcRequirement", funcRequirement));
-//        agreementorsDs.applyFilters();
-//        OneToManyField<Agreementor> agreementors = new OneToManyField<Agreementor>(
-//                "Согласующие",
-//                binder,agreementorsDs ,
-//                new Object[]{"id","order", "employee", "rank", "department"},
-//                new String[]{"#","Порядок","Сотрудник","Должность","Отдел"},
-//                "agreementors"
-//        );
-//        agreementors.addListenerToAddButton(new Button.ClickListener() {
-//            @Override
-//            public void buttonClick(Button.ClickEvent clickEvent) {
-//                AgreementorWindow window = new AgreementorWindow(agreementorsDs, funcRequirement);
-//                window.create();
-//            }
-//        });
-//       addComponent(agreementors);
-
-
-
-//        JPAContainer<TopAgreementor> topAgreementorsDs = new SimpleJPAContainer<TopAgreementor>(TopAgreementor.class);
-//        Panel topAgreementors = new OneToManyField<TopAgreementor>(
-//                "Согласующие в шапке",
-//                binder, funcRequirementDs,
-//                new Object[]{"id","order", "employee", "rank", "department"},
-//                new String[]{"#","Порядок","Сотрудник","Должность","Отдел"},
-//                "topAgreementors"
-//        );
-//        addComponent(topAgreementors);
     }
 
 
@@ -314,12 +171,29 @@ public class FuncRequirementEditor extends VerticalLayout {
         layout = new FormLayout();
         Label objectName = new Label(funcRequirement.getStructure().getName());
         layout.addComponent(objectName);
+        layout.setSpacing(true);
 
         binder = new BeanFieldGroup<FuncRequirement>(FuncRequirement.class);
         binder.setItemDataSource(funcRequirement);
 
-        crudButtons = new CrudButtons<FuncRequirement>(funcRequirementDs, binder, this);
-        layout.addComponent(crudButtons);
+
+        //crudButtons = new CrudButtons<FuncRequirement>(funcRequirementDs, binder, this);
+        //layout.addComponent(crudButtons);
+        saveButton = new Button("Сохранить");
+        printFt = new Button("Напечатать ФТ");
+        layout.addComponents(saveButton,printFt);
+        printFt.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+//                try {
+//                    //new MakeWordDoc(funcRequirement);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+            }
+        });
+
+
         Field<?> field = null;
 
         field = binder.buildAndBind("Номер", "number");
@@ -343,7 +217,8 @@ public class FuncRequirementEditor extends VerticalLayout {
 
         layout.addComponent(date);
         addComponent(layout);
-       // final SimpleJPAContainer<Agreementor> agreementorsDs = JPAContainerFactory.make() //new SimpleJPAContainer<Agreementor>(Agreementor.class);
+
+
     }
 
 
