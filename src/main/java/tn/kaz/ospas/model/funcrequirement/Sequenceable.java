@@ -10,4 +10,5 @@ public interface Sequenceable {
     public void setFuncRequirement(FuncRequirement funcRequirement);
     public String getDescription();
     public void setDescription(String description);
+
 }
