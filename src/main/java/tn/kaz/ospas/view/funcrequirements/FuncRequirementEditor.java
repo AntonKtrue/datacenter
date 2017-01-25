@@ -91,15 +91,16 @@ public class FuncRequirementEditor extends VerticalLayout {
             }
         });
 
-        addComponent(agreementors);
+        layout.addComponent(agreementors);
     }
+
     private void addCauseArea() {
         final SimpleJPAContainer<FRCause> frCauseDs = new SimpleJPAContainer<FRCause>(FRCause.class);
         frCauseDs.setApplyFiltersImmediately(false);
         frCauseDs.addContainerFilter(new Compare.Equal("funcRequirement", funcRequirement));
         frCauseDs.applyFilters();
         SequenceTextContainer<FRCause> frCauseArea = new SequenceTextContainer<FRCause>(FRCause.class, frCauseDs, "Основания доработки", 800f, funcRequirement );
-        addComponent(frCauseArea);
+        layout.addComponent(frCauseArea);
     }
 
     private void addDescriptionArea() {
@@ -108,7 +109,7 @@ public class FuncRequirementEditor extends VerticalLayout {
         frDescriptionDs.addContainerFilter(new Compare.Equal("funcRequirement", funcRequirement));
         frDescriptionDs.applyFilters();
         SequenceTextContainer<Description> frDescriptionArea = new SequenceTextContainer<Description>(Description.class, frDescriptionDs, "Подробное описание доработки", 800f, funcRequirement);
-        addComponent(frDescriptionArea);
+        layout.addComponent(frDescriptionArea);
     }
 
     public void addCommitedContent() {
@@ -117,7 +118,7 @@ public class FuncRequirementEditor extends VerticalLayout {
             frFileLink.setTargetName("_blank");
             layout.addComponent(frFileLink);
         } else {
-            addComponent(new FileUploader("Документ ФТ", 100000000l, Config.DOC_DIR, funcRequirement, funcRequirementDs));
+            layout.addComponent(new FileUploader("Документ ФТ", 100000000l, Config.DOC_DIR, funcRequirement, funcRequirementDs));
         }
 
         addAgreementorsArea();
@@ -216,9 +217,10 @@ public class FuncRequirementEditor extends VerticalLayout {
         date.setValue(new Date());
 
         layout.addComponent(date);
+        layout.setSpacing(true);
+        layout.setSizeFull();
         addComponent(layout);
-
-
+        setComponentAlignment(layout, Alignment.TOP_CENTER);
     }
 
 
