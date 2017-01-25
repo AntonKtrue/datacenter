@@ -20,6 +20,7 @@ import com.vaadin.server.FileResource;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 
+
 import tn.kaz.ospas.data.SimpleJPAContainer;
 import tn.kaz.ospas.model.Config;
 import tn.kaz.ospas.model.funcrequirement.Agreementor;
@@ -27,16 +28,20 @@ import tn.kaz.ospas.model.funcrequirement.Agreementor;
 import tn.kaz.ospas.model.funcrequirement.FRCause;
 import tn.kaz.ospas.model.funcrequirement.FuncRequirement;
 
+import tn.kaz.ospas.model.funcrequirement.Sequenceable;
 import tn.kaz.ospas.model.transneft.TransneftStructure;
 import tn.kaz.ospas.view.CrudButtons;
 import tn.kaz.ospas.view.funcrequirements.components.AgreementorWindow;
 import tn.kaz.ospas.view.funcrequirements.components.OneToManyField;
-import tn.kaz.ospas.view.funcrequirements.components.sortable.SortableLayout;
-import tn.kaz.ospas.view.reports.ReportEditor;
+import tn.kaz.ospas.view.funcrequirements.components.SequenceTextContainer;
+
 
 import javax.persistence.Query;
 import java.io.File;
+
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -102,105 +107,154 @@ public class FuncRequirementEditor extends VerticalLayout {
     }
     private void addCauseArea() {
         final SimpleJPAContainer<FRCause> frCauseDs = new SimpleJPAContainer<FRCause>(FRCause.class);
-
-
-        final RichTextArea causeRta = new RichTextArea("Основание доработки");
-//        final SortableLayout sortableLayout = new SortableLayout();
-//        sortableLayout.setSizeUndefined();
-//        sortableLayout.setWidth("600px");
-//        sortableLayout.addStyleName("no-horisontal-drag-hints");
-
-        causeRta.setWidth(700f,Unit.PIXELS);
-        Button show = new Button("debug show");
-        show.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                Notification.show(causeRta.getValue());
-              //  Panel panel = new Panel();
-              //  panel.setContent(new Label(causeRta.getValue(), ContentMode.HTML));
-              //  sortableLayout.addComponent(panel);
-                FRCause frCause = new FRCause(1,causeRta.getValue(),funcRequirement);
-                frCauseDs.addEntity(frCause);
-                frCauseDs.refresh();
-
-            }
-        });
-        Table frCauseTable = new Table("cause table ",frCauseDs);
-
-        frCauseTable.setContainerDataSource(frCauseDs);
-        frCauseTable.setVisibleColumns(new Object[]{"sequence"});
-        frCauseTable.addGeneratedColumn("", new Table.ColumnGenerator() {
-            @Override
-            public Object generateCell(Table source, Object itemId, Object columnId) {
-                Property prop = source.getItem(itemId).getItemProperty(columnId);
-//                Button btnView = new Button();
-//                btnView.setData(itemId);
-//                btnView.setDescription("Blalba:" + itemId);
-//                btnView.setWidth("50px");
+//        final RichTextArea causeRta = new RichTextArea("Основание доработки");
 //
-//                return btnView;
-                //Panel panel = new Panel();
-                //panel.setHeightUndefined();
-                //panel.setWidth(500f,Unit.PIXELS);
-                Label label = new Label(source.getItem(itemId).getItemProperty("description"),ContentMode.HTML);
-                //panel.setContent(label);
-                label.setHeightUndefined();
-                label.setWidth(500f, Unit.PIXELS);
-                return label;
-            }
-        });
-        frCauseTable.setDragMode(Table.TableDragMode.ROW);
-        frCauseTable.setDropHandler(new DropHandler() {
-            @Override
-            public void drop(DragAndDropEvent event) {
-                //Transferable t = event.getTransferable();
-                DataBoundTransferable t = (DataBoundTransferable) event.getTransferable();
-                Container sourceContainer = t.getSourceContainer();
-
-                Object sourceItemId = t.getData("itemId");
-
-                AbstractSelect.AbstractSelectTargetDetails dropData = (AbstractSelect.AbstractSelectTargetDetails)event.getTargetDetails();
-                Object targetItemId = dropData.getItemIdOver();
-
-
-                Notification.show("Source: " + sourceItemId.toString() +
-                        "; Target: " + targetItemId.toString() +
-                        "; Location " + dropData.getDropLocation().toString());
+//        causeRta.setWidth(700f,Unit.PIXELS);
+//        Button show = new Button("Добавить");
+//
+//        show.addClickListener(new Button.ClickListener() {
+//            @Override
+//            public void buttonClick(Button.ClickEvent clickEvent) {
+//                Notification.show(causeRta.getValue());
+//                FRCause frCause = new FRCause(frCauseDs.size() + 1,causeRta.getValue(),funcRequirement);
+//                frCauseDs.addEntity(frCause);
+//                frCauseDs.refresh();
+//
+//            }
+//        });
+//        Button del = new Button("Удалить");
+//
+//        final Table frCauseTable = new Table("cause table ",frCauseDs);
+//        del.addClickListener(new Button.ClickListener() {
+//            @Override
+//            public void buttonClick(Button.ClickEvent clickEvent) {
+//                if(frCauseTable.getValue() == null) return;
+//                frCauseDs.removeItem(frCauseTable.getValue());
+//                Collection<Object> collection = frCauseDs.getItemIds();
+//                Iterator<Object> it = collection.iterator();
+//                int i = 1;
+//                while(it.hasNext()) {
+//                    Object itemId = it.next();
+//                    frCauseDs.getItem(itemId).getItemProperty("sequence").setValue(i);
+//                    i++;
+//                }
+//                frCauseDs.commit();
+//                frCauseTable.commit();
+//                frCauseDs.refresh();
+//            }
+//        });
+//        frCauseTable.setContainerDataSource(frCauseDs);
+//        frCauseTable.setVisibleColumns(new Object[]{"sequence"});
+//        frCauseTable.addGeneratedColumn("", new Table.ColumnGenerator() {
+//            @Override
+//            public Object generateCell(Table source, Object itemId, Object columnId) {
+//                Property prop = source.getItem(itemId).getItemProperty(columnId);
+//
+//                Label label = new Label(source.getItem(itemId).getItemProperty("description"),ContentMode.HTML);
+//                label.setHeightUndefined();
+//                label.setWidth(500f, Unit.PIXELS);
+//                return label;
+//            }
+//        });
+//        frCauseTable.setDragMode(Table.TableDragMode.ROW);
+//        frCauseTable.setSelectable(true);
+//        frCauseTable.setMultiSelect(false);
+//        frCauseTable.setDropHandler(new DropHandler() {
+//            @Override
+//            public void drop(DragAndDropEvent event) {
+//                //Transferable t = event.getTransferable();
+//                DataBoundTransferable t = (DataBoundTransferable) event.getTransferable();
+//                Container sourceContainer = t.getSourceContainer();
+//
+//                Object sourceItemId = t.getData("itemId");
+//
+//                AbstractSelect.AbstractSelectTargetDetails dropData = (AbstractSelect.AbstractSelectTargetDetails)event.getTargetDetails();
+//                Object targetItemId = dropData.getItemIdOver();
+//
+//                if(sourceItemId.equals(targetItemId)) return;
+//
 //                switch(dropData.getDropLocation()) {
 //                    case BOTTOM:
-//                        //moveAfter(targetItemId, sourceItemId);
-//
+//                        if(Integer.valueOf(targetItemId.toString()) == Integer.valueOf(sourceItemId.toString()) - 1) return;
+//                        moveAfter(frCauseDs, targetItemId, sourceItemId);
+//                        frCauseDs.commit();
+//                        frCauseTable.commit();
+//                        frCauseDs.refresh();
 //                        break;
 //                    case MIDDLE:
 //                    case TOP:
-//                        //final Object prevItemId = prevItemId(targetItemId);
-//                        //moveAfter(prevItemId, sourceItemId);
+//                        moveBefore(frCauseDs, targetItemId, sourceItemId);
+//                        frCauseDs.commit();
+//                        frCauseTable.commit();
+//                        frCauseDs.refresh();
 //                        break;
 //                }
-            }
-
-            @Override
-            public AcceptCriterion getAcceptCriterion() {
-                return AcceptAll.get();
-            }
-        });
-        frCauseTable.setSortContainerPropertyId("sequence");
-        frCauseTable.setSortEnabled(false);
-
-        addComponent(causeRta);
-        addComponent(show);
-        addComponent(frCauseTable);
-     //   addComponent(sortableLayout);
-//        final JPAContainer<FRCause> frCauseDs = new SimpleJPAContainer<FRCause>(FRCause.class);
-//        Table table = new Table("Основания доработки",frCauseDs);
-//        table.setContainerDataSource(frCauseDs);
+////                Notification.show("Source: " + sourceItemId.toString() + " obj: "
+////                        + frCauseDs.getItem(sourceItemId).getEntity().getSequence() +
+////                        "; Target: " + targetItemId.toString() + " obj: " +
+////                        + frCauseDs.getItem(targetItemId).getEntity().getSequence() +
+////                        "; Location " + dropData.getDropLocation().toString());
+//            }
 //
+//            @Override
+//            public AcceptCriterion getAcceptCriterion() {
+//                return AcceptAll.get();
+//            }
+//        });
+//        frCauseTable.setSortContainerPropertyId("sequence");
+//        frCauseTable.setSortEnabled(false);
+//
+//        addComponent(causeRta);
+//        addComponent(show);
+//        addComponent(del);
+//        addComponent(frCauseTable);
+
+        SequenceTextContainer<FRCause> frCauseArea = new SequenceTextContainer<FRCause>(FRCause.class, frCauseDs, "Основания доработки", 700f, funcRequirement );
+        addComponent(frCauseArea);
+    }
+
+    private void moveAfter(SimpleJPAContainer<? extends Sequenceable> datasource, Object target, Object source) {
+        Collection<Object> collection = datasource.getItemIds();
+        Iterator<Object> it = collection.iterator();
+        int i = 1;
+        Object itemId = null;
+        while (it.hasNext()) {
+            itemId = it.next();
+            if(itemId.equals(source)) {
+                continue;
+            } else if(itemId.equals(target)) {
+                datasource.getItem(target).getItemProperty("sequence").setValue(i);
+                i++;
+                datasource.getItem(source).getItemProperty("sequence").setValue(i);
+            } else {
+                datasource.getItem(itemId).getItemProperty("sequence").setValue(i);
+            }
+            i++;
+        }
+    }
+
+    private void moveBefore(JPAContainer datasource, Object target, Object source) {
+        Collection<Object> collection = datasource.getItemIds();
+        Iterator<Object> it = collection.iterator();
+        int i = 1;
+        Object itemId = null;
+        boolean flag = false;
+        while (it.hasNext()) {
+            itemId = it.next();
+            if(itemId.equals(source)) {
+                continue;
+            } else if (itemId.equals(target)) {
+                datasource.getItem(source).getItemProperty("sequence").setValue(i);
+                i++;
+                datasource.getItem(target).getItemProperty("sequence").setValue(i);
+            } else {
+                datasource.getItem(itemId).getItemProperty("sequence").setValue(i);
+            }
+            i++;
+        }
     }
 
     public void addCommitedContent() {
-        //Label addede = new Label("ФТ добавлен!");
-        //addComponent(addede);
-        //addComponent(new FileUploader("Документ ФТ", 100000000l, Config.DOC_DIR, funcRequirement));
 
         if(funcRequirement.getFrFilePath() != null) {
             Link frFileLink = new Link("Документ ФТ " , new FileResource(new File(funcRequirement.getFrFilePath())));

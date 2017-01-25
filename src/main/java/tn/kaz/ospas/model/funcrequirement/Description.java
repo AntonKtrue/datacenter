@@ -17,7 +17,7 @@ public class Description extends Identity implements Sequenceable {
     @NotNull
     private int sequence;
     @NotNull
-    private String text;
+    private String description;
 
     @ManyToOne
     @PrimaryKeyJoinColumn
@@ -31,9 +31,19 @@ public class Description extends Identity implements Sequenceable {
         this.funcRequirement = funcRequirement;
     }
 
-    public Description(int sequence, String text) {
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Description(int sequence, String description) {
         this.sequence = sequence;
-        this.text = text;
+        this.description = description;
     }
 
     public Description() {
@@ -50,13 +60,7 @@ public class Description extends Identity implements Sequenceable {
         this.sequence = order;
     }
 
-    public String getText() {
-        return text;
-    }
 
-    public void setText(String text) {
-        this.text = text;
-    }
 
 
 }

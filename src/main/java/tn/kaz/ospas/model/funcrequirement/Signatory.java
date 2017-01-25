@@ -6,6 +6,7 @@ import tn.kaz.ospas.model.transneft.TransneftEmployee;
 import tn.kaz.ospas.model.transneft.TransneftRank;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by Anton on 19.01.2017.
@@ -18,6 +19,17 @@ public class Signatory extends Identity {
     private TransneftRank rank;
     @ManyToOne(fetch = FetchType.LAZY)
     private TransneftDepartment department;
+
+    @NotNull
+    private int sequence;
+
+    public int getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(int order) {
+        this.sequence = order;
+    }
 
     public Signatory(TransneftEmployee employee) {
         this.employee = employee;

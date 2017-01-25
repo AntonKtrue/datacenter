@@ -10,23 +10,13 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "fr_topagreementor")
-public class TopAgreementor extends Signatory implements Sequenceable
+public class TopAgreementor extends Signatory
 {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private FuncRequirement funcRequirement;
 
-    @NotNull
-    private int sequence;
-    @Override
-    public int getSequence() {
-        return sequence;
-    }
-    @Override
-    public void setSequence(int order) {
-        this.sequence = order;
-    }
 
     public FuncRequirement getFuncRequirement() {
         return funcRequirement;
@@ -36,15 +26,15 @@ public class TopAgreementor extends Signatory implements Sequenceable
         this.funcRequirement = funcRequirement;
     }
 
-    public TopAgreementor(TransneftEmployee employee, FuncRequirement funcRequirement, int sequence) {
+    public TopAgreementor(TransneftEmployee employee, FuncRequirement funcRequirement) {
         super(employee);
         this.funcRequirement = funcRequirement;
-        this.sequence = sequence;
+
     }
 
-    public TopAgreementor(FuncRequirement funcRequirement, int sequence) {
+    public TopAgreementor(FuncRequirement funcRequirement) {
         this.funcRequirement = funcRequirement;
-        this.sequence = sequence;
+
     }
 
     public TopAgreementor() {
