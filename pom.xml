@@ -291,6 +291,17 @@
 			<artifactId>poi-ooxml</artifactId>
 			<version>3.15</version>
 		</dependency>
+		<dependency>
+			<groupId>pl.jsolve</groupId>
+			<artifactId>templ4docx</artifactId>
+			<version>2.0.2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.odftoolkit/odfdom-java -->
+		<dependency>
+			<groupId>org.odftoolkit</groupId>
+			<artifactId>odfdom-java</artifactId>
+			<version>0.8.7</version>
+		</dependency>
 
 
 
