@@ -62,8 +62,10 @@ public class FuncRequirementView extends TabSheet implements View, CloseHandler 
             }
         });
 
-        Tree structureTree = new StructureTree(structureDs);
-        structureTree.expandItem(structureDs.firstItemId());
+        StructureTree structureTree = new StructureTree(structureDs);
+       // structureTree.expandItem(structureDs.firstItemId());
+        StructureTree.expand(structureTree, StructureType.AK);
+        StructureTree.expand(structureTree, StructureType.OST);
 
         structureTree.addItemClickListener(new ItemClickEvent.ItemClickListener() {
             @Override

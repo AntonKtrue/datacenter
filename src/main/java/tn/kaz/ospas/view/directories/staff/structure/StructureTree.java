@@ -28,7 +28,7 @@ public class StructureTree extends Tree {
         Iterator it = c.iterator();
         while (it.hasNext()) {
             Object itemId = it.next();
-            if(tree.getItem(itemId).getItemProperty("type").equals(type)) {
+            if(tree.getContainerDataSource().getItem(itemId).getItemProperty("type").getValue().equals(type)) {
                 tree.expandItem(itemId);
             }
         }
