@@ -2,12 +2,11 @@ package tn.kaz.ospas.view.funcrequirements;
 
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.usermodel.*;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.*;
 import tn.kaz.ospas.model.funcrequirement.FuncRequirement;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.math.BigInteger;
 
 /**
  * Created by Anton on 25.01.2017.
@@ -42,10 +41,67 @@ public class MakeWordDoc {
 
     private static void makeDoc() throws IOException {
         XWPFDocument doc = new XWPFDocument();
-        //XWPFParagraph headerP = doc.createParagraph();
-        XWPFTable headTable = doc.createTable(1,2);
-       // headTable.bor
 
+
+        //paragraph.setStyle("bold");
+
+        //XWPFParagraph headerP = doc.createParagraph();
+        XWPFTable table = doc.createTable();
+        CTTbl tab1 = table.getCTTbl();
+        CTTblPr pr = tab1.getTblPr();
+        CTTblWidth tblW = pr.getTblW();
+        tblW.setW(BigInteger.valueOf(5000));
+        tblW.setType(STTblWidth.PCT);
+        pr.setTblW(tblW);
+        pr.unsetTblBorders();
+        tab1.setTblPr(pr);
+        CTJc jc = pr.addNewJc();
+        jc.setVal(STJc.RIGHT);
+        pr.setJc(jc);
+
+//        table.setRowBandSize(1);
+//        table.setColBandSize(1);
+//        table.setWidth(1);
+//        table.setCellMargins(1,1,100,30 );
+//        table.setStyleID("finest");
+
+        XWPFTableRow row1 = table.getRow(0);
+
+        row1.getCell(0).setText("СОГЛАСОВАНО");
+        row1.addNewTableCell().setText("УТВЕРЖДАЮ");
+       // headTable.bor
+        XWPFParagraph paragraph = doc.createParagraph();
+        paragraph.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun run = paragraph.createRun();
+
+        run.setBold(true);
+        run.setItalic(true);
+        run.addBreak();
+        run.setTextPosition(100);
+        run.setStrikeThrough(true);
+        run.setText("ФУНКЦИОНАЛЬНОЕ ТРЕБОВАНИЕ");
+        run.addTab();
+        run.setText("на программно-аппаратную доработку микпропроцессорной системы автоматики");
+
+
+        XWPFNumbering num1 =  doc.createNumbering();
+        CTAbstractNum abstractNum = CTAbstractNum.Factory.newInstance();
+        XWPFAbstractNum abs = new XWPFAbstractNum(abstractNum, num1);
+        BigInteger id = BigInteger.valueOf(0);
+        boolean found = false;
+        while(!found)
+        {
+            Object o = num1.getAbstractNum(id);
+            found = (o == null);
+            if (!found) id = id.add(BigInteger.ONE);
+
+        }
+// assign id
+        abs.getAbstractNum().setAbstractNumId(id);
+        // add to numbering, should get back same id
+        id = num1.addAbstractNum(abs);
+        // add to num list, result is numid
+        doc.getNumbering().addNum(id);
 
 
 //
@@ -126,7 +182,7 @@ public class MakeWordDoc {
 //        r5.setText("The pangs of despised love, the law's delay,"
 //                + "The insolence of office and the spurns" + ".......");
 
-        FileOutputStream out = new FileOutputStream("E:/TEMP/simple.docx");
+        FileOutputStream out = new FileOutputStream("/tmp/simple.docx");
         doc.write(out);
         out.close();
         doc.close();
