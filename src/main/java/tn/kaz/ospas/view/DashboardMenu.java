@@ -146,7 +146,13 @@ public final class DashboardMenu extends CustomComponent {
         menuItemsLayout.addStyleName("valo-menuitems");
 
         for (final DashboardViewType view : DashboardViewType.values()) {
+            if(view == DashboardViewType.REPORTS ||
+                    view == DashboardViewType.TRANSACTIONS ||
+                    view == DashboardViewType.SCHEDULE) {
+                continue;
+            }
             Component menuItemComponent = new ValoMenuItemButton(view);
+
 
             if (view == DashboardViewType.REPORTS) {
                 // Add drop target to reports button
@@ -178,6 +184,7 @@ public final class DashboardMenu extends CustomComponent {
             }
 
             if (view == DashboardViewType.DASHBOARD) {
+            //if (view == DashboardViewType.FUNCREQUIREMENTS) {
                 notificationsBadge = new Label();
                 notificationsBadge.setId(NOTIFICATIONS_BADGE_ID);
                 menuItemComponent = buildBadgeWrapper(menuItemComponent,

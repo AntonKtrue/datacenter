@@ -3,13 +3,16 @@ package tn.kaz.ospas.view.funcrequirements.components;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.event.DataBoundTransferable;
 
+
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
 import com.vaadin.event.dd.acceptcriteria.AcceptAll;
 import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
+
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
+
 import tn.kaz.ospas.data.SimpleJPAContainer;
 
 import tn.kaz.ospas.model.funcrequirement.FuncRequirement;
@@ -40,6 +43,7 @@ public class SequenceTextContainer<T extends Sequenceable> extends VerticalLayou
         Button delButton = new Button("Удалить");
         HorizontalLayout buttons = new HorizontalLayout(addButton, delButton);
         addComponents(buttons);
+        setCaption(caption);
         buildTable(pixelsWidth);
         addButton.addClickListener(new Button.ClickListener() {
             @Override
@@ -108,19 +112,20 @@ public class SequenceTextContainer<T extends Sequenceable> extends VerticalLayou
                 AbstractSelect.AbstractSelectTargetDetails dropData = (AbstractSelect.AbstractSelectTargetDetails)event.getTargetDetails();
                 Object targetItemId = dropData.getItemIdOver();
                 if(sourceItemId.equals(targetItemId)) return;
+                if(dropData == null && dropData.getDropLocation() == null) return;
                 switch(dropData.getDropLocation()) {
                     case BOTTOM:
                         if(Integer.valueOf(targetItemId.toString()) == Integer.valueOf(sourceItemId.toString()) - 1) return;
                         move(datasource, targetItemId, sourceItemId, false);
                         datasource.commit();
-                        table.commit();
+                        //table.commit();
                         datasource.refresh();
                         break;
                     case MIDDLE:
                     case TOP:
                         move(datasource, targetItemId, sourceItemId, true);
                         datasource.commit();
-                        table.commit();
+                        //table.commit();
                         datasource.refresh();
                         break;
                 }
@@ -133,7 +138,7 @@ public class SequenceTextContainer<T extends Sequenceable> extends VerticalLayou
         });
         table.setSortContainerPropertyId("sequence");
         table.setSortEnabled(false);
-        table.setPageLength(5);
+        table.setPageLength(7);
 
 
         table.addItemClickListener(new ItemClickEvent.ItemClickListener() {
@@ -146,8 +151,10 @@ public class SequenceTextContainer<T extends Sequenceable> extends VerticalLayou
                 }
             }
         });
-
+        table.setSizeFull();
         addComponent(table);
+        setExpandRatio(table,1f);
+
     }
 
     private void move(JPAContainer datasource, Object target, Object source, boolean before) {
@@ -189,6 +196,7 @@ public class SequenceTextContainer<T extends Sequenceable> extends VerticalLayou
         public RichTextWindow(Sequenceable editItem) {
             this.editItem = editItem;
             setCaption(caption);
+
             setWidth(800f, Unit.PIXELS);
             setHeight(350f, Unit.PIXELS);
             setModal(true);
@@ -209,7 +217,7 @@ public class SequenceTextContainer<T extends Sequenceable> extends VerticalLayou
                 public void buttonClick(Button.ClickEvent clickEvent) {
                         editItem.setDescription(richTextArea.getValue());
                         datasource.addEntity(editItem);
-                        datasource.refresh();
+                        //datasource.refresh();
                         richTextArea.setValue("");
                         RichTextWindow.this.close();
 

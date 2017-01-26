@@ -14,7 +14,7 @@ import tn.kaz.ospas.view.CrudButtons;
 /**
  * Created by Anton on 23.01.2017.
  */
-public class OneToManyField<T extends Identity> extends Panel {
+public class OneToManyField<T extends Identity> extends VerticalLayout {
 
     private String caption;
     private BeanFieldGroup<FuncRequirement> binder;
@@ -91,8 +91,10 @@ public class OneToManyField<T extends Identity> extends Panel {
 
         binder.bind(table,property);
         layout.addComponent(table);
-        setContent(layout);
+        addComponent(layout);
     }
+
+
 
     public T getSelectedObject() {
         return selectedObject;

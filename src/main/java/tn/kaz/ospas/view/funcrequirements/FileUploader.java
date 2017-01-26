@@ -5,36 +5,77 @@ import com.vaadin.server.FileResource;
 import com.vaadin.server.Page;
 import com.vaadin.ui.*;
 import tn.kaz.ospas.data.SimpleJPAContainer;
+import tn.kaz.ospas.model.Config;
 import tn.kaz.ospas.model.funcrequirement.FuncRequirement;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * Created by Anton on 23.01.2017.
  */
 @SuppressWarnings("serial")
-public class FileUploader extends VerticalLayout {
+public class FileUploader extends HorizontalLayout {
     final Label succededLabel = new Label("Загрузка завершена");
     final private FuncRequirement funcRequirement;
     final private SimpleJPAContainer<FuncRequirement> funcRequirementDs;
-    final Upload upload;
+
     private Long limit;
     private String filename;
     private File uploads;
+    private String filePathProperty;
 
-    public FileUploader(String caption, final Long limit, String uploadDir, FuncRequirement funcRequirement, SimpleJPAContainer<FuncRequirement> funcRequirementDs) {
+    private String caption;
+    private String uploadDir;
+
+    private HorizontalLayout uploadField, uploadedField;
+
+    public FileUploader(String caption,
+                        final Long limit,
+                        String uploadDir,
+                        FuncRequirement funcRequirement,
+                        SimpleJPAContainer<FuncRequirement> funcRequirementDs,
+                        String filePathProperty
+                        ) {
+
         this.limit = limit;
+        this.uploadDir = uploadDir;
+        this.caption = caption;
+
+        this.filePathProperty = filePathProperty;
         this.funcRequirement = funcRequirement;
         this.funcRequirementDs = funcRequirementDs;
-        succededLabel.setVisible(false);
-        addComponent(succededLabel);
+        if (funcRequirementDs.getItem(funcRequirement.getId()).getItemProperty(filePathProperty).getValue() != null) {
+            uploadedField = makeUploadedField();
+            addComponent(uploadedField);
+        } else {
+            uploadField = makeUploadField();
+            addComponent(uploadField);
+        }
+    }
+
+    private HorizontalLayout makeUploadField() {
+        HorizontalLayout layout = new HorizontalLayout();
         FileReceiver receiver = new FileReceiver();
-        upload = new Upload(caption, receiver);
+        final Upload upload = new Upload(caption, receiver);
         final ProgressBar progress = new ProgressBar(0.0f);
         progress.setVisible(false);
-        upload.setButtonCaption("Загрузить");
+        upload.setButtonCaption(null);
+        upload.addChangeListener(new Upload.ChangeListener()
+        {
+            @Override
+            public void filenameChanged(Upload.ChangeEvent event)
+            {
+                if (event.getFilename() != null)
+                    upload.setButtonCaption("Загрузить");
+            }
+        });
+
+
         upload.addSucceededListener(receiver);
         upload.addStartedListener(new Upload.StartedListener() {
             private static final long serialVersionUID = 4728847902678459488L;
@@ -69,10 +110,41 @@ public class FileUploader extends VerticalLayout {
                 }
             }
         });
-        addComponents(upload, progress);
-        uploads = new File(uploadDir, funcRequirement.generateDocPath() );
+        succededLabel.setVisible(false);
+
+        layout.addComponents(succededLabel, upload, progress);
+        uploads = new File(uploadDir, funcRequirement.generateDocPath());
         if (!uploads.exists() && !uploads.mkdirs())
             addComponent(new Label("ERROR: Could not create upload dir"));
+        return layout;
+    }
+
+    private HorizontalLayout makeUploadedField() {
+        //   if(funcRequirement.getFrFilePath() != null) {
+        HorizontalLayout layout = new HorizontalLayout();
+        Link frFileLink = new Link(caption, new FileResource(new File(funcRequirementDs.getItem(funcRequirement.getId()).getItemProperty(filePathProperty).getValue().toString())));
+        frFileLink.setTargetName("_blank");
+        Button deleteButton = new Button("Удалить");
+        deleteButton.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                funcRequirementDs.getItem(funcRequirement.getId()).getItemProperty(filePathProperty).setValue(null);
+                try {
+                    Files.delete(Paths.get(funcRequirementDs.getItem(funcRequirement.getId()).getItemProperty(filePathProperty).getValue().toString()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Notification.show("Ошибка удаления файла");
+                } finally {
+                    removeComponent(uploadedField);
+                    uploadField = makeUploadField();
+                    addComponent(uploadField);
+                }
+            }
+        });
+        layout.addComponents(deleteButton, frFileLink);
+        return layout;
+
+
     }
 
     @SuppressWarnings("serial")
@@ -80,33 +152,33 @@ public class FileUploader extends VerticalLayout {
         private File file;
         public OutputStream receiveUpload(String filename,
                                           String mimeType) {
+            //Notification.show(filename);
+            //Notification.show(mimeType);
+
+            if(filename == null) return null;
             FileUploader.this.filename = filename;
-            // Create upload stream
-            FileOutputStream fos = null; // Stream to write to
+            FileOutputStream fos = null;
             try {
-                // Open the file for writing.
                 file = new File(uploads, filename);
                 fos = new FileOutputStream(file);
             } catch (final java.io.FileNotFoundException e) {
-                new Notification("Could not open file<br/>",
-                        e.getMessage(),
-                        Notification.Type.ERROR_MESSAGE)
-                        .show(Page.getCurrent());
+//                new Notification("Could not open file<br/>",
+//                        e.getMessage(),
+//                        Notification.Type.ERROR_MESSAGE)
+//                        .show(Page.getCurrent());
                 return null;
             }
-            return fos; // Return the output stream to write to
+            return fos;
         }
 
         public void uploadSucceeded(Upload.SucceededEvent event) {
-
             succededLabel.setVisible(true);
-            funcRequirementDs.getItem(funcRequirement.getId()).getItemProperty("frFilePath").setValue(file.getAbsoluteFile());
+            funcRequirementDs.getItem(funcRequirement.getId()).getItemProperty(filePathProperty).setValue(file.getAbsoluteFile());
             funcRequirementDs.commit();
             funcRequirementDs.refresh();
-            funcRequirement.setFrFilePath(file.getAbsolutePath());
-            upload.setVisible(false);
-            addComponent(new Link("ФТ",new FileResource(file.getAbsoluteFile())));
-
+            removeComponent(uploadField);
+            uploadedField = makeUploadedField();
+            addComponent(uploadedField);
         }
     }
 }

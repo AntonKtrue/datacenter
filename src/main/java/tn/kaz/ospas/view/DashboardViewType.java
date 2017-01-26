@@ -12,9 +12,9 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 
 public enum DashboardViewType {
-    DASHBOARD("dashboard", DashboardView.class, FontAwesome.HOME, true),
+    DASHBOARD("главная", DashboardView.class, FontAwesome.HOME, false),
     TRANSACTIONS("transactions", TransactionsView.class, FontAwesome.TABLE, false),
-    REPORTS("reports", ReportsView.class, FontAwesome.FILE_TEXT_O, true),
+    REPORTS("reports", ReportsView.class, FontAwesome.FILE_TEXT_O, false),
     SCHEDULE("schedule", ScheduleView.class, FontAwesome.CALENDAR_O, false),
     DIRECTORIES("справочники", DirectoriesView.class, FontAwesome.BOOK, false),
     FUNCREQUIREMENTS("функ. требования",FuncRequirementView.class, FontAwesome.INDUSTRY, true)

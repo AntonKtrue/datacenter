@@ -13,12 +13,14 @@ import com.vaadin.server.FileResource;
 import com.vaadin.ui.*;
 
 
+import tn.kaz.ospas.data.HierarchicalJPAContainer;
 import tn.kaz.ospas.data.SimpleJPAContainer;
 import tn.kaz.ospas.model.Config;
 import tn.kaz.ospas.model.funcrequirement.*;
 
 import tn.kaz.ospas.model.transneft.TransneftStructure;
 import tn.kaz.ospas.view.CrudButtons;
+import tn.kaz.ospas.view.GuiHelper;
 import tn.kaz.ospas.view.funcrequirements.components.AgreementorWindow;
 import tn.kaz.ospas.view.funcrequirements.components.OneToManyField;
 import tn.kaz.ospas.view.funcrequirements.components.SequenceTextContainer;
@@ -34,12 +36,13 @@ import java.util.List;
 /**
  * Created by Anton on 20.01.2017.
  */
-public class FuncRequirementEditor extends VerticalLayout {
+public class FuncRequirementEditor extends TabSheet {
     private TransneftStructure structure;
     private SimpleJPAContainer<FuncRequirement> funcRequirementDs;
+    private HierarchicalJPAContainer<TransneftStructure> structureDs;
     private BeanFieldGroup<FuncRequirement> binder;
     private FuncRequirement funcRequirement;
-   // private CrudButtons<FuncRequirement> crudButtons;
+
     private FormLayout layout;
     private Button saveButton;
     private Button printFt;
@@ -48,24 +51,122 @@ public class FuncRequirementEditor extends VerticalLayout {
         return funcRequirement;
     }
 
-    public FuncRequirementEditor(TransneftStructure structure, SimpleJPAContainer<FuncRequirement> funcRequirementDs ) {
-        this.structure = structure;
-        this.funcRequirementDs = funcRequirementDs;
-        this.funcRequirement = new FuncRequirement(structure);
-        Query query = funcRequirementDs.getEntityProvider().getEntityManager().createNamedQuery("Number.empty");
-        List<Long> result  = query.getResultList();
-        this.funcRequirement.setNumber(result.size() > 0 ? result.get(0) : 1);
-        buildFuncRequirementScreen();
-    }
-
-    public FuncRequirementEditor(SimpleJPAContainer<FuncRequirement> funcRequirementDs, Object itemId) {
+    public FuncRequirementEditor(SimpleJPAContainer<FuncRequirement> funcRequirementDs, HierarchicalJPAContainer<TransneftStructure> structureDs , Object itemId) {
         this.funcRequirement = funcRequirementDs.getItem(itemId).getEntity();
         this.funcRequirementDs = funcRequirementDs;
-        buildFuncRequirementScreen();
-        addCommitedContent();
+        this.structureDs = structureDs;
+        addTab(GuiHelper.makeTabContent("Общие сведения", Alignment.MIDDLE_CENTER, descriptionTab()));
+        addTab(GuiHelper.makeTabContent("Согласующие",Alignment.MIDDLE_CENTER, agreementorsTab()));
+        addTab(GuiHelper.makeTabContent("Описание",Alignment.MIDDLE_CENTER,new FormLayout(causeBlock(), descriptionBlock())));
+        addTab(GuiHelper.makeTabContent("Файлы",Alignment.MIDDLE_CENTER, filesTab()));
+        addTab(GuiHelper.makeTabContent("Исполнители работ", Alignment.MIDDLE_CENTER, executorsTab()));
+        addTab(GuiHelper.makeTabContent("Уведомления об изменениях", Alignment.MIDDLE_CENTER, noticeTab()));
+        addTab(GuiHelper.makeTabContent("ПМИ", Alignment.MIDDLE_CENTER, pmiTab()));
+        addTab(GuiHelper.makeTabContent("Печатные формы", Alignment.MIDDLE_CENTER, printeableTab()));
     }
 
-    private void addAgreementorsArea() {
+    private Component pmiTab() {
+        return new FormLayout();
+    }
+
+    private Component printeableTab() {
+        return new FormLayout();
+    }
+
+    private Component executorsTab() {
+        return new FormLayout();
+    }
+
+    private Component noticeTab() {
+        return new FormLayout();
+    }
+
+    private Component descriptionTab() {
+       // VerticalLayout tabContent = new VerticalLayout();
+        FormLayout formLayout = new FormLayout();
+
+        Label objectName = new Label(funcRequirement.getStructure().getName());
+        formLayout.addComponent(objectName);
+        formLayout.setSpacing(true);
+        binder = new BeanFieldGroup<FuncRequirement>(FuncRequirement.class);
+        binder.setItemDataSource(funcRequirement);
+        saveButton = new Button("Сохранить");
+        printFt = new Button("Напечатать ФТ");
+        formLayout.addComponents(saveButton,printFt);
+        printFt.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+//                try {
+//                    //new MakeWordDoc(funcRequirement);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+            }
+        });
+        saveButton.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                try {
+                    binder.commit();
+                } catch (FieldGroup.CommitException e) {
+                    e.printStackTrace();
+                }
+                funcRequirementDs.addEntity(binder.getItemDataSource().getBean());
+                funcRequirementDs.refresh();
+            }
+        });
+        Field<?> field = null;
+
+        field = binder.buildAndBind("Номер", "number");
+        field.setWidth("250");
+        field.setRequired(true);
+
+        formLayout.addComponent(field);
+
+        TextArea shortDescription = new TextArea("Краткое описание (250 символов)");
+        shortDescription.setRows(5);
+        shortDescription.setColumns(40);
+        shortDescription.setNullRepresentation("");
+        binder.bind(shortDescription,"shortDescription");
+        formLayout.addComponent(shortDescription);
+
+        PopupDateField date = new PopupDateField("Дата ФТ:");
+        date.setDateFormat("dd.MM.yyyy");
+        date.setRequired(true);
+        binder.bind(date,"date" );
+        date.setValue(new Date());
+
+        PopupDateField developmentDate = new PopupDateField("Дата разработки ПО:");
+        developmentDate.setDateFormat("dd.MM.yyyy");
+        developmentDate.setRequired(true);
+
+        binder.bind(developmentDate,"developmentDate" );
+        if(funcRequirement.getDevelopmentDate() == null)
+            developmentDate.setValue(new Date());
+
+        PopupDateField standTestDate = new PopupDateField("Дата стендовых испытаний:");
+        standTestDate.setDateFormat("dd.MM.yyyy");
+        standTestDate.setRequired(true);
+        binder.bind(standTestDate,"standTestDate" );
+        if(funcRequirement.getStandTestDate() == null)
+            standTestDate.setValue(new Date());
+
+        PopupDateField implementationDate = new PopupDateField("Дата внедрения:");
+        implementationDate.setDateFormat("dd.MM.yyyy");
+        implementationDate.setRequired(true);
+        binder.bind(implementationDate,"implementationDate" );
+        if(funcRequirement.getImplementationDate() == null)
+            implementationDate.setValue(new Date());
+
+        formLayout.addComponents(date, developmentDate, standTestDate, implementationDate);
+        formLayout.setSpacing(true);
+        formLayout.setSizeFull();
+        return formLayout;
+       // tabContent.addComponent(formLayout);
+       // return tabContent;
+    }
+
+    private Component agreementorsTab() {
         final JPAContainer<Agreementor> agreementorsDs = JPAContainerFactory.make(Agreementor.class, Config.JPA_UNIT);
         agreementorsDs.addContainerFilter(new Compare.Equal("funcRequirement", funcRequirement));
         agreementorsDs.applyFilters();
@@ -90,80 +191,47 @@ public class FuncRequirementEditor extends VerticalLayout {
                 window.edit(Integer.valueOf(event.getItemId().toString()));
             }
         });
+        return new FormLayout(agreementors);
 
-        layout.addComponent(agreementors);
+      //  layout.addComponent(agreementors);
     }
 
-    private void addCauseArea() {
+    private Component causeBlock() {
         final SimpleJPAContainer<FRCause> frCauseDs = new SimpleJPAContainer<FRCause>(FRCause.class);
         frCauseDs.setApplyFiltersImmediately(false);
         frCauseDs.addContainerFilter(new Compare.Equal("funcRequirement", funcRequirement));
         frCauseDs.applyFilters();
         SequenceTextContainer<FRCause> frCauseArea = new SequenceTextContainer<FRCause>(FRCause.class, frCauseDs, "Основания доработки", 800f, funcRequirement );
-        layout.addComponent(frCauseArea);
+        return frCauseArea;
     }
 
-    private void addDescriptionArea() {
+    private Component descriptionBlock() {
         final SimpleJPAContainer<Description> frDescriptionDs = new SimpleJPAContainer<Description>(Description.class);
         frDescriptionDs.setApplyFiltersImmediately(false);
         frDescriptionDs.addContainerFilter(new Compare.Equal("funcRequirement", funcRequirement));
         frDescriptionDs.applyFilters();
         SequenceTextContainer<Description> frDescriptionArea = new SequenceTextContainer<Description>(Description.class, frDescriptionDs, "Подробное описание доработки", 800f, funcRequirement);
-        layout.addComponent(frDescriptionArea);
+        return frDescriptionArea;
     }
 
-    public void addCommitedContent() {
-        if(funcRequirement.getFrFilePath() != null) {
-            Link frFileLink = new Link("Документ ФТ " , new FileResource(new File(funcRequirement.getFrFilePath())));
-            frFileLink.setTargetName("_blank");
-            layout.addComponent(frFileLink);
-        } else {
-            layout.addComponent(new FileUploader("Документ ФТ", 100000000l, Config.DOC_DIR, funcRequirement, funcRequirementDs));
-        }
-
-        addAgreementorsArea();
-        addCauseArea();
-        addDescriptionArea();
-        addLimitDatesArea();
-        saveButton.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                try {
-                    binder.commit();
-                } catch (FieldGroup.CommitException e) {
-                    e.printStackTrace();
-                }
-                funcRequirementDs.addEntity(binder.getItemDataSource().getBean());
-                funcRequirementDs.refresh();
-            }
-        });
-
+    private Component filesTab() {
+        FileUploader ftFile, pmiFile, asiFile, psiFile, actFile, protFile, exchangeActFile, noticeFile;
+        Long lim = 100000000l;
+        ftFile = new FileUploader("Документ ФТ", lim, Config.DOC_DIR, funcRequirement, funcRequirementDs, "frFilePath");
+        pmiFile = new FileUploader("Документ ПМИ", lim, Config.DOC_DIR, funcRequirement, funcRequirementDs, "pmiFilePath" );
+        asiFile = new FileUploader("Документ АСИ", lim, Config.DOC_DIR, funcRequirement, funcRequirementDs, "asiFilePath");
+        psiFile = new FileUploader("Документ ПСИ", lim, Config.DOC_DIR, funcRequirement, funcRequirementDs, "psiFilePath");
+        actFile = new FileUploader("Акт внедрения", lim, Config.DOC_DIR, funcRequirement, funcRequirementDs, "actFilePath");
+        protFile = new FileUploader("Протокол внедрения", lim, Config.DOC_DIR, funcRequirement, funcRequirementDs, "protFilePath");
+        exchangeActFile = new FileUploader("Акт передачи", lim, Config.DOC_DIR, funcRequirement, funcRequirementDs, "exchangeActFilePath");
+        noticeFile = new FileUploader("Уведомление", lim, Config.DOC_DIR, funcRequirement, funcRequirementDs, "noticeFilePath");
+        return new FormLayout(ftFile, pmiFile, asiFile, psiFile, actFile, protFile, exchangeActFile, noticeFile);
     }
 
     private void addLimitDatesArea() {
-        PopupDateField developmentDate = new PopupDateField("Дата разработки ПО:");
-        developmentDate.setDateFormat("dd.MM.yyyy");
-        developmentDate.setRequired(true);
 
-        binder.bind(developmentDate,"developmentDate" );
-        if(funcRequirement.getDevelopmentDate() == null)
-            developmentDate.setValue(new Date());
 
-        PopupDateField standTestDate = new PopupDateField("Дата стендовых испытаний:");
-        standTestDate.setDateFormat("dd.MM.yyyy");
-        standTestDate.setRequired(true);
-        binder.bind(standTestDate,"standTestDate" );
-        if(funcRequirement.getStandTestDate() == null)
-            standTestDate.setValue(new Date());
-
-        PopupDateField implementationDate = new PopupDateField("Дата внедрения:");
-        implementationDate.setDateFormat("dd.MM.yyyy");
-        implementationDate.setRequired(true);
-        binder.bind(implementationDate,"implementationDate" );
-        if(funcRequirement.getImplementationDate() == null)
-            implementationDate.setValue(new Date());
-
-        layout.addComponents(developmentDate, standTestDate, implementationDate);
+        //layout.addComponents(developmentDate, standTestDate, implementationDate);
 
     }
 
@@ -215,12 +283,12 @@ public class FuncRequirementEditor extends VerticalLayout {
         date.setRequired(true);
         binder.bind(date,"date" );
         date.setValue(new Date());
-
+        addLimitDatesArea();
         layout.addComponent(date);
         layout.setSpacing(true);
         layout.setSizeFull();
         addComponent(layout);
-        setComponentAlignment(layout, Alignment.TOP_CENTER);
+
     }
 
 

@@ -57,7 +57,7 @@ public class CrudButtons<T extends Identity> extends HorizontalLayout implements
             Notification.show("save button");
             try {
                 binder.commit();
-                if(owner instanceof FuncRequirementEditor) ((FuncRequirementEditor)owner).addCommitedContent();
+               // if(owner instanceof FuncRequirementEditor) ((FuncRequirementEditor)owner).addCommitedContent();
             } catch (FieldGroup.CommitException e) {
                 Notification.show("Ошибка в заполнении полей формы!");
                 return;

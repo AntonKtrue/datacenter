@@ -50,8 +50,7 @@ public class FuncRequirementView extends TabSheet implements View, CloseHandler 
         table.addItemClickListener(new ItemClickEvent.ItemClickListener() {
             @Override
             public void itemClick(ItemClickEvent event) {
-
-                FuncRequirementEditor editor = new FuncRequirementEditor(funcRequiremntDs, event.getItemId());
+                FuncRequirementEditor editor = new FuncRequirementEditor(funcRequiremntDs, structureDs, event.getItemId());
                 selectedObject = editor.getFuncRequirement().getStructure();
                 addFtTab(editor);
             }
