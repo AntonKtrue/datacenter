@@ -66,7 +66,7 @@ CREATE TABLE `dict_employee` (
 
 LOCK TABLES `dict_employee` WRITE;
 /*!40000 ALTER TABLE `dict_employee` DISABLE KEYS */;
-INSERT INTO `dict_employee` VALUES (1,'Китов','Антон','Александрович',6,5),(2,'Ракипов','Марат','Марселевич',6,5),(3,'Бородин','Сергей','Николаевич',7,7),(4,'Дамир','Насыбуллин','Аминович',NULL,4);
+INSERT INTO `dict_employee` VALUES (1,'Китов','Антон','Александрович',6,5),(2,'Ракипов','Марат','Марсельевич',6,5),(3,'Бородин','Сергей','Николаевич',7,7),(4,'Дамир','Насыбуллин','Аминович',NULL,4);
 /*!40000 ALTER TABLE `dict_employee` ENABLE KEYS */;
 UNLOCK TABLES;
 
