@@ -28,6 +28,9 @@ public class TransneftDepartment extends StandartEntity implements HasParent<Tra
     @JoinColumn(name = "employee_id")
     private Set<TransneftEmployee> employees;
 
+    @Transient
+    private String caption;
+
     @Override
     public TransneftDepartment getParent() {
         return parent;
@@ -86,5 +89,20 @@ public class TransneftDepartment extends StandartEntity implements HasParent<Tra
     @Override
     public String toString() {
         return shortName;
+    }
+
+    public String getCaption() {
+        if(caption == null) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(shortName);
+            sb.append(" ");
+            sb.append(structure.getShortName());
+            caption = sb.toString();
+        }
+        return caption;
+    }
+
+    public void setCaption(String caption) {
+        this.caption = caption;
     }
 }

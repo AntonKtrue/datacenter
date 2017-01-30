@@ -64,7 +64,6 @@ public class TransneftStructure extends StandartEntity implements HasParent<Tran
         return upParent;
     }
 
-
     @Override
     public void setParent(TransneftStructure transneftStructure) {
         this.parent = transneftStructure;

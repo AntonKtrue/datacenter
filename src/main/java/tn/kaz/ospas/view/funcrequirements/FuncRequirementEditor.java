@@ -9,7 +9,10 @@ import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.filter.Compare;
 
 import com.vaadin.event.ItemClickEvent;
+import com.vaadin.server.ClassResource;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FileResource;
+import com.vaadin.server.StreamResource;
 import com.vaadin.ui.*;
 
 
@@ -29,6 +32,8 @@ import tn.kaz.ospas.view.funcrequirements.components.SequenceTextContainer;
 import javax.persistence.Query;
 import java.io.File;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -69,7 +74,12 @@ public class FuncRequirementEditor extends TabSheet {
         return new FormLayout();
     }
 
-    private Component printeableTab() {
+    private Component printeableTab()  {
+        FormLayout formLayout = new FormLayout();
+        //Long lim = 100000000l;
+        //FileUploader fileUploader = new FileUploader("Функциональное требование", lim,   );
+        Link frPrint = new Link("ФТ печать", new Reso);
+
         return new FormLayout();
     }
 

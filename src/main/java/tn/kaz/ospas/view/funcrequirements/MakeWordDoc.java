@@ -1,5 +1,6 @@
 package tn.kaz.ospas.view.funcrequirements;
 
+import com.vaadin.server.StreamResource;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.usermodel.*;
 import org.openxmlformats.schemas.drawingml.x2006.chart.CTPageMargins;
@@ -46,7 +47,7 @@ public class MakeWordDoc {
 
     private static void makeDoc() throws IOException {
         //Создание документа
-        XWPFDocument doc = new XWPFDocument();
+        final XWPFDocument doc = new XWPFDocument();
         // зададим Franklin Gothic Book на весь документ
         XWPFStyles styles = doc.createStyles();
         CTFonts fonts = CTFonts.Factory.newInstance();
@@ -314,11 +315,13 @@ public class MakeWordDoc {
 //        r5.setText("The pangs of despised love, the law's delay,"
 //                + "The insolence of office and the spurns" + ".......");
 
-        FileOutputStream out = new FileOutputStream("A:/simple.docx");
+        final FileOutputStream out = new FileOutputStream("E:/TEMP/simple.docx");
         doc.write(out);
         out.close();
         doc.close();
     }
+
+
 
     private static void setParagraphOneAndHalfSpacing(XWPFParagraph paragraph) {
         CTPPr cell1ppr = paragraph.getCTP().getPPr();

@@ -11,7 +11,7 @@ import tn.kaz.ospas.model.transneft.TransneftDepartment;
 public class DepartmentTree extends Tree {
     public DepartmentTree(HierarchicalJPAContainer<TransneftDepartment> datasource) {
         setContainerDataSource(datasource);
-        setItemCaptionPropertyId("shortName");
+        setItemCaptionPropertyId("caption");
         setSizeUndefined();
         setImmediate(true);
         setSelectable(true);

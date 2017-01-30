@@ -15,7 +15,7 @@ import com.vaadin.ui.themes.Runo;
 public class MainTab extends VerticalLayout {
     private Tree structureTree;
     private Tree departmentTree;
-    private Table personalTable;
+    private Table employeeTable;
 
     private TransneftStructure selectedStructure;
     private TransneftDepartment selectedDepartment;
@@ -23,7 +23,7 @@ public class MainTab extends VerticalLayout {
     private final HierarchicalJPAContainer<TransneftStructure> structureDs;
     private final HierarchicalJPAContainer<TransneftDepartment> departmentDs;
     private final SimpleJPAContainer<TransneftEmployee> employeeDs;
-    private final SimpleJPAContainer<TransneftRank> ranks = new SimpleJPAContainer<TransneftRank>(TransneftRank.class);
+    private final SimpleJPAContainer<TransneftRank> rankDs = new SimpleJPAContainer<TransneftRank>(TransneftRank.class);
 
     public MainTab() {
         structureDs = new HierarchicalJPAContainer<TransneftStructure>(TransneftStructure.class, Config.PARENT_FIELD);
@@ -59,6 +59,7 @@ public class MainTab extends VerticalLayout {
             public void itemClick(ItemClickEvent event) {
                 selectedDepartment = departmentDs.getItem(event.getItemId()).getEntity();
                 updatePersonalFilters();
+
             }
         });
         VerticalLayout departmentVertical = new VerticalLayout(departmentTree, departmentBarButtons(departmentDs));
@@ -66,9 +67,18 @@ public class MainTab extends VerticalLayout {
 
         employeeDs = new SimpleJPAContainer<TransneftEmployee>(TransneftEmployee.class);
 
-        personalTable = new EmployeeTable(employeeDs);
-        personalTable.setHeight(500f,Unit.PIXELS);
-        VerticalLayout personalVertical = new VerticalLayout(personalBarButtons(employeeDs), personalTable);
+        employeeTable = new EmployeeTable(employeeDs);
+        employeeTable.setHeight(500f,Unit.PIXELS);
+        employeeTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
+            @Override
+            public void itemClick(ItemClickEvent event) {
+                if(event.isDoubleClick()) {
+                    EmployeeWindow window = new EmployeeWindow(employeeDs, rankDs);
+                    window.edit(Integer.valueOf(event.getItemId().toString()));
+                }
+            }
+        });
+        VerticalLayout personalVertical = new VerticalLayout(personalBarButtons(employeeDs), employeeTable);
         content.addComponent(personalVertical);
         content.addComponent(treeWrapper);
         addErrorHandle(content);
@@ -79,7 +89,7 @@ public class MainTab extends VerticalLayout {
         addButton.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                EmployeeWindow window = new EmployeeWindow(datasource, ranks);
+                EmployeeWindow window = new EmployeeWindow(datasource, rankDs);
                 window.create(selectedDepartment);
             }
         });
