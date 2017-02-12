@@ -5,11 +5,11 @@
                       transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <properties>
-            <property name="hibernate.connection.url" value="jdbc:mysql://127.8.176.130:3306/datacenter?useUnicode=yes&amp;characterEncoding=UTF-8"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://127.8.176.130:3306/dc?useUnicode=yes&amp;characterEncoding=UTF-8"/>
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
-            <property name="hibernate.connection.username" value="admin3QVliQf"/>
-            <property name="hibernate.connection.password" value="x8G27Hd5lrC-"/>
+            <property name="hibernate.connection.username" value="admin8JrtLKZ"/>
+            <property name="hibernate.connection.password" value="qLw2y3Z22tRS"/>
             <property name="hibernate.archive.autodetection" value="class"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>

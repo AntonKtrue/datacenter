@@ -5,7 +5,7 @@
                       transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <properties>
-            <property name="hibernate.connection.url" value="jdbc:mysql://127.8.176.130:3306/datacenter?useUnicode=yes&amp;characterEncoding=UTF-8"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://127.8.176.130:3306/dc?useUnicode=yes&amp;characterEncoding=UTF-8"/>
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
             <property name="hibernate.connection.username" value="admin3QVliQf"/>

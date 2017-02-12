@@ -78,7 +78,7 @@ public class FuncRequirementEditor extends TabSheet {
         FormLayout formLayout = new FormLayout();
         //Long lim = 100000000l;
         //FileUploader fileUploader = new FileUploader("Функциональное требование", lim,   );
-        Link frPrint = new Link("ФТ печать", new Reso);
+       // Link frPrint = new Link("ФТ печать", new Reso);
 
         return new FormLayout();
     }
