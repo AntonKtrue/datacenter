@@ -94,7 +94,7 @@ public class EmployeeWindow extends Window {
         rank.setConverter(new SingleSelectConverter(rank));
         rank.setRequired(true);
         binder.bind(rank, "rank");
-        layout.addComponents(firstName, lastName, patroName, rank);
+        layout.addComponents(lastName, firstName, patroName, rank);
 
         crudButtons = new CrudButtons(datasource, binder, this);
         layout.addComponent(crudButtons);

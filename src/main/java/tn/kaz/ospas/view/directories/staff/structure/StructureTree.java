@@ -1,5 +1,6 @@
 package tn.kaz.ospas.view.directories.staff.structure;
 
+import com.vaadin.event.ItemClickEvent;
 import tn.kaz.ospas.data.HierarchicalJPAContainer;
 
 import com.vaadin.ui.Tree;
@@ -13,10 +14,8 @@ import java.util.Iterator;
  * Created by Anton on 13.01.2017.
  */
 public class StructureTree extends Tree {
-    public StructureTree(HierarchicalJPAContainer<TransneftStructure> structures) {
-        setContainerDataSource(structures);
-
-
+    public StructureTree(final HierarchicalJPAContainer<TransneftStructure> datasource) {
+        setContainerDataSource(datasource);
         setItemCaptionPropertyId("name");
         setSizeUndefined();
         setImmediate(true);
@@ -33,4 +32,6 @@ public class StructureTree extends Tree {
             }
         }
     }
+
+
 }

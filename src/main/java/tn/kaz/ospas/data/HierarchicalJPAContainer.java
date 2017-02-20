@@ -25,10 +25,6 @@ public class HierarchicalJPAContainer<T extends HasParent> extends JPAContainer<
     @Override
     public boolean areChildrenAllowed(Object itemId) {
         return super.areChildrenAllowed(itemId)
-                && getItem(itemId).getEntity().getChilds().size() > 0   ;
+                && getItem(itemId).getEntity().childrenAllowed();
     }
-
-
-
-
 }

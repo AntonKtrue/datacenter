@@ -2,7 +2,7 @@ package tn.kaz.ospas.view.directories.staff;
 
 import tn.kaz.ospas.view.GuiHelper;
 import tn.kaz.ospas.view.directories.staff.ranks.RankTab;
-import tn.kaz.ospas.view.directories.staff.structure.MainTab;
+import tn.kaz.ospas.view.directories.staff.structure.StaffComponent;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
@@ -21,6 +21,6 @@ public class StaffTab extends TabSheet {
         addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
         setCaption("Сотрудники");
         addTab(GuiHelper.makeTabContent("Должности", Alignment.MIDDLE_CENTER, new RankTab()));
-        addTab(GuiHelper.makeTabContent("Структура организации",Alignment.TOP_LEFT, new MainTab()));
+        addTab(GuiHelper.makeTabContent("Структура организации",Alignment.TOP_LEFT, new StaffComponent(true)));
     }
 }

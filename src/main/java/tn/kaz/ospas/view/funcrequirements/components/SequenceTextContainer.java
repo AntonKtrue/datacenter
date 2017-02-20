@@ -27,14 +27,17 @@ import java.util.Iterator;
 public class SequenceTextContainer<T extends Sequenceable> extends VerticalLayout {
 
     private SimpleJPAContainer datasource;
-   // private RichTextArea richTextArea;
     private Table table;
     private String caption;
     private final Class<? extends Sequenceable> clazz;
     private FuncRequirement funcRequirement;
 
 
-    public SequenceTextContainer(final Class<? extends Sequenceable> clazz, final SimpleJPAContainer datasource, String caption, final float pixelsWidth, final FuncRequirement funcRequirement) {
+    public SequenceTextContainer(final Class<? extends Sequenceable> clazz,
+                                 final SimpleJPAContainer datasource,
+                                 String caption,
+                                 final float pixelsWidth,
+                                 final FuncRequirement funcRequirement) {
         this.datasource = datasource;
         this.caption = caption;
         this.clazz = clazz;
