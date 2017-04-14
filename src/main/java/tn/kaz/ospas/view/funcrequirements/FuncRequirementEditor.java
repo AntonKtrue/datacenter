@@ -22,7 +22,7 @@ import tn.kaz.ospas.model.transneft.TransneftStructure;
 import tn.kaz.ospas.view.GuiHelper;
 import tn.kaz.ospas.view.directories.staff.structure.StaffComponent;
 import tn.kaz.ospas.view.funcrequirements.components.AgreementorWindow;
-import tn.kaz.ospas.view.funcrequirements.components.StaffWindow;
+//import tn.kaz.ospas.view.funcrequirements.components.StaffWindow;
 import tn.kaz.ospas.view.funcrequirements.components.OneToManyField;
 import tn.kaz.ospas.view.funcrequirements.components.SequenceTextContainer;
 
@@ -300,12 +300,12 @@ public class FuncRequirementEditor extends TabSheet {
             staffComponent.getEmployeeTable().addItemClickListener(new ItemClickEvent.ItemClickListener() {
                 @Override
                 public void itemClick(ItemClickEvent event) {
-                    if(event.isDoubleClick() && ) {
-
-                        StaffWindow.this.close();
-                    } else {
-
-                    }
+//                    if(event.isDoubleClick() && ) {
+//
+//                        StaffWindow.this.close();
+//                    } else {
+//
+//                    }
                 }
             });
             setSizeFull();
