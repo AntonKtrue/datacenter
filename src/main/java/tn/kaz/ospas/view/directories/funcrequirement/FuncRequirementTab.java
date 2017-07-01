@@ -19,6 +19,6 @@ public class FuncRequirementTab extends TabSheet {
         setCaption("Функциональные требования");
         addTab(GuiHelper.makeTabContent("Типы исполнителей", Alignment.MIDDLE_CENTER, new ExecutorTypesTab()));
         addTab(GuiHelper.makeTabContent("Типы извещений", Alignment.MIDDLE_CENTER, new NoticeTab()));
-        //addTab(GuiHelper.makeTabContent("Структура организации",Alignment.TOP_LEFT, new MainTab()));
+        //addTab(GuiHelper.makeTabContent("Структура организации",Alignment.TOP_LEFT, new StaffComponent()));
     }
 }

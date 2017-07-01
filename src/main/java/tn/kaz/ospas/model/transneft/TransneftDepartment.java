@@ -13,19 +13,17 @@ import java.util.Set;
 @Table(name = "dict_department")
 public class TransneftDepartment extends StandartEntity implements HasParent<TransneftDepartment> {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private TransneftDepartment parent;
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Set<TransneftDepartment> childs;
 
-    @ManyToOne
-    @JoinColumn(name = "structure_id")
+    @ManyToOne(fetch = FetchType.LAZY)
     private TransneftStructure structure;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "employee_id")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "department" ,fetch = FetchType.LAZY)
     private Set<TransneftEmployee> employees;
 
     @Transient
@@ -49,6 +47,11 @@ public class TransneftDepartment extends StandartEntity implements HasParent<Tra
     @Override
     public void setChilds(Set<TransneftDepartment> childs) {
         this.childs = childs;
+    }
+
+    @Override
+    public boolean childrenAllowed() {
+        return childs.size() > 0;
     }
 
     public TransneftStructure getStructure() {

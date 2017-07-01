@@ -10,5 +10,6 @@ public interface HasParent<T> {
     void setParent(T t);
     Set<T> getChilds();
     void setChilds(Set<T> t);
+    boolean childrenAllowed();
 
 }

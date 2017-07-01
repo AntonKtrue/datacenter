@@ -9,10 +9,6 @@ import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.filter.Compare;
 
 import com.vaadin.event.ItemClickEvent;
-import com.vaadin.server.ClassResource;
-import com.vaadin.server.ExternalResource;
-import com.vaadin.server.FileResource;
-import com.vaadin.server.StreamResource;
 import com.vaadin.ui.*;
 
 
@@ -21,22 +17,17 @@ import tn.kaz.ospas.data.SimpleJPAContainer;
 import tn.kaz.ospas.model.Config;
 import tn.kaz.ospas.model.funcrequirement.*;
 
+import tn.kaz.ospas.model.transneft.TransneftEmployee;
 import tn.kaz.ospas.model.transneft.TransneftStructure;
-import tn.kaz.ospas.view.CrudButtons;
 import tn.kaz.ospas.view.GuiHelper;
+import tn.kaz.ospas.view.directories.staff.structure.StaffComponent;
 import tn.kaz.ospas.view.funcrequirements.components.AgreementorWindow;
+//import tn.kaz.ospas.view.funcrequirements.components.StaffWindow;
 import tn.kaz.ospas.view.funcrequirements.components.OneToManyField;
 import tn.kaz.ospas.view.funcrequirements.components.SequenceTextContainer;
 
 
-import javax.persistence.Query;
-import java.io.File;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Anton on 20.01.2017.
@@ -78,7 +69,7 @@ public class FuncRequirementEditor extends TabSheet {
         FormLayout formLayout = new FormLayout();
         //Long lim = 100000000l;
         //FileUploader fileUploader = new FileUploader("Функциональное требование", lim,   );
-       // Link frPrint = new Link("ФТ печать", new Reso);
+     //   Link frPrint = new Link("ФТ печать", new Reso);
 
         return new FormLayout();
     }
@@ -190,8 +181,9 @@ public class FuncRequirementEditor extends TabSheet {
         agreementors.addListenerToAddButton(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                AgreementorWindow window = new AgreementorWindow(agreementorsDs, funcRequirement);
-                window.create();
+                //AgreementorWindow window = new AgreementorWindow(agreementorsDs, funcRequirement);
+                StaffWindow window = new StaffWindow();
+               // window.create();
             }
         });
         agreementors.getTable().addItemClickListener(new ItemClickEvent.ItemClickListener() {
@@ -301,6 +293,28 @@ public class FuncRequirementEditor extends TabSheet {
 
     }
 
+    private class StaffWindow extends Window {
+        private StaffComponent staffComponent = new StaffComponent();
+        public StaffWindow() {
+            setContent(staffComponent);
+            staffComponent.getEmployeeTable().addItemClickListener(new ItemClickEvent.ItemClickListener() {
+                @Override
+                public void itemClick(ItemClickEvent event) {
+//                    if(event.isDoubleClick() && ) {
+//
+//                        StaffWindow.this.close();
+//                    } else {
+//
+//                    }
+                }
+            });
+            setSizeFull();
+            setWidth(1100f,Unit.PIXELS);
+            setHeight(600f,Unit.PIXELS);
+            setModal(true);
+            UI.getCurrent().addWindow(this);
+        }
+    }
 
 
 

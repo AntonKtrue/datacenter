@@ -38,12 +38,12 @@ public class AgreementorWindow extends Window {
 
         setContent(layout);
         setHeight("370");
-        setWidth("400");
+        setWidth("800");
     }
 
     public void edit(Integer id) {
         try {
-            setCaption("Редактирование должности");
+            setCaption("Добавление согласования");
             Agreementor m = datasource.getItem(id).getEntity();
             bindingFields(m);
             crudButtons.getDeleteButton().setVisible(true);

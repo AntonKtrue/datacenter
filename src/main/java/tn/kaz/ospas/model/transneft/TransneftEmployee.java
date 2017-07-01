@@ -23,11 +23,11 @@ public class TransneftEmployee extends Identity {
 
     private String patroName;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
     private TransneftDepartment department;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rank_id")
     private TransneftRank rank;
 

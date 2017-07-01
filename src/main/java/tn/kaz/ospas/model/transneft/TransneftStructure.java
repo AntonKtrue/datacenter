@@ -17,14 +17,14 @@ public class TransneftStructure extends StandartEntity implements HasParent<Tran
     @Enumerated(EnumType.STRING)
     private StructureType type;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private TransneftStructure parent;
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Set<TransneftStructure> childs;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "structure_id")
     private Set<TransneftDepartment> departments;
 
@@ -77,6 +77,11 @@ public class TransneftStructure extends StandartEntity implements HasParent<Tran
     @Override
     public void setChilds(Set<TransneftStructure> t) {
         this.childs = t;
+    }
+
+    @Override
+    public boolean childrenAllowed() {
+        return childs.size() > 0;
     }
 
 
